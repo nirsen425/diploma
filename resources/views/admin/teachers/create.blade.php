@@ -1,6 +1,11 @@
 @extends('admin.base.base')
 
 @section('content')
+    <style>
+        .error {
+            color: red;
+        }
+    </style>
     @if (session('status'))
         <div class="alert alert-success">
             {{ session('status') }}
@@ -15,7 +20,7 @@
             @endforeach
         </div>
     @endif
-    <form action="{{ route('teacher-register') }}" method="POST">
+    <form action="{{ route('teacher-register') }}" method="POST" id="teacherRegistration">
         @csrf
 
         <div class="form-row">
@@ -42,4 +47,54 @@
         </div>
         <button type="submit" class="btn btn-danger">Зарегистрировать</button>
     </form>
+
+    <script>
+        $(document).ready(function () {
+            $("#teacherRegistration").validate({
+                rules: {
+                    login: {
+                        required: true,
+                        minlength: 3,
+                        remote: {
+                            url: "/verification/login",
+                            type: "post",
+                        }
+                    },
+                    password: {
+                        required: true,
+                        minlength: 8
+                    },
+                    name: {
+                        required: true
+                    },
+                    patronymic: {
+                        required: true
+                    },
+                    surname: {
+                        required: true
+                    }
+                },
+                messages: {
+                    login: {
+                        required: "Это поле обязательно для заполнения",
+                        minlength: "Пожалуйста, введите не менее 3 символов",
+                        remote: "Этот логин уже занят"
+                    },
+                    password: {
+                        required: "Это поле обязательно для заполнения",
+                        minlength: "Пожалуйста, введите не менее 8 символов"
+                    },
+                    name: {
+                        required: "Это поле обязательно для заполнения"
+                    },
+                    patronymic: {
+                        required: "Это поле обязательно для заполнения"
+                    },
+                    surname: {
+                        required: "Это поле обязательно для заполнения"
+                    }
+                }
+            });
+        });
+    </script>
 @endsection

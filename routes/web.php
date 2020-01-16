@@ -38,3 +38,5 @@ Route::resource('admin/students', 'Admin\Students\StudentController', ['except' 
 Route::resource('admin/lecturers', 'Admin\Teachers\TeacherController', ['except' => [
     'create', 'store'
 ]]);
+
+Route::post('verification/login', 'HelpController@loginVerification');

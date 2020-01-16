@@ -1,4 +1,5 @@
 window._ = require('lodash');
+window._ = require('jquery-validation');
 
 /**
  * We'll load jQuery and the Bootstrap jQuery plugin which provides support
