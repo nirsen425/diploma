@@ -4,12 +4,15 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
+use App\Teacher;
 use App\User;
+use Illuminate\Auth\Events\Registered;
 use Illuminate\Foundation\Auth\RegistersUsers;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 
-class RegisterController extends Controller
+class TeacherRegisterController extends Controller
 {
     /*
     |--------------------------------------------------------------------------
@@ -51,8 +54,10 @@ class RegisterController extends Controller
     {
         return Validator::make($data, [
             'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
-            'password' => ['required', 'string', 'min:8', 'confirmed'],
+            'patronymic' => ['required', 'string', 'max:255'],
+            'surname' => ['required', 'string', 'max:255'],
+            'login' => ['required', 'string', 'max:255', 'unique:users'],
+            'password' => ['required', 'string', 'min:8'],
         ]);
     }
 
@@ -64,10 +69,42 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
-        return User::create([
-            'name' => $data['name'],
-            'email' => $data['email'],
+        $user = User::create([
+            'user_type_id' => 2,
+            'rights_id' => 1,
+            'login' => $data['login'],
             'password' => Hash::make($data['password']),
         ]);
+
+        $teacher = new Teacher();
+        $teacher->name = $data['name'];
+        $teacher->patronymic = $data['patronymic'];
+        $teacher->surname = $data['surname'];
+        $teacher->user_id = $user->id;
+        $teacher->save();
+
+        return $user;
+    }
+
+    public function showRegistrationForm()
+    {
+        return view('admin.teachers.create');
+    }
+
+    public function register(Request $request)
+    {
+        $this->validator($request->all())->validate();
+
+        event(new Registered($user = $this->create($request->all())));
+
+//        $this->guard()->login($user);
+
+        return $this->registered($request, $user)
+            ?: redirect($this->redirectPath())->with('status', 'Пользователь успешно зарегистрирован');
+    }
+
+    protected function redirectTo()
+    {
+        return route('teacher-register');
     }
 }
