@@ -40,3 +40,4 @@ Route::resource('admin/lecturers', 'Admin\Teachers\TeacherController', ['except'
 ]]);
 
 Route::post('verification/login', 'HelpController@loginVerification');
+Route::post('upload/image', 'HelpController@uploadImage');
