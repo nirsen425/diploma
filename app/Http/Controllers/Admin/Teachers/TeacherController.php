@@ -3,11 +3,24 @@
 namespace App\Http\Controllers\Admin\Teachers;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\UpdateTeacher;
+use App\ImageService;
 use App\Teacher;
+use DB;
+use App\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Validation\Rule;
 
 class TeacherController extends Controller
 {
+    protected $imageService;
+
+    public function __construct(ImageService $imageService)
+    {
+        $this->imageService = $imageService;
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -15,28 +28,7 @@ class TeacherController extends Controller
      */
     public function index()
     {
-        return view('admin.teachers.index');
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
+        return view('admin.teachers.index', ['teachers' => Teacher::all()]);
     }
 
     /**
@@ -47,7 +39,7 @@ class TeacherController extends Controller
      */
     public function show(Teacher $teacher)
     {
-        //
+        return view('admin.teachers.show', ['teacher' => $teacher]);
     }
 
     /**
@@ -58,7 +50,7 @@ class TeacherController extends Controller
      */
     public function edit(Teacher $teacher)
     {
-        //
+        return view('admin.teachers.edit', ['teacher' => $teacher, 'id' => $teacher->user()->value('id')]);
     }
 
     /**
@@ -68,9 +60,57 @@ class TeacherController extends Controller
      * @param  \App\Teacher  $teacher
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Teacher $teacher)
+    public function update(UpdateTeacher $request, Teacher $teacher)
     {
-        //
+        try {
+            DB::beginTransaction();
+
+            $userData = [
+                'user_type_id' => 2,
+                'rights_id' => $request['rights'],
+                'login' => $request['login']
+            ];
+
+            $password = $request->password;
+            if (!empty($password)) {
+                $userData['password'] = Hash::make($password);
+            }
+
+            $teacher->user()->update($userData);
+
+            $image = $request['photo'];
+
+            $teacherData = [
+                'name' => $request['name'],
+                'patronymic' => $request['patronymic'],
+                'surname' => $request['surname'],
+                'show' => $request['show'] ? 1 : 0,
+                'short_description' => $request['short_description'],
+                'full_description' => $request['full_description']
+            ];
+
+            if ($image) {
+                // Получаем координаты точки и размеры для обрезки изображения
+                $cropCoordX = (integer)$request['photo_x'];
+                $cropCoordY = (integer)$request['photo_y'];
+                $cropWidth = (integer)$request['photo_width'];
+                $cropHeight = (integer)$request['photo_height'];
+                // Обрезаем изображение и получаем его имя
+                $cropPhotoName = $this->imageService
+                    ->handleUploadedImage($image, $cropCoordX, $cropCoordY, $cropWidth, $cropHeight);
+
+                $teacherData['photo'] = $cropPhotoName;
+            }
+
+            $teacher->update($teacherData);
+
+            DB::commit();
+        } catch (\Exception $e) {
+            DB::rollBack();
+            throw $e;
+        }
+
+        return back()->with('status', 'Преподаватель успешно изменен');
     }
 
     /**
@@ -81,6 +121,21 @@ class TeacherController extends Controller
      */
     public function destroy(Teacher $teacher)
     {
-        //
+        try {
+            DB::beginTransaction();
+
+            // Удаление преподавателя и связанного с ним пользователя
+            $user = $teacher->user()->first();
+            $teacher->delete();
+            $user->delete();
+
+
+            DB::commit();
+        } catch (\Exception $e) {
+            DB::rollBack();
+            throw $e;
+        }
+
+        return "true";
     }
 }

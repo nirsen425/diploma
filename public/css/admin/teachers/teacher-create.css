@@ -1,0 +1,11 @@
+.error {
+    color: red;
+}
+
+#teacherImage {
+    max-width: 200px;
+}
+
+.teacher-image-container {
+    max-width: 200px
+}

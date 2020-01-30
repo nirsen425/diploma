@@ -18,6 +18,10 @@ class CreateTeachersTable extends Migration
             $table->string('name');
             $table->string('patronymic');
             $table->string('surname');
+            $table->boolean('show')->default(0)->unsigned();
+            $table->string('short_description');
+            $table->text('full_description');
+            $table->string('photo');
             $table->bigInteger('user_id')->unsigned();
             $table->foreign('user_id')->references('id')->on('users');
             $table->timestamps();
