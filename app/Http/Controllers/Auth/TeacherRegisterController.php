@@ -62,9 +62,11 @@ class TeacherRegisterController extends Controller
             'name' => ['required', 'string', 'max:255'],
             'patronymic' => ['required', 'string', 'max:255'],
             'surname' => ['required', 'string', 'max:255'],
+            'show' => ['boolean'],
+            'rights' => ['required'],
             'short_description' => ['required', 'string', 'min:10', 'max:100'],
             'full_description' => ['required', 'string', 'min:50', 'max:65530'],
-            'photo' => ['required', 'image', 'dimensions:min_width=200,min_height=200,ratio=1/1', 'min_resolve'],
+            'photo' => ['required', 'image', 'dimensions:min_width=200,min_height=200', 'min_resolve', 'crop_image_square'],
             'login' => ['required', 'string', 'max:255', 'unique:users'],
             'password' => ['required', 'string', 'min:8', 'regex:/^[a-zA-Z0-9]+$/'],
         ]);
@@ -75,6 +77,7 @@ class TeacherRegisterController extends Controller
      *
      * @param  array  $data массив формируемый из POST запроса
      * @return \App\User вновь созданный пользователь
+     * @throws \Exception
      */
     protected function create(array $data)
     {
@@ -83,7 +86,7 @@ class TeacherRegisterController extends Controller
 
             $user = User::create([
                 'user_type_id' => 2,
-                'rights_id' => 1,
+                'rights_id' => $data['rights'],
                 'login' => $data['login'],
                 'password' => Hash::make($data['password']),
             ]);
@@ -102,6 +105,7 @@ class TeacherRegisterController extends Controller
                 'name' => $data['name'],
                 'patronymic' => $data['patronymic'],
                 'surname' => $data['surname'],
+                'show' => $data['show'] ? 1 : 0,
                 'short_description' => $data['short_description'],
                 'full_description' => $data['full_description'],
                 'photo' => $cropPhotoName
@@ -110,6 +114,7 @@ class TeacherRegisterController extends Controller
             DB::commit();
         } catch (\Exception $e) {
             DB::rollBack();
+            throw $e;
         }
 
         return $user;
@@ -130,6 +135,7 @@ class TeacherRegisterController extends Controller
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
+     * @throws \Exception
      */
     public function register(Request $request)
     {
@@ -138,7 +144,7 @@ class TeacherRegisterController extends Controller
         event(new Registered($user = $this->create($request->all())));
 
         return $this->registered($request, $user)
-            ?: redirect($this->redirectPath())->with('status', 'Пользователь успешно зарегистрирован');
+            ?: redirect($this->redirectPath())->with('status', 'Преподаватель успешно зарегистрирован');
     }
 
     /**
@@ -148,6 +154,6 @@ class TeacherRegisterController extends Controller
      */
     protected function redirectTo()
     {
-        return route('teacher-register');
+        return route('teacher_register');
     }
 }

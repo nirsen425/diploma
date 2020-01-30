@@ -12,6 +12,16 @@ class Teacher extends Model
      * @var array
      */
     protected $fillable = [
-        'name', 'patronymic', 'surname', 'short_description', 'full_description', 'photo'
+        'name', 'patronymic', 'surname', 'short_description', 'full_description', 'photo', 'show'
     ];
+
+    /**
+     * Получение User привязанного к Teacher
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
+    public function user()
+    {
+        return $this->belongsTo('App\User');
+    }
 }

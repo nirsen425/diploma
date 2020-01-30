@@ -17,6 +17,7 @@ class CreateUsersTable extends Migration
             $table->bigIncrements('id');
             $table->string('login')->unique();
             $table->string('password');
+            $table->boolean('confirm')->default(0)->unsigned();
             $table->tinyInteger('user_type_id')->unsigned();
             $table->foreign('user_type_id')->references('id')->on('user_types');
             $table->tinyInteger('rights_id')->default(1)->unsigned();

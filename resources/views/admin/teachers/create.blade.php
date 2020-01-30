@@ -1,7 +1,7 @@
 @extends('admin.base.base')
 
 @section('content')
-    <link href="{{ asset('css/teacher-create.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/admin/teachers/teacher-create.css') }}" rel="stylesheet">
     @if (session('status'))
         <div class="alert alert-success">
             {{ session('status') }}
@@ -17,7 +17,7 @@
                 @endforeach
             </div>
         @endif
-        <form action="{{ route('teacher-register') }}" method="POST" id="teacherRegistration" enctype="multipart/form-data">
+        <form action="{{ route('teacher_register') }}" method="POST" id="teacherRegistration" enctype="multipart/form-data">
             @csrf
 
             <div class="form-row">
@@ -43,7 +43,20 @@
                 <input type="text" class="form-control" id="surname" placeholder="Иванов" name="surname" value="{{ old('surname') }}">
             </div>
             <div class="form-group">
-                <div>
+                <div class="custom-control custom-switch">
+                    <input type="checkbox" class="custom-control-input" id="show" name="show" value="1" {{ old('show') ? 'checked' : '' }}>
+                    <label class="custom-control-label" for="show">Показывать преподавателя на сайте</label>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="rights">Права</label>
+                <select class="custom-select" id="rights" name="rights">
+                    <option value="1" {{ old('rights') == 1 ? 'selected' : '' }}>Пользователь</option>
+                    <option value="2" {{ old('rights') == 2 ? 'selected' : '' }}>Администратор</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <div class="teacher-image-container mt-3">
                     <img id="teacherImage"/>
                 </div>
                 <label for="photo">Фотография</label>
@@ -65,5 +78,5 @@
         </form>
     </div>
     <script src="{{ asset('ckeditor/ckeditor.js') }}"></script>
-    <script src="{{ asset('js/teacher-create.js') }}"></script>
+    <script src="{{ asset('js/admin/teachers/teacher-create.js') }}"></script>
 @endsection

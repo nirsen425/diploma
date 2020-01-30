@@ -26,9 +26,10 @@ aside {
     left: 0;
     width: 250px;
     margin-left: -250px;
-    z-index: 9999;
+    z-index: 1032;
     transition: margin-left 0.3s ease-in-out, top 0s ease-in-out 0.3s;
 }
+
 
 aside.toggler {
     margin-left: 0;
@@ -56,7 +57,7 @@ aside.toggler {
     position: absolute;
     top: 5px;
     right: 10px;
-    z-index: 9999;
+    z-index: 1032;
     opacity: 0;
     cursor: pointer;
 }
@@ -91,7 +92,7 @@ aside.toggler {
         width: 100vw;
         height: 100vh;
         background: rgba(0, 0, 0, 0.7);
-        z-index: 9998;
+        z-index: 1031;
     }
 
     #overlay.toggler {

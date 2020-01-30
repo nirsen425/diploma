@@ -12,6 +12,7 @@ $(document).ready(function () {
             modal: false,
             background: false,
             zoomable: true,
+            responsive: true
         });
 
         var cropper = $image.data('cropper');
@@ -160,6 +161,7 @@ $(document).ready(function () {
                 required: "Выберите фото",
             }
         },
+        // Определение места вставки сообщения об ошибке
         errorPlacement: function(error, element) {
             if (element.attr("name") == "full_description") {
                 error.insertAfter("#cke_full_description");
