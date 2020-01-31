@@ -1,19 +1,7 @@
 @extends('admin.base.base')
 
 @section('content')
-    <style>
-        .table td {
-            vertical-align: middle;
-        }
-        .teacher-table {
-            background-color: #fff;
-        }
-
-        .teacherPhoto {
-            width: 100px;
-            height: 100px;
-        }
-    </style>
+    <link href="{{ asset('css/admin/teachers/teacher-index.css') }}" rel="stylesheet">
     <div id="confirmDelete" class="modal fade" tabindex="-1">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -65,7 +53,7 @@
     <table class="table teacher-table">
         <thead class="thead-dark">
         <tr>
-            <th scope="col ">Фото</th>
+            <th scope="col">Фото</th>
             <th scope="col">Имя</th>
             <th scope="col">Отчество</th>
             <th scope="col">Фамилия</th>
@@ -94,6 +82,5 @@
         @endforeach
         </tbody>
     </table>
-    <script src="{{ asset('js/admin/teachers/teacher-active-submenu.js') }}"></script>
     <script src="{{ asset('js/admin/teachers/teacher-delete.js') }}"></script>
 @endsection

@@ -1,0 +1,11 @@
+.table td {
+    vertical-align: middle;
+}
+.teacher-table {
+    background-color: #fff;
+}
+
+.teacherPhoto {
+    width: 100px;
+    height: 100px;
+}

@@ -24,7 +24,7 @@
             <div class="form-group row ">
                 <label for="login" class="col-lg-2 col-form-label font-weight-bold">Логин</label>
                 <div class="col-lg-10">
-                    <input type="text" class="form-control" id="login" name="login" teacher-id="{{ $teacher->id }}" value="{{ $teacher->user()->value('login') }}">
+                    <input type="text" class="form-control" id="login" name="login" user-id="{{ $teacher->user()->value('id') }}" value="{{ $teacher->user()->value('login') }}">
                 </div>
             </div>
             <div class="form-group row">

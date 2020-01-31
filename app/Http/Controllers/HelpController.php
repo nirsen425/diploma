@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 use App\ImageService;
-use App\Teacher;
 use App\User;
 use Illuminate\Http\Request;
 
@@ -20,21 +19,25 @@ class HelpController extends Controller
     }
 
     /**
-     * Проверка существования логина
+     * Проверка существования логина учителя
      *
      * @param Request $request
      * @return string Статус проверки
      */
-    public function loginVerification(Request $request, Teacher $teacher)
+    public function loginVerification(Request $request, $id = null)
     {
+        /*
+         * $user необязательный параметр,
+         * он не будет null при проверка логина при редактировании
+         */
         $login = $request->login;
 
         /*
-           Эта проверка нужна, если мы редактируем логин учителя, то есть если $teacher не null.
-           Если логин текущего редактируемого учителя совпадет с логином
+           Эта проверка нужна, если мы редактируем логин пользователя.
+           Если логин текущего редактируемого пользователя совпадет с логином
            в поле ввода, значит логин не хотят изменить. Проверка пройдена успешно
         */
-        if ($teacher and $this->teacherLoginMatch($teacher, $login)) {
+        if ($id and $this->LoginMatch(User::where('id', '=', $id), $login)) {
             return "true";
         }
 
@@ -47,14 +50,14 @@ class HelpController extends Controller
     }
 
     /**
-     * Проверка совпадения логина учителя с переданным логином
+     * Проверка совпадения логина пользователя с переданным логином
      *
-     * @param $teacher
+     * @param $user
      * @param $login
      * @return bool
      */
-    public function teacherLoginMatch($teacher, $login) {
-        return $teacher->user()->value('login') === $login;
+    public function LoginMatch($user, $login) {
+        return $user->value('login') === $login;
     }
 
     /**

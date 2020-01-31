@@ -98,7 +98,7 @@ $(document).ready(function () {
                 required: true,
                 minlength: 3,
                 remote: {
-                    url: "/verification/login/" + $('#login').attr('teacher-id'),
+                    url: "/verification/login/" + $('#login').attr('user-id'),
                     type: "post",
                 }
             },
