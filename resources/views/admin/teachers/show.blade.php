@@ -16,5 +16,5 @@
             </div>
         </div>
     </div>
-    <script src="{{ asset('js/admin/teachers/teacher-active-sumbenu.js') }}"></script>
+    <script src="{{ asset('js/admin/teachers/teacher-active-submenu.js') }}"></script>
 @endsection

@@ -5,7 +5,10 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
 use App\User;
+use DB;
+use Illuminate\Auth\Events\Registered;
 use Illuminate\Foundation\Auth\RegistersUsers;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 
@@ -51,8 +54,12 @@ class StudentRegisterController extends Controller
     {
         return Validator::make($data, [
             'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
-            'password' => ['required', 'string', 'min:8', 'confirmed'],
+            'patronymic' => ['required', 'string', 'max:255'],
+            'surname' => ['required', 'string', 'max:255'],
+            'rights' => ['required'],
+            'student_ticket' => ['required'],
+            'login' => ['required', 'string', 'max:255', 'unique:users'],
+            'password' => ['required', 'string', 'min:8', 'regex:/^[a-zA-Z0-9]+$/'],
         ]);
     }
 
@@ -61,18 +68,71 @@ class StudentRegisterController extends Controller
      *
      * @param  array  $data
      * @return \App\User
+     * @throws \Exception
      */
     protected function create(array $data)
     {
-        return User::create([
-            'name' => $data['name'],
-            'email' => $data['email'],
-            'password' => Hash::make($data['password']),
-        ]);
+        try {
+            DB::beginTransaction();
+
+            $user = User::create([
+                'user_type_id' => 1,
+                'rights_id' => $data['rights'],
+                'login' => $data['login'],
+                'password' => Hash::make($data['password']),
+            ]);
+
+
+            $user->student()->create([
+                'name' => $data['name'],
+                'patronymic' => $data['patronymic'],
+                'surname' => $data['surname'],
+                'student_ticket' => $data['student_ticket'],
+            ]);
+
+            DB::commit();
+        } catch (\Exception $e) {
+            DB::rollBack();
+            throw $e;
+        }
+
+        return $user;
     }
 
+    /**
+     * Показ формы регистрации.
+     *
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
     public function showRegistrationForm()
     {
         return view('admin.students.create');
+    }
+
+    /**
+     * Handle a registration request for the application.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     * @throws \Exception
+     */
+    public function register(Request $request)
+    {
+        $this->validator($request->all())->validate();
+
+        event(new Registered($user = $this->create($request->all())));
+
+        return $this->registered($request, $user)
+            ?: redirect($this->redirectPath())->with('status', 'Студент успешно зарегистрирован');
+    }
+
+    /**
+     * Перенаправление при успешной регистрации
+     *
+     * @return string
+     */
+    protected function redirectTo()
+    {
+        return route('student_register');
     }
 }

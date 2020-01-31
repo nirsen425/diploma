@@ -50,7 +50,7 @@ class TeacherController extends Controller
      */
     public function edit(Teacher $teacher)
     {
-        return view('admin.teachers.edit', ['teacher' => $teacher, 'id' => $teacher->user()->value('id')]);
+        return view('admin.teachers.edit', ['teacher' => $teacher]);
     }
 
     /**
@@ -59,6 +59,7 @@ class TeacherController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @param  \App\Teacher  $teacher
      * @return \Illuminate\Http\Response
+     * @throws \Exception
      */
     public function update(UpdateTeacher $request, Teacher $teacher)
     {
@@ -118,6 +119,7 @@ class TeacherController extends Controller
      *
      * @param  \App\Teacher  $teacher
      * @return \Illuminate\Http\Response
+     * @throws \Exception
      */
     public function destroy(Teacher $teacher)
     {
@@ -133,7 +135,7 @@ class TeacherController extends Controller
             DB::commit();
         } catch (\Exception $e) {
             DB::rollBack();
-            throw $e;
+            return "false";
         }
 
         return "true";

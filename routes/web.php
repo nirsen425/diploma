@@ -10,7 +10,7 @@
 | contains the "web" middleware group. Now create something great!
 |
 */
-
+use App\User;
 
 Route::get('/', 'IndexController@index')->name('index');
 Route::get('student/cabinet', 'StudentCabinetController@index')->name('student-cabinet-index');
@@ -39,5 +39,5 @@ Route::resource('admin/lecturers', 'Admin\Teachers\TeacherController', ['except'
     'create', 'store'
 ]])->parameters(['lecturers' => 'teacher']);
 
-Route::post('verification/login/{teacher?}', 'HelpController@loginVerification');
+Route::post('verification/login/{user?}', 'HelpController@loginVerification');
 Route::post('upload/image', 'HelpController@uploadImage');
