@@ -1,4 +1,7 @@
 window._ = require('lodash');
+window._ = require('jquery-validation');
+
+
 
 /**
  * We'll load jQuery and the Bootstrap jQuery plugin which provides support
@@ -39,3 +42,7 @@ window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 //     cluster: process.env.MIX_PUSHER_APP_CLUSTER,
 //     encrypted: true
 // });
+
+window._ = require('cropperjs');
+window._ = require('jquery-cropper');
+window._ = require('guillotine');

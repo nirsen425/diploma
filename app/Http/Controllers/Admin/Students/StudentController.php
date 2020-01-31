@@ -3,8 +3,12 @@
 namespace App\Http\Controllers\Admin\Students;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\UpdateStudent;
 use App\Student;
+use App\User;
+use DB;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 
 class StudentController extends Controller
 {
@@ -15,28 +19,7 @@ class StudentController extends Controller
      */
     public function index()
     {
-        return view('admin.students.index');
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        return view('admin.students.create');
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
+        return view('admin.students.index', ['students' => Student::all()]);
     }
 
     /**
@@ -47,7 +30,7 @@ class StudentController extends Controller
      */
     public function show(Student $student)
     {
-        return view('admin.students.show');
+        return view('admin.students.show', ['student' => $student]);
     }
 
     /**
@@ -58,7 +41,7 @@ class StudentController extends Controller
      */
     public function edit(Student $student)
     {
-        return view('admin.students.edit');
+        return view('admin.students.edit', ['student' => $student]);
     }
 
     /**
@@ -67,10 +50,40 @@ class StudentController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @param  \App\Student  $student
      * @return \Illuminate\Http\Response
+     * @throws \Exception
      */
-    public function update(Request $request, Student $student)
+    public function update(UpdateStudent $request, Student $student)
     {
-        //
+        try {
+            DB::beginTransaction();
+
+            $userData = [
+                'user_type_id' => 2,
+                'rights_id' => $request['rights'],
+                'login' => $request['login']
+            ];
+
+            $password = $request->password;
+            if (!empty($password)) {
+                $userData['password'] = Hash::make($password);
+            }
+
+            $student->user()->update($userData);
+
+            $student->update([
+                'name' => $request['name'],
+                'patronymic' => $request['patronymic'],
+                'surname' => $request['surname'],
+                'student_ticket' => $request['student_ticket']
+            ]);
+
+            DB::commit();
+        } catch (\Exception $e) {
+            DB::rollBack();
+            throw $e;
+        }
+
+        return back()->with('status', 'Студент успешно изменен');
     }
 
     /**
@@ -78,9 +91,25 @@ class StudentController extends Controller
      *
      * @param  \App\Student  $student
      * @return \Illuminate\Http\Response
+     * @throws \Exception
      */
     public function destroy(Student $student)
     {
-        //
+        try {
+            DB::beginTransaction();
+
+            // Удаление преподавателя и связанного с ним пользователя
+            $user = $student->user()->first();
+            $student->delete();
+            $user->delete();
+
+
+            DB::commit();
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return "false";
+        }
+
+        return "true";
     }
 }
