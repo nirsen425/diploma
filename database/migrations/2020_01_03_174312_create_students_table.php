@@ -19,6 +19,8 @@ class CreateStudentsTable extends Migration
             $table->string('patronymic');
             $table->string('surname');
             $table->string('student_ticket');
+            $table->boolean('diploma_possible')->default(0)->unsigned();
+            $table->boolean('practice_possible')->default(0)->unsigned();
             $table->bigInteger('user_id')->unsigned();
             $table->foreign('user_id')->references('id')->on('users');
             $table->timestamps();

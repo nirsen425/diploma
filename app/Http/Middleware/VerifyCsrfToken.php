@@ -21,6 +21,8 @@ class VerifyCsrfToken extends Middleware
     protected $except = [
         "verification/login/*",
         "verification/login",
+        "verification/title/*",
+        "verification/title",
         "upload/image"
     ];
 }

@@ -105,7 +105,7 @@ class TeacherRegisterController extends Controller
                 'name' => $data['name'],
                 'patronymic' => $data['patronymic'],
                 'surname' => $data['surname'],
-                'show' => $data['show'] ? 1 : 0,
+                'show' => isset($data['show']) ? 1 : 0,
                 'short_description' => $data['short_description'],
                 'full_description' => $data['full_description'],
                 'photo' => $cropPhotoName

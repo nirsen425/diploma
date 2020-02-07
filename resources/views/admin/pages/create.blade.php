@@ -21,7 +21,7 @@
             @csrf
 
             <div class="form-group">
-                <label for="title">Название</label>
+                <label for="title">Заголовок</label>
                 <input type="text" class="form-control" id="title" name="title" value="{{ old('title') }}">
             </div>
             <div class="form-group">

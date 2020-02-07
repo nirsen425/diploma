@@ -3,11 +3,25 @@
 namespace App\Http\Controllers\Admin\Pages;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\CreatePage;
+use App\Http\Requests\UpdatePage;
 use App\Page;
+use DB;
 use Illuminate\Http\Request;
 
 class PageController extends Controller
 {
+    protected $page;
+
+    /**
+     * PageController constructor.
+     * @param Page $page
+     */
+    public function __construct(Page $page)
+    {
+        $this->page = $page;
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -33,10 +47,24 @@ class PageController extends Controller
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
+     * @throws \Exception
      */
-    public function store(Request $request)
+    public function store(CreatePage $request)
     {
-        //
+        try {
+            DB::beginTransaction();
+
+            $data = $request->all();
+            $data['show'] = isset($data['show']) ? 1 : 0;
+            $this->page->create($data);
+
+            DB::commit();
+        } catch (\Exception $e) {
+            DB::rollBack();
+            throw $e;
+        }
+
+        return back()->with('status', 'Страница успешно создана');
     }
 
     /**
@@ -47,7 +75,7 @@ class PageController extends Controller
      */
     public function show(Page $page)
     {
-        //
+        return view('admin.pages.show', ['page' => $page]);
     }
 
     /**
@@ -58,7 +86,7 @@ class PageController extends Controller
      */
     public function edit(Page $page)
     {
-        //
+        return view('admin.pages.edit', ['page' => $page]);
     }
 
     /**
@@ -67,10 +95,31 @@ class PageController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @param  \App\Page  $page
      * @return \Illuminate\Http\Response
+     * @throws \Exception
      */
-    public function update(Request $request, Page $page)
+    public function update(UpdatePage $request, Page $page)
     {
-        //
+        try {
+            DB::beginTransaction();
+
+            $data = $request->all();
+            $data['show'] = isset($data['show']) ? 1 : 0;
+            /*
+                Благодаря обнулению слага, он будет пересоздан при обновлении.
+                Эта строка нужна, если заголовок страницы был изменени и мы
+                при этом хотим изменить слаг. Изменение слага может негативно
+                сказаться на SEO.
+            */
+            $page->slug = null;
+            $page->update($data);
+
+            DB::commit();
+        } catch (\Exception $e) {
+            DB::rollBack();
+            throw $e;
+        }
+
+        return back()->with('status', 'Страница успешно обновлена');
     }
 
     /**
@@ -81,6 +130,18 @@ class PageController extends Controller
      */
     public function destroy(Page $page)
     {
-        //
+        try {
+            DB::beginTransaction();
+
+            $page->delete();
+
+            DB::commit();
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return "false";
+        }
+
+        return "true";
     }
+
 }

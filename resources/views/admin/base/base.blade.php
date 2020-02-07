@@ -65,10 +65,10 @@
                 <a href="#pagesSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Страницы</a>
                 <ul class="collapse list-unstyled" id="pagesSubmenu">
                     <li>
-                        <a href="#">Просмотреть</a>
+                        <a href="{{ route('pages.index') }}">Просмотреть</a>
                     </li>
                     <li>
-                        <a href="#">Добавить</a>
+                        <a href="{{ route('pages.create') }}">Добавить</a>
                     </li>
                 </ul>
             </li>

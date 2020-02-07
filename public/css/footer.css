@@ -1,0 +1,16 @@
+.footer {
+    background-color: #00A6B7;
+    flex: 0 0 auto;
+}
+
+.footer__item {
+    padding: 0 1rem;
+}
+
+.footer__link {
+    font-size: 1rem;
+}
+
+.footer__list {
+    margin: 0;
+}

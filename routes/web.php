@@ -11,10 +11,12 @@
 |
 */
 use App\User;
+use App\Page;
 
 Route::get('/', 'IndexController@index')->name('index');
-Route::get('student/cabinet', 'StudentCabinetController@index')->name('student-cabinet-index');
-Route::get('lecturer/cabinet', 'TeacherCabinetController@index')->name('teacher-cabinet-index');
+Route::get('lecturer/show/{teacher}', 'IndexController@showTeacher')->name('teacher_show');
+Route::get('student/cabinet', 'StudentCabinetController@index')->name('student_cabinet_index');
+Route::get('lecturer/cabinet', 'TeacherCabinetController@index')->name('teacher_cabinet_index');
 
 Route::get('/login', 'Auth\LoginController@showLoginForm')->name('login');
 Route::post('/login', 'Auth\LoginController@login');
@@ -44,3 +46,9 @@ Route::resource('admin/pages', 'Admin\Pages\PageController');
 Route::post('verification/login/{user?}', 'HelpController@loginVerification');
 Route::post('verification/title/{page?}', 'HelpController@titleVerification');
 Route::post('upload/image', 'HelpController@uploadImage');
+
+Route::get('page/{slug}', function($slug) {
+    $page = Page::whereSlug($slug)->firstOrFail();
+
+    return view('page', ['page' => $page]);
+})->name('page');

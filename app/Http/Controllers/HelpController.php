@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 use App\ImageService;
 use App\User;
+use App\Page;
 use Illuminate\Http\Request;
 
 class HelpController extends Controller
@@ -68,6 +69,7 @@ class HelpController extends Controller
      */
     public function titleVerification(Request $request, $id = null)
     {
+
         /*
          * $id необязательный параметр,
          * он не будет null при проверка заголовка при редактировании

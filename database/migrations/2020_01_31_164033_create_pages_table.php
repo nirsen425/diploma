@@ -17,7 +17,7 @@ class CreatePagesTable extends Migration
             $table->bigIncrements('id');
             $table->string('title');
             $table->string('show');
-            $table->string('content');
+            $table->text('content');
             $table->string('meta_headline');
             $table->string('meta_description');
             $table->string('meta_words');
