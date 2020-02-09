@@ -62,7 +62,7 @@
                     <input type="text" class="form-control" id="meta_words" name="meta_words" value="{{ $page->meta_words }}">
                 </div>
             </div>
-            <button type="submit" class="btn btn-danger">Изменить</button>
+            <button type="submit" class="btn">Изменить</button>
         </form>
     </div>
     <script src="{{ asset('js/admin/pages/page-active-submenu.js') }}"></script>

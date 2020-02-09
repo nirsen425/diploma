@@ -24,4 +24,14 @@ class Teacher extends Model
     {
         return $this->belongsTo('App\User');
     }
+
+    /**
+     * Возвращает ФИО
+     *
+     * @return string
+     */
+    public function getFullName()
+    {
+        return $this->name . " " . $this->patronymic . " " . $this->surname;
+    }
 }

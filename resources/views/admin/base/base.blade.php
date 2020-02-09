@@ -15,8 +15,8 @@
     <link href="{{ asset('css/admin/base/admin-base.css') }}" rel="stylesheet">
 </head>
 <body>
-    <nav class="navbar navbar-expand fixed-top bd-navbar navbar-dark">
-        <button type="button" id="switchSidebar" class="btn btn-danger">
+    <nav class="navbar navbar-expand fixed-top bd-navbar">
+        <button type="button" id="switchSidebar" class="btn text-white">
             <i class="fas fa-align-left"></i>
             <span>Переключить</span>
         </button>
@@ -29,7 +29,7 @@
         </div>
     </nav>
 
-    <aside class="toggler bg-dark">
+    <aside class="toggler">
         <div id="hideSidebar" class="d-block d-md-none">
             <i class="fas fa-arrow-left"></i>
         </div>

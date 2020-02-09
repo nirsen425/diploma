@@ -31,7 +31,7 @@ Route::get('/home', 'HomeController@index')->name('home');
 Route::get('/admin', function () {
 
     return view('admin.base.base');
-});
+})->name('admin');
 
 Route::resource('admin/students', 'Admin\Students\StudentController', ['except' => [
     'create', 'store'
@@ -52,3 +52,7 @@ Route::get('page/{slug}', function($slug) {
 
     return view('page', ['page' => $page]);
 })->name('page');
+
+// Заявки
+Route::post('application/{teacher}', 'ApplicationController@store')->name('application_store');
+

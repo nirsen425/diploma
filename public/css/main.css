@@ -1,3 +1,7 @@
+body {
+    background-color: #edeef0;
+}
+
 .wrapper {
     display: flex;
     flex-direction: column;
@@ -6,4 +10,44 @@
 
 .content {
     flex: 1 0 auto;
+}
+
+a:hover {
+    text-decoration: none;
+    color: #fff;
+}
+
+a {
+    color: white;
+}
+
+.button {
+    position: relative;
+    background-color: #202730;
+    padding: 0 2rem;
+    color: white !important;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    border-radius: 0.66rem;
+    display: inline-block;
+    font-weight: 400;
+    text-align: center;
+    vertical-align: middle;
+    user-select: none;
+    border: 1px solid transparent;
+    font-size: 0.9rem;
+    line-height: 1.6;
+    transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+}
+
+.button-large {
+    padding: 0.3rem 2rem;
+}
+
+.button:hover {
+    top: 2px;
+}
+
+.button.disabled {
+    background-color: #a0a6ab;
+    pointer-events: none;
 }

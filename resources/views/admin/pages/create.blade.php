@@ -46,7 +46,7 @@
                 <label for="meta_words">Ключевые слова</label>
                 <input type="text" class="form-control" id="meta_words" placeholder="Иванов" name="meta_words" value="{{ old('meta_words') }}">
             </div>
-            <button type="submit" class="btn btn-danger">Создать</button>
+            <button type="submit" class="btn">Создать</button>
         </form>
     </div>
     <script src="{{ asset('js/admin/pages/page-active-submenu.js') }}"></script>

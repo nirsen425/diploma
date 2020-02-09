@@ -67,7 +67,7 @@
                     </select>
                 </div>
             </div>
-            <button type="submit" class="btn btn-danger">Изменить</button>
+            <button type="submit" class="btn">Изменить</button>
         </form>
     </div>
     <script src="{{ asset('js/admin/students/student-update.js') }}"></script>

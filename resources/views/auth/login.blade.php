@@ -2,6 +2,14 @@
 
 @section('content')
     <link href="{{ asset('css/login.css') }}" rel="stylesheet">
+    @if ($errors->any())
+        <div class="alert alert-danger">
+            @foreach($errors->all() as $error)
+                {{ $error }}
+                <br>
+            @endforeach
+        </div>
+    @endif
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card">
@@ -15,8 +23,8 @@
                             <label for="login" class="col-md-4 col-form-label text-md-right">Логин</label>
 
                             <div class="col-md-6">
-                                <input id="login" type="login" class="form-control @error('email') is-invalid @enderror" name="login" value="{{ old('login') }}" required autocomplete="email" autofocus>
-
+{{--                                <input id="login" type="login" class="form-control @error('email') is-invalid @enderror" name="login" value="{{ old('login') }}" required autocomplete="email" autofocus>--}}
+                                    <input id="login" type="login" class="form-control @error('email') is-invalid @enderror" name="login" value="{{ old('login') }}">
                                 @error('email')
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>

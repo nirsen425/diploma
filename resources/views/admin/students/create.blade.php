@@ -53,7 +53,7 @@
                     <option value="2" {{ old('rights') == 2 ? 'selected' : '' }}>Администратор</option>
                 </select>
             </div>
-            <button type="submit" class="btn btn-danger">Зарегистрировать</button>
+            <button type="submit" class="btn">Зарегистрировать</button>
         </form>
     </div>
     <script src="{{ asset('js/admin/students/student-create.js') }}"></script>

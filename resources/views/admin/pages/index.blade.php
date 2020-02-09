@@ -15,8 +15,8 @@
                     <p>Вы действительно хотите удалить страницу?</p>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-danger confirm-delete" data-dismiss="modal">Да</button>
-                    <button type="button" class="btn btn-danger" data-dismiss="modal">Отмена</button>
+                    <button type="button" class="btn confirm-delete" data-dismiss="modal">Да</button>
+                    <button type="button" class="btn" data-dismiss="modal">Отмена</button>
                 </div>
             </div>
         </div>

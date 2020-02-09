@@ -45,8 +45,6 @@ class TeacherRegisterController extends Controller
      */
     public function __construct(ImageService $imageService)
     {
-        $this->middleware('guest');
-
         $this->imageService = $imageService;
     }
 

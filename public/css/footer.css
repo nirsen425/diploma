@@ -1,5 +1,5 @@
 .footer {
-    background-color: #00A6B7;
+    background-color: #2d3f53;
     flex: 0 0 auto;
 }
 
@@ -13,4 +13,8 @@
 
 .footer__list {
     margin: 0;
+}
+
+.footer__link:hover {
+    border-bottom: 1px solid #fff;
 }

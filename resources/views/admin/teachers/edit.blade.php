@@ -98,7 +98,7 @@
             <input type="hidden" name="photo_y" id="photo_y">
             <input type="hidden" name="photo_width" id="photo_width">
             <input type="hidden" name="photo_height" id="photo_height">
-            <button type="submit" class="btn btn-danger">Изменить</button>
+            <button type="submit" class="btn">Изменить</button>
         </form>
     </div>
     <script src="{{ asset('ckeditor/ckeditor.js') }}"></script>

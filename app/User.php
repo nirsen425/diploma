@@ -5,6 +5,7 @@ namespace App;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Carbon\Carbon;
 
 class User extends Authenticatable
 {
@@ -38,6 +39,16 @@ class User extends Authenticatable
     ];
 
     /**
+     * Атрибуты, которые должны быть преобразованы в даты.
+     *
+     * @var array
+     */
+    protected $dates = [
+        'created_at',
+        'updated_at',
+    ];
+
+    /**
      * Получение Teacher привязанного к User
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasOne
@@ -55,5 +66,17 @@ class User extends Authenticatable
     public function student()
     {
         return $this->hasOne('App\Student');
+    }
+
+    /**
+     * Accessor возвращающий время создания в виде timestamp
+     *
+     * @param $value
+     * @return int timestamp
+     */
+    public function getCreatedAtAttribute($value)
+    {
+        $date = $this->asDateTime($value);
+        return $date->getTimestamp();
     }
 }
