@@ -32,7 +32,8 @@ class ApplicationController extends Controller
      */
     public function store(ApplicationRequest $request, Authenticatable $user, Teacher $teacher)
     {
-        $studentId = $user->student()->value('id');
+        $student = $user->student()->first();
+        $studentId = $student->id;
         $applicationTypeId = $request['type_id'];
         $teacherFullName = $teacher->getFullName();
 
@@ -57,6 +58,8 @@ class ApplicationController extends Controller
                 \"message\": \"$succesMessage\"
             }";
         } else {
+            $teacherFullName = $student->getTeacherByTypeActivity($applicationTypeId)->getFullName();
+
             $failureMessage = "Вы уже записаны на практику";
             if ($applicationTypeId == 1) {
                 $failureMessage = "У вас уже есть заявка на практику у преподавателя " . $teacherFullName .
@@ -71,5 +74,65 @@ class ApplicationController extends Controller
                 \"message\": \"$failureMessage\"
             }";
         }
+    }
+
+    public function confirm(Authenticatable $user, $studentId, $typeId)
+    {
+        $teacherId = $user->teacher()->value('id');
+
+        $application = $this->application->where([
+            ['teacher_id', '=', $teacherId],
+            ['student_id', '=', $studentId],
+            ['type_id', '=', $typeId]
+        ])->first();
+
+        if (!empty($application)) {
+            $application->status_id = 2;
+            $application->save();
+
+            return "true";
+        }
+
+        return "false";
+        return "true";
+    }
+
+    public function reject(Authenticatable $user, $studentId, $typeId)
+    {
+        $teacherId = $user->teacher()->value('id');
+
+        $application = $this->application->where([
+            ['teacher_id', '=', $teacherId],
+            ['student_id', '=', $studentId],
+            ['type_id', '=', $typeId]
+        ])->first();
+
+        if (!empty($application)) {
+            $application->status_id = 3;
+            $application->save();
+
+            return "true";
+        }
+
+        return "false";
+    }
+
+    public function cancel(Authenticatable $user, $teacherId, $typeId)
+    {
+        $studentId = $user->student()->value('id');
+
+        $application = $this->application->where([
+            ['teacher_id', '=', $teacherId],
+            ['student_id', '=', $studentId],
+            ['type_id', '=', $typeId]
+        ])->first();
+
+        if (!empty($application)) {
+            $application->delete();
+
+            return "true";
+        }
+
+        return "false";
     }
 }

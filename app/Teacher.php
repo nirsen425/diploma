@@ -26,6 +26,16 @@ class Teacher extends Model
     }
 
     /**
+     * Получение Applications привязанных к Teacher
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
+    public function applications()
+    {
+        return $this->hasMany('App\Application');
+    }
+
+    /**
      * Возвращает ФИО
      *
      * @return string

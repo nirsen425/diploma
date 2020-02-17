@@ -35,4 +35,39 @@ CKEDITOR.editorConfig = function( config ) {
 
 	// Simplify the dialog windows.
 	config.removeDialogTabs = 'image:advanced;link:advanced';
+
+	CKEDITOR.on('instanceReady', function (e) {
+		var instance = e.editor;
+		instance.on("change", function (evt) {
+			onCKEditorChange(evt.editor);
+		});
+		//key event handler is a hack, cause change event doesn't handle interaction with these keys
+		instance.on('key', function (evt) {
+			var backSpaceKeyCode = 8;
+			var deleteKeyCode = 46;
+			if (evt.data.keyCode == backSpaceKeyCode || evt.data.keyCode == deleteKeyCode) {
+				//timeout needed cause editor data will update after this event was fired
+				setTimeout(function() {
+					onCKEditorChange(evt.editor);
+				}, 100);
+			}
+		});
+		instance.on('mode', function () {
+			if (this.mode == 'source') {
+				var editable = instance.editable();
+				editable.attachListener(editable, 'input', function (evt) {
+					onCKEditorChange(instance);
+				});
+			}
+		});
+	});
+
+	function onCKEditorChange(instance) {
+		instance.updateElement();
+		triggerElementChangeAndJqueryValidation($(instance.element.$));
+	}
+
+	function triggerElementChangeAndJqueryValidation(element) {
+		element.trigger('keyup');
+	}
 };

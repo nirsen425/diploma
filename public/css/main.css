@@ -47,6 +47,13 @@ a {
     top: 2px;
 }
 
+.button:active, button:focus {
+    outline: none;
+}
+.button::-moz-focus-inner {
+    border: 0;
+}
+
 .button.disabled {
     background-color: #a0a6ab;
     pointer-events: none;
