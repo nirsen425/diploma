@@ -14,7 +14,7 @@ class IndexController extends Controller
      */
     public function index()
     {
-        $teachers = Teacher::all();
+        $teachers = Teacher::where('show', '=', 1)->get();
         return view('teacher-list', ['teachers' => $teachers]);
     }
 

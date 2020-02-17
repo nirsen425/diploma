@@ -35,4 +35,36 @@ class Application extends Model
 
         return true;
     }
+
+    /**
+     * Получение Teacher привязанного к Application
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
+    public function teacher()
+    {
+        return $this->belongsTo('App\Teacher');
+    }
+
+    /**
+     * Получение Student привязанного к Application
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
+    public function student()
+    {
+        return $this->belongsTo('App\Student');
+    }
+
+    /**
+     * Accessor возвращающий время создания заявки в виде timestamp
+     *
+     * @param $value
+     * @return int timestamp
+     */
+    public function getCreatedAtAttribute($value)
+    {
+        $date = $this->asDateTime($value);
+        return $date->getTimestamp();
+    }
 }

@@ -69,7 +69,7 @@ class User extends Authenticatable
     }
 
     /**
-     * Accessor возвращающий время создания в виде timestamp
+     * Accessor возвращающий время создания пользователя в виде timestamp
      *
      * @param $value
      * @return int timestamp

@@ -62,6 +62,26 @@
     margin-bottom: 0.6rem;
 }
 
+.change {
+    background-color: #2d3f53;
+}
+
+.form-container {
+    border: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.error {
+    color: #e06149;
+}
+
+#teacherImage {
+    max-width: 200px;
+}
+
+.teacher-image-container {
+    max-width: 200px
+}
+
 @media screen and (min-width: 992px) {
     #tab a {
         font-size: 0.9rem;
