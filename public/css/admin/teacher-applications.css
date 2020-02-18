@@ -1,0 +1,70 @@
+.teacher {
+    background-color: #2D3F53;
+    font-size: 1rem;
+}
+
+.student:not(:first-child) {
+    border-top: 1px solid #e7e8ec;
+}
+
+.student-practice {
+    background-color: #202730;
+    font-size: 0.9rem;
+}
+
+.student-diploma {
+    background-color: #202730;
+    font-size: 0.9rem;
+}
+
+.student-container {
+    border-right: 1px solid rgba(0, 0, 0, 0.1);
+    border-left: 1px solid rgba(0, 0, 0, 0.1);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.student-link:hover {
+    background-color: rgba(0, 0, 0, 0.1);
+}
+
+.button {
+    position: relative;
+    background-color: #202730;
+    padding: 0 2rem;
+    color: white !important;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    border-radius: 0.66rem;
+    display: inline-block;
+    font-weight: 400;
+    text-align: center;
+    vertical-align: middle;
+    user-select: none;
+    border: 1px solid transparent;
+    font-size: 0.9rem;
+    line-height: 1.6;
+    transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+}
+
+.button-large {
+    padding: 0.3rem 2rem;
+}
+
+.button:hover {
+    top: 2px;
+}
+
+.button:active, button:focus {
+    outline: none;
+}
+.button::-moz-focus-inner {
+    border: 0;
+}
+.teacher-application-container {
+    background-color: #fff;
+    padding-bottom: 20px;
+}
+
+.drop-shadow {
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+}
+
