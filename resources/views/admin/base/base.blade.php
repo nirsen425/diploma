@@ -72,6 +72,9 @@
                     </li>
                 </ul>
             </li>
+            <li>
+                <a href="{{ route('teacher_applications') }}">Заявки</a>
+            </li>
         </ul>
     </aside>
 

@@ -69,3 +69,7 @@ Route::post('teacher/{teacher}/update/full-description', 'TeacherCabinetControll
 // Профиль студента
 Route::post('student/{student}/update/login', 'StudentCabinetController@updateLogin')->name('student_login_update');
 Route::post('student/{student}/update/password', 'StudentCabinetController@updatePassword')->name('student_password_update');
+
+// Получение отчета
+Route::get('report/practice', 'ReportController@getReportPractice')->name('report_practice');
+Route::get('report/diploma', 'ReportController@getReportDiploma')->name('report_diploma');
