@@ -41,7 +41,7 @@ Route::resource('admin/lecturers', 'Admin\Teachers\TeacherController', ['except'
 
 Route::resource('admin/pages', 'Admin\Pages\PageController');
 
-Route::get('admin/applications', 'AdminController@showTeacherApplications')->name('teacher_applications');
+Route::get('admin/applications', 'Admin\AdminApplicationsController@showTeacherApplications')->name('teacher_applications');
 
 Route::post('verification/login/{user?}', 'HelpController@loginVerification');
 Route::post('verification/title/{page?}', 'HelpController@titleVerification');
@@ -58,7 +58,9 @@ Route::post('/application/confirm/{studentId}/{typeId}', 'ApplicationController@
 Route::post('/application/reject/{studentId}/{typeId}', 'ApplicationController@reject')->name('application_reject');
 Route::post('/application/cancel/{teacherId}/{typeId}', 'ApplicationController@cancel')->name('application_cancel');
 Route::post('application/{teacher}', 'ApplicationController@store')->name('application_store');
-
+// Принудительные заявки
+Route::get('admin/set-limits', 'Admin\AdminApplicationsController@showTeacherLimitsPage')->name('teacher_limits');
+Route::post('admin/set-limits', 'Admin\AdminApplicationsController@setLimits');
 // Профиль преподавателя
 Route::post('teacher/{teacher}/update/login', 'TeacherCabinetController@updateLogin')->name('teacher_login_update');
 Route::post('teacher/{teacher}/update/password', 'TeacherCabinetController@updatePassword')->name('teacher_password_update');
@@ -71,5 +73,6 @@ Route::post('student/{student}/update/login', 'StudentCabinetController@updateLo
 Route::post('student/{student}/update/password', 'StudentCabinetController@updatePassword')->name('student_password_update');
 
 // Получение отчета
-Route::get('report/practice', 'ReportController@getReportPractice')->name('report_practice');
-Route::get('report/diploma', 'ReportController@getReportDiploma')->name('report_diploma');
+Route::get('report/practice', 'Admin\AdminReportController@getReportPractice')->name('report_practice');
+Route::get('report/diploma', 'Admin\AdminReportController@getReportDiploma')->name('report_diploma');
+
