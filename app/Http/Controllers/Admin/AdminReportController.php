@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin;
 
+use App\Http\Controllers\Controller;
 use App\Application;
 use App\Student;
 use App\Teacher;
@@ -10,7 +11,7 @@ use PhpOffice\PhpWord\IOFactory;
 use PhpOffice\PhpWord\PhpWord;
 use PhpOffice\PhpWord\Shared\Converter;
 
-class ReportController extends Controller
+class AdminReportController extends Controller
 {
     protected $application;
     protected $teacher;

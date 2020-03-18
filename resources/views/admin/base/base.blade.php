@@ -75,6 +75,9 @@
             <li>
                 <a href="{{ route('teacher_applications') }}">Заявки</a>
             </li>
+            <li>
+                <a href="{{ route('teacher_limits') }}">Выбор преподавателя</a>
+            </li>
         </ul>
     </aside>
 
