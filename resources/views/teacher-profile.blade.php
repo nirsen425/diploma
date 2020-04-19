@@ -289,6 +289,7 @@
                                 <div class="pt-3 no-request">У вас нет практикантов</div>
                             @endif
                         </div>
+                        <div class="p-2" id="count-practice-places">На практику {{ $currentYear }} у вас осталось <span id="free-practice-places">{{ $teacher->countFreePracticePlaces() }}</span> из {{ $teacher->currentYearPracticeLimits() }} мест</div>
                     </div>
                     <div class="tab-pane fade" id="diploma-student" role="tabpanel" aria-labelledby="profile-tab">
                         <div class="request-container">
@@ -298,7 +299,7 @@
                                         <div class="request-name">{{ $confirmDiplomaApplicationStudent->getFullName() }}</div>
                                         <button class="button application-reject-button"
                                                 student-id="{{ $confirmDiplomaApplicationStudent->id }}"
-                                                type-id="2" data-toggle="modal"
+                                                type-id="2" countable="yes" data-toggle="modal"
                                                 data-target="#confirm-reject-application">
                                             Отклонить
                                         </button>

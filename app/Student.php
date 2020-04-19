@@ -30,9 +30,19 @@ class Student extends Model
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function application()
+    public function applications()
     {
         return $this->hasMany('App\Application');
+    }
+
+    /**
+     * Получение Group привязанного к Student
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function group()
+    {
+        return $this->belongsTo('App\Group');
     }
 
     /**
@@ -45,8 +55,14 @@ class Student extends Model
         return $this->name . " " . $this->patronymic . " " . $this->surname;
     }
 
+    /**
+     * Возвращает преподавателя по типу заявки, например заявка на практику($typeActivity == 1)
+     *
+     * @param $typeActivity
+     * @return mixed
+     */
     public function getTeacherByTypeActivity($typeActivity)
     {
-        return $this->application()->where('type_id', '=', $typeActivity)->first()->teacher()->first();
+        return $this->applications()->where('type_id', '=', $typeActivity)->first()->teacher()->first();
     }
 }

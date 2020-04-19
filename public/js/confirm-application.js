@@ -1,7 +1,7 @@
 $(function () {
 
     $('.application-approve-button').click(function () {
-        $confirmApproveApplicationButton = $('.confirm-approve-application-button');
+        var $confirmApproveApplicationButton = $('.confirm-approve-application-button');
         $confirmApproveApplicationButton.attr('type-id', $(this).attr('type-id'));
         $confirmApproveApplicationButton.attr('student-id', $(this).attr('student-id'));
     });
@@ -54,10 +54,18 @@ $(function () {
                                 '</div>');
                         }
 
+                        let freePracticePlaces = $('#count-practice-places #free-practice-places');
+                        freePracticePlaces.text(+freePracticePlaces.text() - 1);
+
                         let rejectApplicationButton = $('#practice-student .application-reject-button[type-id="' + typeId + '"]' +
                             '[student-id="' + studentId + '"]');
 
-                        rejectApplicationButton.click(passAttributes);
+                        rejectApplicationButton.click(function () {
+                            let $confirmRejectApplicationButton = $('.confirm-reject-application-button');
+                            $confirmRejectApplicationButton.attr('type-id', $(this).attr('type-id'));
+                            $confirmRejectApplicationButton.attr('student-id', $(this).attr('student-id'));
+                            $confirmRejectApplicationButton.attr('countable', 'yes');
+                        });
                     }
 
                     if (typeId == 2) {
@@ -86,8 +94,9 @@ $(function () {
                         let rejectApplicationButton = $('#diploma-student .application-reject-button[type-id="' + typeId + '"]' +
                             '[student-id="' + studentId + '"]');
 
+
                         rejectApplicationButton.click(function () {
-                            $confirmRejectApplicationButton = $('.confirm-reject-application-button');
+                            let $confirmRejectApplicationButton = $('.confirm-reject-application-button');
                             $confirmRejectApplicationButton.attr('type-id', $(this).attr('type-id'));
                             $confirmRejectApplicationButton.attr('student-id', $(this).attr('student-id'));
                         });

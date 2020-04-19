@@ -8,6 +8,7 @@ use App\Http\Requests\UpdateTeacherPhotoRequest;
 use App\Http\Requests\UpdateTeacherShortDescriptionRequest;
 use App\ImageService;
 use App\Teacher;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Support\Facades\Hash;
@@ -32,31 +33,39 @@ class TeacherCabinetController extends Controller
     public function index(Authenticatable $user)
     {
         $teacher = $user->teacher()->first();
-        // Получение нерассмотренных учителем заявок
-        $teacherWaitApplications = $teacher->applications()->where('status_id', '=', 1)->get();
-
-        // Получение подтвержденных учителем заявок на практику
-        $confirmPracticeApplications = $teacher->applications()->where([
-            ['status_id', '=', 2], ['type_id', '=', 1]
+        // Получение нерассмотренных учителем заявок за текущий год
+        $teacherWaitApplications = $teacher->applications()->where([
+            ['status_id', '=', 1],
+            ['year', '=', Carbon::now()->year]
         ])->get();
 
-        // Получение студентов которым преподаватель одобрил заявку на практику
+        // Получение подтвержденных учителем заявок на практику за текущий год
+        $confirmPracticeApplications = $teacher->applications()->where([
+            ['status_id', '=', 2],
+            ['type_id', '=', 1],
+            ['year', '=', Carbon::now()->year]
+        ])->get();
+
+        // Получение студентов которым преподаватель одобрил заявку на практику за текущий год
         foreach ($confirmPracticeApplications as $confirmPracticeApplication) {
             $confirmPracticeApplicationStudents[] = $confirmPracticeApplication->student()->first();
         }
 
-        // Получение подтвержденных учителем заявок на диплом
-        $confirmDiplomaApplications = $teacher->applications()->where([
-            ['status_id', '=', 2], ['type_id', '=', 2]
-        ])->get();
+        // Получение подтвержденных учителем заявок на диплом за текущий год
+//        $confirmDiplomaApplications = $teacher->applications()->where([
+//            ['status_id', '=', 2],
+//            ['type_id', '=', 2],
+//            ['year', '=', Carbon::now()->year]
+//        ])->get();
 
-        // Получение студентов которым преподаватель одобрил заявку на диплом
-        foreach ($confirmDiplomaApplications as $confirmDiplomaApplication) {
-            $confirmDiplomaApplicationStudents[] = $confirmDiplomaApplication->student()->first();
-        }
+        // Получение студентов которым преподаватель одобрил заявку на диплом за текущий год
+//        foreach ($confirmDiplomaApplications as $confirmDiplomaApplication) {
+//            $confirmDiplomaApplicationStudents[] = $confirmDiplomaApplication->student()->first();
+//        }
 
         $data = [
-            'teacher' => $teacher
+            'teacher' => $teacher,
+            'currentYear' => Carbon::now()->year
         ];
 
         //<< Помещение заявок в массив для шаблона, если они есть
@@ -68,9 +77,9 @@ class TeacherCabinetController extends Controller
             $data['confirmPracticeApplicationStudents'] = $confirmPracticeApplicationStudents;
         }
 
-        if (!empty($confirmDiplomaApplicationStudents)) {
-            $data['confirmDiplomaApplicationStudents'] = $confirmDiplomaApplicationStudents;
-        }
+//        if (!empty($confirmDiplomaApplicationStudents)) {
+//            $data['confirmDiplomaApplicationStudents'] = $confirmDiplomaApplicationStudents;
+//        }
         //>>
         return view('teacher-profile', $data);
     }

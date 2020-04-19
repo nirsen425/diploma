@@ -12,7 +12,7 @@ class Application extends Model
      * @var array
      */
     protected $fillable = [
-        'student_id', 'teacher_id', 'type_id', 'status_id'
+        'student_id', 'teacher_id', 'type_id', 'status_id', 'year'
     ];
 
     /**

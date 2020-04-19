@@ -1,8 +1,16 @@
 $(function () {
-    $('.application-reject-button').click(function () {
-        $confirmRejectApplicationButton = $('.confirm-reject-application-button');
+    $('#new-request .application-reject-button').click(function () {
+        let $confirmRejectApplicationButton = $('.confirm-reject-application-button');
         $confirmRejectApplicationButton.attr('type-id', $(this).attr('type-id'));
         $confirmRejectApplicationButton.attr('student-id', $(this).attr('student-id'));
+        $confirmRejectApplicationButton.removeAttr('countable');
+    });
+
+    $('#practice-student .application-reject-button').click(function () {
+        let $confirmRejectApplicationButton = $('.confirm-reject-application-button');
+        $confirmRejectApplicationButton.attr('type-id', $(this).attr('type-id'));
+        $confirmRejectApplicationButton.attr('student-id', $(this).attr('student-id'));
+        $confirmRejectApplicationButton.attr('countable', 'yes');
     });
 
     $('.confirm-reject-application-button').click(function () {
@@ -34,6 +42,12 @@ $(function () {
 
                     if (!newRequestContainer.children().length) {
                         newRequestContainer.html('<div class="pt-3 no-request">У вас нет заявок</div>');
+                    }
+
+                    let countable = $('.confirm-reject-application-button').attr('countable');
+                    if (typeof countable !== typeof undefined && countable !== false) {
+                        let freePracticePlaces = $('#count-practice-places #free-practice-places');
+                        freePracticePlaces.text(+freePracticePlaces.text() + 1);
                     }
 
                     $('#is-reject-confirmed').modal('show');

@@ -24,6 +24,7 @@ class CreateApplicationsTable extends Migration
             $table->bigInteger('status_id')->unsigned();
             $table->foreign('status_id')->references('id')->on('application_statuses');
             $table->dateTime('reply_datetime')->nullable();
+            $table->smallInteger('year');
             $table->timestamps();
         });
     }

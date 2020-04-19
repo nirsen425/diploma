@@ -21,4 +21,14 @@ class TeacherLimit extends Model
             ['year', '=', $year]
         ])->first();
     }
+
+    /**
+     * Получение Teacher привязанного к TeacherLimit
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function teacher()
+    {
+        return $this->belongsTo('App\Teacher');
+    }
 }

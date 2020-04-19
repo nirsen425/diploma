@@ -3,18 +3,31 @@
 namespace App\Http\Controllers;
 
 use App\Teacher;
+use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Http\Request;
 
 class IndexController extends Controller
 {
+    private $teacher;
+
     /**
-     * Показывает список преподавателей
+     * IndexController constructor.
+     */
+    public function __construct(Teacher $teacher)
+    {
+        $this->middleware('auth');
+        $this->middleware('student');
+        $this->teacher = $teacher;
+    }
+
+    /**
+     * Показывает список преподавателей которые могут принимать заявки от текущего авторизованного студента
      *
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function index()
+    public function index(Authenticatable $user)
     {
-        $teachers = Teacher::where('show', '=', 1)->get();
+        $teachers = $this->teacher->getTeachersByCourseForCurrentYear($user->student()->first()->group()->value('course'));
         return view('teacher-list', ['teachers' => $teachers]);
     }
 

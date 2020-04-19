@@ -53,7 +53,7 @@
     </div>
     <div class="bg-white p-3 rounded teacher-description-container">
         <div class="media">
-            <img src="http://images6.fanpop.com/image/photos/35100000/Emma-Watson-Icons-emma-watson-35139263-200-200.jpg" class="mr-3 teacher-photo-description" alt="Преподаватель">
+            <img src="{{ asset("storage/images/" . $teacher->photo) }}" class="mr-3 teacher-photo-description" alt="Преподаватель">
             <div class="media-body text-break">
                 {!! $teacher->full_description !!}
                 @php
@@ -65,26 +65,26 @@
                        data-target="#confirmSendApplication">
                         Подать заявку на практику
                     </a>
-                    <a href="#"
-                       class="button button-large mt-2 mt-lg-0 application-button" type_id="2" data-toggle="modal"
-                       data-target="#confirmSendApplication">
-                        Подать заявку на диплом
-                    </a>
+{{--                    <a href="#"--}}
+{{--                       class="button button-large mt-2 mt-lg-0 application-button" type_id="2" data-toggle="modal"--}}
+{{--                       data-target="#confirmSendApplication">--}}
+{{--                        Подать заявку на диплом--}}
+{{--                    </a>--}}
                     <form id="practice-application-form"
                           action="{{ route('application_store', ['teacher' => $teacher->id]) }}"
                           method="POST" class="d-none">
                         {{ csrf_field() }}
                         <input type="hidden" name="type_id" value="1">
                     </form>
-                    <form id="diploma-application-form"
-                          action="{{ route('application_store', ['teacher' => $teacher->id]) }}"
-                          method="POST" class="d-none">
-                        {{ csrf_field() }}
-                        <input type="hidden" name="type_id" value="2">
-                    </form>
+{{--                    <form id="diploma-application-form"--}}
+{{--                          action="{{ route('application_store', ['teacher' => $teacher->id]) }}"--}}
+{{--                          method="POST" class="d-none">--}}
+{{--                        {{ csrf_field() }}--}}
+{{--                        <input type="hidden" name="type_id" value="2">--}}
+{{--                    </form>--}}
                 @else
                     <a href="#" class="button button-large disabled">Подать заявку на практику</a>
-                    <a href="#" class="button button-large mt-2 mt-lg-0 disabled">Подать заявку на диплом</a>
+{{--                    <a href="#" class="button button-large mt-2 mt-lg-0 disabled">Подать заявку на диплом</a>--}}
                     <div class="hint">Только авторизованные студенты могут подавать заявки</div>
                 @endif
             </div>

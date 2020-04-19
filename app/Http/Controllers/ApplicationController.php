@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\ApplicationRequest;
 use App\Teacher;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Application;
 use Illuminate\Contracts\Auth\Authenticatable;
@@ -43,6 +44,7 @@ class ApplicationController extends Controller
                 'student_id' => $studentId,
                 'teacher_id' => $teacher->id,
                 'type_id' => $applicationTypeId,
+                'year' => Carbon::now()->year,
                 'status_id' => 1
             ]);
 
@@ -83,7 +85,8 @@ class ApplicationController extends Controller
         $application = $this->application->where([
             ['teacher_id', '=', $teacherId],
             ['student_id', '=', $studentId],
-            ['type_id', '=', $typeId]
+            ['type_id', '=', $typeId],
+            ['year', '=', Carbon::now()->year]
         ])->first();
 
         if (!empty($application)) {
@@ -94,7 +97,6 @@ class ApplicationController extends Controller
         }
 
         return "false";
-        return "true";
     }
 
     public function reject(Authenticatable $user, $studentId, $typeId)
@@ -104,7 +106,8 @@ class ApplicationController extends Controller
         $application = $this->application->where([
             ['teacher_id', '=', $teacherId],
             ['student_id', '=', $studentId],
-            ['type_id', '=', $typeId]
+            ['type_id', '=', $typeId],
+            ['year', '=', Carbon::now()->year]
         ])->first();
 
         if (!empty($application)) {
@@ -124,7 +127,8 @@ class ApplicationController extends Controller
         $application = $this->application->where([
             ['teacher_id', '=', $teacherId],
             ['student_id', '=', $studentId],
-            ['type_id', '=', $typeId]
+            ['type_id', '=', $typeId],
+            ['year', '=', Carbon::now()->year]
         ])->first();
 
         if (!empty($application)) {

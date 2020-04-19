@@ -58,7 +58,7 @@ Route::post('/application/confirm/{studentId}/{typeId}', 'ApplicationController@
 Route::post('/application/reject/{studentId}/{typeId}', 'ApplicationController@reject')->name('application_reject');
 Route::post('/application/cancel/{teacherId}/{typeId}', 'ApplicationController@cancel')->name('application_cancel');
 Route::post('application/{teacher}', 'ApplicationController@store')->name('application_store');
-// Принудительные заявки
+// Установка лимитов
 Route::get('admin/set-limits', 'Admin\AdminApplicationsController@showTeacherLimitsPage')->name('teacher_limits');
 Route::post('admin/set-limits', 'Admin\AdminApplicationsController@setLimits');
 // Профиль преподавателя
