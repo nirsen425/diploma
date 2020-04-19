@@ -14,6 +14,15 @@ use Illuminate\Support\Facades\Hash;
 class StudentCabinetController extends Controller
 {
     /**
+     * StudentCabinetController constructor.
+     */
+    public function __construct()
+    {
+        $this->middleware('auth');
+        $this->middleware('student');
+    }
+
+    /**
      * Возвращает профиль студента
      *
      * @param Authenticatable $user

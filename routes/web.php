@@ -27,9 +27,8 @@ Route::get('admin/lecturers/register', 'Auth\TeacherRegisterController@showRegis
 Route::post('admin/lecturers/register', 'Auth\TeacherRegisterController@register');
 
 Route::get('/admin', function () {
-
     return view('admin.base.base');
-})->name('admin');
+})->name('admin')->middleware('admin');
 
 Route::resource('admin/students', 'Admin\Students\StudentController', ['except' => [
     'create', 'store'
@@ -43,9 +42,9 @@ Route::resource('admin/pages', 'Admin\Pages\PageController');
 
 Route::get('admin/applications', 'Admin\AdminApplicationsController@showTeacherApplications')->name('teacher_applications');
 
-Route::post('verification/login/{user?}', 'HelpController@loginVerification');
-Route::post('verification/title/{page?}', 'HelpController@titleVerification');
-Route::post('upload/image', 'HelpController@uploadImage');
+Route::post('verification/login/{user?}', 'HelpController@loginVerification')->middleware('admin');
+Route::post('verification/title/{page?}', 'HelpController@titleVerification')->middleware('admin');
+Route::post('upload/image', 'HelpController@uploadImage')->middleware('auth');
 
 Route::get('page/{slug}', function($slug) {
     $page = Page::whereSlug($slug)->firstOrFail();

@@ -24,6 +24,8 @@ class AdminApplicationsController extends Controller
      */
     public function __construct(Application $application, Teacher $teacher, Student $student, TeacherLimit $teacherLimit)
     {
+        $this->middleware('auth');
+        $this->middleware('admin');
         $this->application = $application;
         $this->teacher = $teacher;
         $this->student = $student;

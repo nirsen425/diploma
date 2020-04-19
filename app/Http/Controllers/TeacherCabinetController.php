@@ -21,6 +21,8 @@ class TeacherCabinetController extends Controller
 
     public function __construct(ImageService $imageService)
     {
+        $this->middleware('auth');
+        $this->middleware('teacher');
         $this->imageService = $imageService;
     }
 

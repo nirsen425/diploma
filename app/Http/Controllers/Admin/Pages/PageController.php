@@ -19,6 +19,8 @@ class PageController extends Controller
      */
     public function __construct(Page $page)
     {
+        $this->middleware('auth');
+        $this->middleware('admin');
         $this->page = $page;
     }
 

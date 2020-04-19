@@ -11,6 +11,11 @@
     color: #a0a6ab;
 }
 
+img {
+    max-width: 100% !important;
+    height:auto !important;
+}
+
 @media screen and (max-width: 576px) {
     .teacher-photo-description {
         width: 150px;

@@ -33,9 +33,13 @@
 
             <div class="collapse navbar-collapse" id="navbarToggler">
                 <ul class="navbar-nav mx-auto mt-lg-0">
-                    <li class="nav-item">
-                        <a class="nav-link text-white" href="/">Преподаватели</a>
-                    </li>
+                    @if ($user)
+                        @if ($user->user_type_id == 1 )
+                        <li class="nav-item">
+                            <a class="nav-link text-white" href="/">Преподаватели</a>
+                        </li>
+                        @endif
+                    @endif
                     @foreach($pages as $page)
                         <li class="nav-item">
                             <a class="nav-link text-white" href="{{ route('page', ['slug' => $page->slug]) }}">{{ $page->title }}</a>
