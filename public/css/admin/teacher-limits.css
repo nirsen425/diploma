@@ -26,6 +26,10 @@
     background-color: #fff;
 }
 
-input[name="year"] {
+select[name="year"] {
+    width: 60px;
+}
+
+input[name="new-year"] {
     width: 100px;
 }

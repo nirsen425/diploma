@@ -38,10 +38,16 @@ class AdminApplicationsController extends Controller
         return view('admin.teacher-applications', ['teachers' => $teachers]);
     }
 
-    public function showTeacherLimitsPage()
+    public function showTeacherLimitsPage($year)
     {
         $teachers = $this->teacher->all();
-        return view('admin.teacher-limits', ['teachers' => $teachers]);
+        $limitYears = $this->teacherLimit->select('year')->distinct()->orderBy('year')->get();
+        $yearExist = false;
+        foreach($limitYears as $limitYear) {
+            if ($limitYear->year == $year) $yearExist = true;
+        }
+
+        return view('admin.teacher-limits', ['teachers' => $teachers, 'year' => $year, 'limitYears' => $limitYears, 'yearExist' => $yearExist]);
     }
 
     public function setLimits(Request $request)

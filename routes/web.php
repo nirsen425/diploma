@@ -58,7 +58,7 @@ Route::post('/application/reject/{studentId}/{typeId}', 'ApplicationController@r
 Route::post('/application/cancel/{teacherId}/{typeId}', 'ApplicationController@cancel')->name('application_cancel');
 Route::post('application/{teacher}', 'ApplicationController@store')->name('application_store');
 // Установка лимитов
-Route::get('admin/set-limits', 'Admin\AdminApplicationsController@showTeacherLimitsPage')->name('teacher_limits');
+Route::get('admin/set-limits/{year}', 'Admin\AdminApplicationsController@showTeacherLimitsPage')->name('teacher_limits');
 Route::post('admin/set-limits', 'Admin\AdminApplicationsController@setLimits');
 // Профиль преподавателя
 Route::post('teacher/{teacher}/update/login', 'TeacherCabinetController@updateLogin')->name('teacher_login_update');

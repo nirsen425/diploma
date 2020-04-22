@@ -76,7 +76,7 @@
                 <a href="{{ route('teacher_applications') }}">Заявки</a>
             </li>
             <li>
-                <a href="{{ route('teacher_limits') }}">Лимиты преподавателей</a>
+                <a href="{{ route('teacher_limits', ['year' => date('Y')]) }}">Лимиты преподавателей</a>
             </li>
         </ul>
     </aside>

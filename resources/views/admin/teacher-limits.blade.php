@@ -56,12 +56,35 @@
         </div>
     </div>
 
+    <div id="year-exist" class="modal fade" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-body">
+                    Такой период уже существует
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="button" data-dismiss="modal">Ок</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
 {{--    <div class="content drop-shadow">--}}
     <div>
         <label for="year" class="font-weight-bold year">Год</label>
         <div class="d-flex">
-            <input type="text" class="mb-2 text-center" name="year">
+{{--            <input type="text" class="mb-2 text-center" name="year">--}}
+            <select class="mb-2 text-center" name="year">
+                @foreach($limitYears as $limitYear)
+                    <option {{ $limitYear->year == $year ? "selected" : "" }}>{{ $limitYear->year }}</option>
+                @endforeach
+                @if (!$yearExist)
+                    <option selected>{{ $year }}</option>
+                @endif
+            </select>
             <button class="button button-large mb-2 ml-2" id="select-all-teachers">Отметить всех</button>
+            <input type="text" class="mb-2 ml-2 text-center" name="new-year">
+            <button class="button button-large mb-2 ml-2" id="add-new-year">Добавить период</button>
         </div>
         <table class="table" id="teacher-limits-table">
             <thead class="thead-dark">
@@ -75,36 +98,39 @@
             </thead>
             <tbody>
                 @foreach($teachers as $teacher)
+                    @php
+                        $teacherLimit = $teacher->currentLimits()->where('year', '=', $year)->first();
+                    @endphp
                     <tr>
                         <td class="d-none">{{ $teacher->id }}</td>
                         <td class="align-bottom">
-                            <input type="checkbox" class="large-checkbox" name="change">
+                            <input type="checkbox" class="large-checkbox" name="change" {{ isset($teacherLimit) ? "checked" : "" }}>
                         </td>
                         <td class="align-bottom">{{ $teacher->getFullName() }}</td>
                         <td class="align-bottom">
-                            <input type="text" name="limit" class="limit text-center">
+                            <input type="text" name="limit" class="limit text-center" {{ isset($teacherLimit->limit) ? "value=$teacherLimit->limit" : "" }}>
                         </td>
                         <td>
                             <div class="d-flex">
                                 <div class="d-flex flex-column">
                                     <label for="first_course">1</label>
-                                    <input type="checkbox" class="medium-checkbox course-selector" name="first_course">
+                                    <input type="checkbox" class="medium-checkbox course-selector" name="first_course" {{ (isset($teacherLimit) and $teacherLimit->first_course) ? "checked" : "" }}>
                                 </div>
                                 <div class="d-flex flex-column ml-1">
                                     <label for="second_course">2</label>
-                                    <input type="checkbox" class="medium-checkbox course-selector" name="second_course">
+                                    <input type="checkbox" class="medium-checkbox course-selector" name="second_course" {{ (isset($teacherLimit) and $teacherLimit->second_course) ? "checked" : "" }}>
                                 </div>
                                 <div class="d-flex flex-column ml-1">
                                     <label for="third_course">3</label>
-                                    <input type="checkbox" class="medium-checkbox course-selector" name="third_course">
+                                    <input type="checkbox" class="medium-checkbox course-selector" name="third_course" {{ (isset($teacherLimit) and $teacherLimit->third_course) ? "checked" : "" }}>
                                 </div>
                                 <div class="d-flex flex-column ml-1">
                                     <label for="fourth_course">4</label>
-                                    <input type="checkbox" class="medium-checkbox course-selector" name="fourth_course">
+                                    <input type="checkbox" class="medium-checkbox course-selector" name="fourth_course" {{ (isset($teacherLimit) and $teacherLimit->fourth_course) ? "checked" : "" }}>
                                 </div>
                                 <div class="d-flex flex-column ml-1">
                                     <label for="all_course">Все</label>
-                                    <input type="checkbox" class="align-self-center medium-checkbox all-course-selector" name="all_course">
+                                    <input type="checkbox" class="align-self-center medium-checkbox all-course-selector" name="all_course" {{ (isset($teacherLimit) and $teacherLimit->first_course and $teacherLimit->second_course and $teacherLimit->third_course and $teacherLimit->fourth_course) ? "checked" : "" }}>
                                 </div>
                             </div>
                         </td>

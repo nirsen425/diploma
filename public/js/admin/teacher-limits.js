@@ -3,9 +3,34 @@ $(function () {
     //     $(this).val($(this).val().replace (/\D/g, ''));
     // });
 
-    $('input[name="year"]').keypress(function () {
+    $('input[name="new-year"]').keypress(function () {
         if (event.keyCode < 48 || event.keyCode > 57)
             event.returnValue= false;
+    });
+
+    $('#add-new-year').click(function () {
+        let newYear = $('input[name="new-year"]').val();
+        let yearList = $('select[name="year"]');
+        let optionList = yearList.find('option');
+        let yearExist = false;
+
+        optionList.each(function () {
+            if ($(this).text() == newYear) {
+                yearExist = true;
+            }
+        });
+
+        if (yearExist) {
+            $('#year-exist').modal('show');
+            return;
+        }
+
+        yearList.append('<option selected>' + newYear + '</option>');
+        yearList.change();
+    });
+
+    $('select[name="year"]').change(function () {
+        location.href= "/admin/set-limits/" + $(this).find('option:selected').text();
     });
 
     $('.limit').keypress(function () {
@@ -35,11 +60,11 @@ $(function () {
    });
 
    $('#change-limits').click(function () {
-       if (!$('input[name="year"]').val()) {
-           $('#emptyYear').modal('show');
-           return;
-       }
-       let year = $('input[name="year"]').val();
+       // if (!$('select[name="year"]').text()) {
+       //     $('#emptyYear').modal('show');
+       //     return;
+       // }
+       let year = $('select[name="year"] option:selected').text();
        let teacherLimitsArray = new Array();
 
        $('#teacher-limits-table tr').each(function(row){
@@ -70,7 +95,7 @@ $(function () {
        if (teacherLimitsArray.length == 0) {
            $('#notSelectTeacher').modal('show');
        }
-       console.log(teacherLimitsArray);
+       // console.log(teacherLimitsArray);
 
        // let teacherLimitArrayJson = JSON.stringify(teacherLimitsArray);
 
