@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Teacher;
+use Carbon\Carbon;
 use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Http\Request;
 
@@ -28,7 +29,7 @@ class IndexController extends Controller
     public function index(Authenticatable $user)
     {
         $teachers = $this->teacher->getTeachersByCourseForCurrentYear($user->student()->first()->group()->value('course'));
-        return view('teacher-list', ['teachers' => $teachers]);
+        return view('teacher-list', ['teachers' => $teachers, 'currentYear' => Carbon::now()->year]);
     }
 
     /**
@@ -39,6 +40,6 @@ class IndexController extends Controller
      */
     public function showTeacher(Teacher $teacher)
     {
-        return view('teacher', ['teacher' => $teacher]);
+        return view('teacher', ['teacher' => $teacher, 'currentYear' => Carbon::now()->year]);
     }
 }

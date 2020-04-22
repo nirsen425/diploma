@@ -91,64 +91,17 @@
                 </div>
                 <ul class="nav nav-tabs" id="tab" role="tablist">
                     <li class="nav-item">
-                        <a class="nav-link active text-dark" id="home-tab" data-toggle="tab" href="#student-edit" role="tab" aria-controls="home" aria-selected="true">Редактирование</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link text-dark" id="profile-tab" data-toggle="tab" href="#current-request" role="tab" aria-controls="profile" aria-selected="false">Текущая заявка</a>
+                        <a class="nav-link active text-dark" id="home-tab" data-toggle="tab" href="#current-request" role="tab" aria-controls="home" aria-selected="true">Текущая заявка</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link text-dark" id="profile-tab" data-toggle="tab" href="#request-history" role="tab" aria-controls="profile" aria-selected="false">История заявок</a>
                     </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-dark" id="profile-tab" data-toggle="tab" href="#student-edit" role="tab" aria-controls="profile" aria-selected="false">Редактирование</a>
+                    </li>
                 </ul>
                 <div class="tab-content">
-                    <div class="tab-pane fade show active" id="student-edit" role="tabpanel" aria-labelledby="home-tab">
-
-                        <div class="p-2 mt-3 d-flex justify-content-between align-items-center change text-white">
-                            <div>Изменить логин</div>
-                            <i class="fas fa-arrow-up toggle-login-form"></i>
-                        </div>
-                        <div class="form-container p-3" id="login-update">
-                            <form action="{{ route('student_login_update', ['student' => $student->id]) }}" method="POST" id="login-update-form" enctype="multipart/form-data">
-                                @csrf
-
-                                <div class="form-group">
-                                    <label for="login">Логин</label>
-                                    <input type="text" class="form-control"
-                                           user-id="{{ $student->user()->value('id') }}" id="login" name="login"
-                                           value="{{ $student->user()->value('login') }}">
-                                </div>
-                                <div class="form-group">
-                                    <label for="password">Пароль</label>
-                                    <input type="password" class="form-control" id="password" name="password">
-                                </div>
-                                <button type="submit" class="button button-large">Изменить</button>
-                            </form>
-                        </div>
-                        <div class="p-2 mt-3 d-flex justify-content-between align-items-center change text-white">
-                            <div>Изменить пароль</div>
-                            <i class="fas fa-arrow-down toggle-password-form"></i>
-                        </div>
-                        <div class="form-container p-3" id="password-update">
-                            <form action="{{ route('student_password_update', ['student' => $student->id]) }}" class="mt-3" method="POST" id="password-update-form" enctype="multipart/form-data">
-                                @csrf
-
-                                <div class="form-group">
-                                    <label for="old_password">Старый пароль</label>
-                                    <input type="password" class="form-control" id="old_password" name="old_password">
-                                </div>
-                                <div class="form-group">
-                                    <label for="new_password">Новый пароль</label>
-                                    <input type="password" class="form-control" id="new_password" name="new_password">
-                                </div>
-                                <div class="form-group">
-                                    <label for="new_password_confirmation">Повторить пароль</label>
-                                    <input type="password" class="form-control" id="new_password_confirmation" name="new_password_confirmation">
-                                </div>
-                                <button type="submit" class="button button-large">Изменить</button>
-                            </form>
-                        </div>
-                    </div>
-                    <div class="tab-pane fade" id="current-request" role="tabpanel" aria-labelledby="profile-tab">
+                    <div class="tab-pane fade show active" id="current-request" role="tabpanel" aria-labelledby="profile-tab">
                         <div class="request-container mt-2">
                             @if (!$currentApplications->isEmpty())
                                 @foreach($currentApplications as $currentApplication)
@@ -252,6 +205,53 @@
                                     <div>Отклонена</div>
                                 </div>
                             </div>
+                        </div>
+                    </div>
+                    <div class="tab-pane fade" id="student-edit" role="tabpanel" aria-labelledby="home-tab">
+
+                        <div class="p-2 mt-3 d-flex justify-content-between align-items-center change text-white">
+                            <div>Изменить логин</div>
+                            <i class="fas fa-arrow-up toggle-login-form"></i>
+                        </div>
+                        <div class="form-container p-3" id="login-update">
+                            <form action="{{ route('student_login_update', ['student' => $student->id]) }}" method="POST" id="login-update-form" enctype="multipart/form-data">
+                                @csrf
+
+                                <div class="form-group">
+                                    <label for="login">Логин</label>
+                                    <input type="text" class="form-control"
+                                           user-id="{{ $student->user()->value('id') }}" id="login" name="login"
+                                           value="{{ $student->user()->value('login') }}">
+                                </div>
+                                <div class="form-group">
+                                    <label for="password">Пароль</label>
+                                    <input type="password" class="form-control" id="password" name="password">
+                                </div>
+                                <button type="submit" class="button button-large">Изменить</button>
+                            </form>
+                        </div>
+                        <div class="p-2 mt-3 d-flex justify-content-between align-items-center change text-white">
+                            <div>Изменить пароль</div>
+                            <i class="fas fa-arrow-down toggle-password-form"></i>
+                        </div>
+                        <div class="form-container p-3" id="password-update">
+                            <form action="{{ route('student_password_update', ['student' => $student->id]) }}" class="mt-3" method="POST" id="password-update-form" enctype="multipart/form-data">
+                                @csrf
+
+                                <div class="form-group">
+                                    <label for="old_password">Старый пароль</label>
+                                    <input type="password" class="form-control" id="old_password" name="old_password">
+                                </div>
+                                <div class="form-group">
+                                    <label for="new_password">Новый пароль</label>
+                                    <input type="password" class="form-control" id="new_password" name="new_password">
+                                </div>
+                                <div class="form-group">
+                                    <label for="new_password_confirmation">Повторить пароль</label>
+                                    <input type="password" class="form-control" id="new_password_confirmation" name="new_password_confirmation">
+                                </div>
+                                <button type="submit" class="button button-large">Изменить</button>
+                            </form>
                         </div>
                     </div>
                 </div>

@@ -47,7 +47,15 @@ $(function () {
                     let countable = $('.confirm-reject-application-button').attr('countable');
                     if (typeof countable !== typeof undefined && countable !== false) {
                         let freePracticePlaces = $('#count-practice-places #free-practice-places');
-                        freePracticePlaces.text(+freePracticePlaces.text() + 1);
+                        let countPlaces = +freePracticePlaces.text() + 1;
+                        freePracticePlaces.text(countPlaces);
+                        let placesNumberForm = $('#count-practice-places #places-number-form');
+                        placesNumberForm.text(declOfNum(countPlaces, ['место', 'места', 'мест']));
+
+                        function declOfNum(number, titles) {
+                            cases = [2, 0, 1, 1, 1, 2];
+                            return titles[ (number%100>4 && number%100<20)? 2 : cases[(number%10<5)?number%10:5] ];
+                        }
                     }
 
                     $('#is-reject-confirmed').modal('show');

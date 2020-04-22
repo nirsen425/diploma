@@ -50,7 +50,7 @@ Route::get('page/{slug}', function($slug) {
     $page = Page::whereSlug($slug)->firstOrFail();
 
     return view('page', ['page' => $page]);
-})->name('page');
+})->name('page')->middleware('auth');
 
 // Заявки
 Route::post('/application/confirm/{studentId}/{typeId}', 'ApplicationController@confirm')->name('application_confirm');

@@ -1,16 +1,7 @@
 @extends('admin.base.base')
 
 @section('content')
-    <style>
-        img {
-            max-width: 100% !important;
-            height:auto !important;
-        }
-
-        p {
-            color: black;
-        }
-    </style>
+    <link href="{{ asset('css/admin/pages/page-show.css') }}" rel="stylesheet">
     <div class="content">
         <h3 class="mb-3">Просмотр страницы</h3>
         <div class="font-weight-bold">Заголовок</div>

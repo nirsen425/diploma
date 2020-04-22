@@ -10,9 +10,12 @@
                     <img src="{{ asset("storage/images/" . $teacher->photo) }}" class="teacher-photo rounded" alt="Преподаватель">
                 </div>
                 <div class="p-2 d-flex flex-column">
-                    <div class="teacher-name font-weight-bold">{{ $teacher->name . " " . $teacher->patronymic . " " . $teacher->surname }}</div>
+                    <div class="teacher-name font-weight-bold">{{ $teacher->getFullName() }}</div>
                     <div class="teacher-short-description flex-grow-1">
                         {{ $teacher->short_description }}
+                    </div>
+                    <div class="teacher-limit">
+                        На практику {{ $currentYear }} осталось {{ trans_choice('messages.places', $teacher->countFreePracticePlaces()) }} из {{ $teacher->currentYearPracticeLimits() }}
                     </div>
                     <a href="{{ route('teacher_show', ['teacher' => $teacher->id]) }}" class="button align-self-end">Подробнее</a>
                 </div>

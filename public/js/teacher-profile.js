@@ -34,6 +34,10 @@ $(function () {
 
     var description =  CKEDITOR.instances["full_description"];
 
+    description.on('change', function () {
+        CKEDITOR.instances["full_description"].updateElement();
+    });
+
     description.on('blur', function () {
         CKEDITOR.instances["full_description"].updateElement();
         $('#full_description').blur();

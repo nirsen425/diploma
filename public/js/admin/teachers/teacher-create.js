@@ -40,14 +40,13 @@ $(document).ready(function () {
 
     description.on('change', function () {
         CKEDITOR.instances["full_description"].updateElement();
-        var validator = $( "#teacherRegistration" ).validate();
-        validator.element("#full_description");
     });
 
     description.on('blur', function () {
         CKEDITOR.instances["full_description"].updateElement();
-        var validator = $( "#teacherRegistration" ).validate();
-        validator.element("#full_description");
+        // var validator = $( "#teacherRegistration" ).validate();
+        // validator.element("#full_description");
+        $('#full_description').blur();
     });
 
     $('#teacherRegistration').submit(function () {
@@ -126,8 +125,9 @@ $(document).ready(function () {
                 minlength: 50,
             },
             photo: {
-                required: true,
-                imageResolution: true
+                imageResolution: function (element) {
+                    return element.files[0] !== undefined;
+                }
             }
         },
         messages: {

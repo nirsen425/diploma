@@ -66,7 +66,11 @@ class TeacherRegisterController extends Controller
             'rights' => ['required'],
             'short_description' => ['required', 'string', 'min:10', 'max:100'],
             'full_description' => ['required', 'string', 'min:50', 'max:65530'],
-            'photo' => ['required', 'image', 'dimensions:min_width=200,min_height=200', 'min_resolve', 'crop_image_square'],
+            'photo_x' => ['bail', 'nullable', 'required_with:photo', 'integer'],
+            'photo_y' => ['bail', 'nullable', 'required_with:photo', 'integer'],
+            'photo_width' => ['bail', 'nullable', 'required_with:photo', 'integer'],
+            'photo_height' => ['bail', 'nullable', 'required_with:photo', 'integer'],
+            'photo' => ['sometimes', 'image', 'dimensions:min_width=200,min_height=200', 'min_resolve', 'crop_image_square'],
             'login' => ['required', 'string', 'max:255', 'unique:users'],
             'password' => ['required', 'string', 'min:8', 'regex:/^[a-zA-Z0-9]+$/'],
         ]);
@@ -91,21 +95,24 @@ class TeacherRegisterController extends Controller
                 'password' => Hash::make($data['password']),
             ]);
 
-            $image = $data['photo'];
-            // Получаем координаты точки и размеры для обрезки изображения
-            $cropCoordX = (integer)$data['photo_x'];
-            $cropCoordY = (integer)$data['photo_y'];
-            $cropWidth = (integer)$data['photo_width'];
-            $cropHeight = (integer)$data['photo_height'];
-            // Обрезаем изображение и получаем его имя
-            $cropPhotoName = $this->imageService
-                ->handleUploadedImage($image, $cropCoordX, $cropCoordY, $cropWidth, $cropHeight);
+            $cropPhotoName = 'empty.png';
+            if (isset($data['photo'])) {
+                $image = $data['photo'];
+                // Получаем координаты точки и размеры для обрезки изображения
+                $cropCoordX = (integer)$data['photo_x'];
+                $cropCoordY = (integer)$data['photo_y'];
+                $cropWidth = (integer)$data['photo_width'];
+                $cropHeight = (integer)$data['photo_height'];
+                // Обрезаем изображение и получаем его имя
+                $cropPhotoName = $this->imageService
+                    ->handleUploadedImage($image, $cropCoordX, $cropCoordY, $cropWidth, $cropHeight);
+            }
+
 
             $user->teacher()->create([
                 'name' => $data['name'],
                 'patronymic' => $data['patronymic'],
                 'surname' => $data['surname'],
-                'show' => isset($data['show']) ? 1 : 0,
                 'short_description' => $data['short_description'],
                 'full_description' => $data['full_description'],
                 'photo' => $cropPhotoName

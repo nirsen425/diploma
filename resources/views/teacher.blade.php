@@ -56,15 +56,20 @@
             <img src="{{ asset("storage/images/" . $teacher->photo) }}" class="mr-3 teacher-photo-description" alt="Преподаватель">
             <div class="media-body text-break">
                 {!! $teacher->full_description !!}
+                <div class="teacher-limit">
+                    На практику {{ $currentYear }} осталось {{ $teacher->countFreePracticePlaces() }} из {{ $teacher->currentYearPracticeLimits() }} мест
+                </div>
                 @php
                     $user = Auth::user();
                 @endphp
                 @if ($user and $user->user_type_id == 1)
-                    <a href="#"
-                       class="button button-large application-button" type_id="1" data-toggle="modal"
-                       data-target="#confirmSendApplication">
-                        Подать заявку на практику
-                    </a>
+                    <div class="mt-2">
+                        <a href="#"
+                           class="button button-large application-button" type_id="1" data-toggle="modal"
+                           data-target="#confirmSendApplication">
+                            Подать заявку на практику
+                        </a>
+                    </div>
 {{--                    <a href="#"--}}
 {{--                       class="button button-large mt-2 mt-lg-0 application-button" type_id="2" data-toggle="modal"--}}
 {{--                       data-target="#confirmSendApplication">--}}
@@ -83,8 +88,10 @@
 {{--                        <input type="hidden" name="type_id" value="2">--}}
 {{--                    </form>--}}
                 @else
-                    <a href="#" class="button button-large disabled">Подать заявку на практику</a>
+                    <div class="mt-2">
+                        <a href="#" class="button button-large disabled">Подать заявку на практику</a>
 {{--                    <a href="#" class="button button-large mt-2 mt-lg-0 disabled">Подать заявку на диплом</a>--}}
+                    </div>
                     <div class="hint">Только авторизованные студенты могут подавать заявки</div>
                 @endif
             </div>

@@ -9,16 +9,17 @@ $(document).ready(function () {
 
     var description =  CKEDITOR.instances["content"];
 
-    description.on('change', function () {
-        CKEDITOR.instances["content"].updateElement();
-        var validator = $( "#pageUpdate" ).validate();
-        validator.element("#content");
-    });
+    // description.on('change', function () {
+    //     CKEDITOR.instances["content"].updateElement();
+    //     var validator = $( "#pageUpdate" ).validate();
+    //     validator.element("#content");
+    // });
 
     description.on('blur', function () {
         CKEDITOR.instances["content"].updateElement();
-        var validator = $( "#pageUpdate" ).validate();
-        validator.element("#content");
+        // var validator = $( "#pageUpdate" ).validate();
+        // validator.element("#content");
+        $('#full_description').blur();
     });
 
     $('#pageUpdate').submit(function () {

@@ -81,7 +81,7 @@ class Teacher extends Model
     }
 
     /**
-     * Возвращает учителей которые берут курс $course в текущем году
+     * Возвращает учителей которые берут хотя бы одного студета курса $course в текущем году
      *
      * @param $course
      * @return array
@@ -106,6 +106,7 @@ class Teacher extends Model
 
         $teacherLimits = TeacherLimit::where([
             [$сolumnName, '=', true],
+            ['limit', '>', 0],
             ['year', '=', Carbon::now()->year]
         ])->get();
 

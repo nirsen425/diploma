@@ -289,7 +289,12 @@
                                 <div class="pt-3 no-request">У вас нет практикантов</div>
                             @endif
                         </div>
-                        <div class="p-2" id="count-practice-places">На практику {{ $currentYear }} у вас осталось <span id="free-practice-places">{{ $teacher->countFreePracticePlaces() }}</span> из {{ $teacher->currentYearPracticeLimits() }} мест</div>
+                        @php
+                            $placesMessage = trans_choice('messages.places', $teacher->countFreePracticePlaces());
+                            $countPlaces = explode(' ', $placesMessage)[0];
+                            $messageNumberForm = explode(' ', $placesMessage)[1];
+                        @endphp
+                        <div class="p-2" id="count-practice-places">На практику {{ $currentYear }} у вас осталось <span id="free-practice-places">{{ $countPlaces }}</span> <span id="places-number-form">{{ $messageNumberForm }}</span> из {{ $teacher->currentYearPracticeLimits() }}</div>
                     </div>
                     <div class="tab-pane fade" id="diploma-student" role="tabpanel" aria-labelledby="profile-tab">
                         <div class="request-container">
