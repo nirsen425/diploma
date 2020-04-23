@@ -113,7 +113,10 @@ class Teacher extends Model
         foreach($teacherLimits as $teacherLimit) {
             $teachers[] = $teacherLimit->teacher()->first();
         }
+        if (isset($teachers)) {
+            return $teachers;
+        }
 
-        return $teachers;
+        return false;
     }
 }

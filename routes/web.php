@@ -28,7 +28,7 @@ Route::post('admin/lecturers/register', 'Auth\TeacherRegisterController@register
 
 Route::get('/admin', function () {
     return view('admin.base.base');
-})->name('admin')->middleware('admin');
+})->name('admin')->middleware('auth')->middleware('admin');
 
 Route::resource('admin/students', 'Admin\Students\StudentController', ['except' => [
     'create', 'store'

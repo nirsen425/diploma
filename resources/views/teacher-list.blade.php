@@ -3,25 +3,29 @@
 @section('content')
     <link href="{{ asset('css/teacher-list.css') }}" rel="stylesheet">
     <div class="row">
-        @foreach($teachers as $teacher)
-        <div class="col col-md-6">
-            <div class="d-flex teacher-cart bg-white mt-3 rounded text-break">
-                <div class="p-2">
-                    <img src="{{ asset("storage/images/" . $teacher->photo) }}" class="teacher-photo rounded" alt="Преподаватель">
-                </div>
-                <div class="p-2 d-flex flex-column">
-                    <div class="teacher-name font-weight-bold">{{ $teacher->getFullName() }}</div>
-                    <div class="teacher-short-description flex-grow-1">
-                        {{ $teacher->short_description }}
+        @if ($teachers)
+            @foreach($teachers as $teacher)
+            <div class="col col-md-6">
+                <div class="d-flex teacher-cart bg-white mt-3 rounded text-break">
+                    <div class="p-2">
+                        <img src="{{ asset("storage/images/" . $teacher->photo) }}" class="teacher-photo rounded" alt="Преподаватель">
                     </div>
-                    <div class="teacher-limit">
-                        На практику {{ $currentYear }} осталось {{ trans_choice('messages.places', $teacher->countFreePracticePlaces()) }} из {{ $teacher->currentYearPracticeLimits() }}
+                    <div class="p-2 d-flex flex-column">
+                        <div class="teacher-name font-weight-bold">{{ $teacher->getFullName() }}</div>
+                        <div class="teacher-short-description flex-grow-1">
+                            {{ $teacher->short_description }}
+                        </div>
+                        <div class="teacher-limit">
+                            На практику {{ $currentYear }} осталось {{ trans_choice('messages.places', $teacher->countFreePracticePlaces()) }} из {{ $teacher->currentYearPracticeLimits() }}
+                        </div>
+                        <a href="{{ route('teacher_show', ['teacher' => $teacher->id]) }}" class="button align-self-end">Подробнее</a>
                     </div>
-                    <a href="{{ route('teacher_show', ['teacher' => $teacher->id]) }}" class="button align-self-end">Подробнее</a>
                 </div>
             </div>
-        </div>
-        @endforeach
+            @endforeach
+        @else
+            <h4 class="col-12 text-center">В данный момент у вас нет преподавателей к которым можно записаться на практику {{ date('Y') }} года</h4>
+        @endif
     </div>
 @endsection
 
