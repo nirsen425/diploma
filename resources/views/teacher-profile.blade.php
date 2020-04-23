@@ -150,7 +150,7 @@
                 <hr>
                 <ul class="nav nav-tabs" id="tab" role="tablist">
                     <li class="nav-item">
-                        <a class="nav-link active text-dark" id="home-tab" data-toggle="tab" href="#teacher-edit" role="tab" aria-controls="home" aria-selected="true">Редактирование</a>
+                        <a class="nav-link active text-dark" id="home-tab" data-toggle="tab" href="#new-request" role="tab" aria-controls="home" aria-selected="true">Новые заявки</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link text-dark" id="profile-tab" data-toggle="tab" href="#practice-student" role="tab" aria-controls="profile" aria-selected="false">Ваши практиканты</a>
@@ -159,11 +159,83 @@
                         <a class="nav-link text-dark" id="profile-tab" data-toggle="tab" href="#diploma-student" role="tab" aria-controls="profile" aria-selected="false">Сдающие диплом</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link text-dark" id="contact-tab" data-toggle="tab" href="#new-request" role="tab" aria-controls="contact" aria-selected="false">Новые заявки</a>
+                        <a class="nav-link text-dark" id="contact-tab" data-toggle="tab" href="#teacher-edit" role="tab" aria-controls="contact" aria-selected="false">Редактирование</a>
                     </li>
                 </ul>
                 <div class="tab-content">
-                    <div class="tab-pane fade show active" id="teacher-edit" role="tabpanel" aria-labelledby="home-tab">
+                    <div class="tab-pane fade show active" id="new-request" role="tabpanel" aria-labelledby="contact-tab">
+                        <div class="request-container">
+                            @if (!$teacherWaitApplications->isEmpty())
+                                @foreach($teacherWaitApplications as $teacherWaitApplication)
+                                    <div class="request font-weight-bolder">
+                                        <div class="request-name">{{ $teacherWaitApplication->student()->first()->getFullName() }}</div>
+                                        <button class="button application-approve-button"
+                                                student-id="{{ $teacherWaitApplication->student()->value('id') }}"
+                                                type-id="{{ $teacherWaitApplication->type_id }}" data-toggle="modal"
+                                                data-target="#confirm-approve-application">
+                                            Принять
+                                        </button>
+                                        <button class="button application-reject-button"
+                                                student-id="{{ $teacherWaitApplication->student()->value('id') }}"
+                                                type-id="{{ $teacherWaitApplication->type_id }}" data-toggle="modal"
+                                                data-target="#confirm-reject-application">
+                                            Отклонить
+                                        </button>
+                                    </div>
+                                @endforeach
+                            @else
+                                <div class="pt-3 no-request">У вас нет заявок</div>
+                            @endif
+                        </div>
+                    </div>
+
+                    <div class="tab-pane fade" id="practice-student" role="tabpanel" aria-labelledby="profile-tab">
+                        <div class="request-container">
+                            @if (!empty($confirmPracticeApplicationStudents))
+                                @foreach($confirmPracticeApplicationStudents as $confirmPracticeApplicationStudent)
+                                    <div class="request font-weight-bolder">
+                                        <div class="request-name">{{ $confirmPracticeApplicationStudent->getFullName() }}</div>
+                                        <button class="button application-reject-button"
+                                                student-id="{{ $confirmPracticeApplicationStudent->id }}"
+                                                type-id="1" data-toggle="modal"
+                                                data-target="#confirm-reject-application">
+                                            Отклонить
+                                        </button>
+                                    </div>
+                                @endforeach
+                            @else
+                                <div class="pt-3 no-request">У вас нет практикантов</div>
+                            @endif
+                        </div>
+                        @php
+                            $placesMessage = trans_choice('messages.places', $teacher->countFreePracticePlaces());
+                            $countPlaces = explode(' ', $placesMessage)[0];
+                            $messageNumberForm = explode(' ', $placesMessage)[1];
+                        @endphp
+                        <div class="p-2" id="count-practice-places">На практику {{ $currentYear }} у вас осталось <span id="free-practice-places">{{ $countPlaces }}</span> <span id="places-number-form">{{ $messageNumberForm }}</span> из {{ $teacher->currentYearPracticeLimits() }}</div>
+                    </div>
+
+                    <div class="tab-pane fade" id="diploma-student" role="tabpanel" aria-labelledby="profile-tab">
+                        <div class="request-container">
+                            @if (!empty($confirmDiplomaApplicationStudents))
+                                @foreach($confirmDiplomaApplicationStudents as $confirmDiplomaApplicationStudent)
+                                    <div class="request font-weight-bolder">
+                                        <div class="request-name">{{ $confirmDiplomaApplicationStudent->getFullName() }}</div>
+                                        <button class="button application-reject-button"
+                                                student-id="{{ $confirmDiplomaApplicationStudent->id }}"
+                                                type-id="2" countable="yes" data-toggle="modal"
+                                                data-target="#confirm-reject-application">
+                                            Отклонить
+                                        </button>
+                                    </div>
+                                @endforeach
+                            @else
+                                <div class="pt-3 no-request">У вас нет сдающих диплом</div>
+                            @endif
+                        </div>
+                    </div>
+
+                    <div class="tab-pane fade" id="teacher-edit" role="tabpanel" aria-labelledby="home-tab">
 
                         <div class="p-2 mt-3 d-flex justify-content-between align-items-center change text-white">
                             <div>Изменить логин</div>
@@ -269,75 +341,6 @@
                                 </div>
                                 <button type="submit" class="button button-large">Изменить</button>
                             </form>
-                        </div>
-                    </div>
-                    <div class="tab-pane fade" id="practice-student" role="tabpanel" aria-labelledby="profile-tab">
-                        <div class="request-container">
-                            @if (!empty($confirmPracticeApplicationStudents))
-                                @foreach($confirmPracticeApplicationStudents as $confirmPracticeApplicationStudent)
-                                    <div class="request font-weight-bolder">
-                                        <div class="request-name">{{ $confirmPracticeApplicationStudent->getFullName() }}</div>
-                                        <button class="button application-reject-button"
-                                                student-id="{{ $confirmPracticeApplicationStudent->id }}"
-                                                type-id="1" data-toggle="modal"
-                                                data-target="#confirm-reject-application">
-                                            Отклонить
-                                        </button>
-                                    </div>
-                                @endforeach
-                            @else
-                                <div class="pt-3 no-request">У вас нет практикантов</div>
-                            @endif
-                        </div>
-                        @php
-                            $placesMessage = trans_choice('messages.places', $teacher->countFreePracticePlaces());
-                            $countPlaces = explode(' ', $placesMessage)[0];
-                            $messageNumberForm = explode(' ', $placesMessage)[1];
-                        @endphp
-                        <div class="p-2" id="count-practice-places">На практику {{ $currentYear }} у вас осталось <span id="free-practice-places">{{ $countPlaces }}</span> <span id="places-number-form">{{ $messageNumberForm }}</span> из {{ $teacher->currentYearPracticeLimits() }}</div>
-                    </div>
-                    <div class="tab-pane fade" id="diploma-student" role="tabpanel" aria-labelledby="profile-tab">
-                        <div class="request-container">
-                            @if (!empty($confirmDiplomaApplicationStudents))
-                                @foreach($confirmDiplomaApplicationStudents as $confirmDiplomaApplicationStudent)
-                                    <div class="request font-weight-bolder">
-                                        <div class="request-name">{{ $confirmDiplomaApplicationStudent->getFullName() }}</div>
-                                        <button class="button application-reject-button"
-                                                student-id="{{ $confirmDiplomaApplicationStudent->id }}"
-                                                type-id="2" countable="yes" data-toggle="modal"
-                                                data-target="#confirm-reject-application">
-                                            Отклонить
-                                        </button>
-                                    </div>
-                                @endforeach
-                            @else
-                                <div class="pt-3 no-request">У вас нет сдающих диплом</div>
-                            @endif
-                        </div>
-                    </div>
-                    <div class="tab-pane fade" id="new-request" role="tabpanel" aria-labelledby="contact-tab">
-                        <div class="request-container">
-                            @if (!$teacherWaitApplications->isEmpty())
-                                @foreach($teacherWaitApplications as $teacherWaitApplication)
-                                    <div class="request font-weight-bolder">
-                                        <div class="request-name">{{ $teacherWaitApplication->student()->first()->getFullName() }}</div>
-                                        <button class="button application-approve-button"
-                                                student-id="{{ $teacherWaitApplication->student()->value('id') }}"
-                                                type-id="{{ $teacherWaitApplication->type_id }}" data-toggle="modal"
-                                                data-target="#confirm-approve-application">
-                                            Принять
-                                        </button>
-                                        <button class="button application-reject-button"
-                                                student-id="{{ $teacherWaitApplication->student()->value('id') }}"
-                                                type-id="{{ $teacherWaitApplication->type_id }}" data-toggle="modal"
-                                                data-target="#confirm-reject-application">
-                                            Отклонить
-                                        </button>
-                                    </div>
-                                @endforeach
-                            @else
-                                <div class="pt-3 no-request">У вас нет заявок</div>
-                            @endif
                         </div>
                     </div>
                 </div>

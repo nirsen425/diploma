@@ -22,7 +22,7 @@ $factory->define(Student::class, function (Faker $faker) {
         'patronymic' => 'Allan',
         'surname' => $faker->lastName,
         'email' => $faker->unique()->safeEmail,
-        'student_ticket' => '12345678',
+//        'student_ticket' => '12345678',
         'status' => rand(0, 1)
     ];
 });

@@ -87,7 +87,6 @@ class TeacherController extends Controller
                 'name' => $request['name'],
                 'patronymic' => $request['patronymic'],
                 'surname' => $request['surname'],
-                'show' => $request['show'] ? 1 : 0,
                 'short_description' => $request['short_description'],
                 'full_description' => $request['full_description']
             ];

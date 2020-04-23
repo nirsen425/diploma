@@ -45,9 +45,9 @@
                     <li>
                         <a href="{{ route('lecturers.index') }}">Просмотреть</a>
                     </li>
-                    <li>
-                        <a href="{{ route('teacher_register') }}">Добавить</a>
-                    </li>
+{{--                    <li>--}}
+{{--                        <a href="{{ route('teacher_register') }}">Добавить</a>--}}
+{{--                    </li>--}}
                 </ul>
             </li>
             <li class="components-element">
@@ -56,9 +56,9 @@
                     <li>
                         <a href="{{ route('students.index') }}">Просмотреть</a>
                     </li>
-                    <li>
-                        <a href="{{ route('student_register') }}">Добавить</a>
-                    </li>
+{{--                    <li>--}}
+{{--                        <a href="{{ route('student_register') }}">Добавить</a>--}}
+{{--                    </li>--}}
                 </ul>
             </li>
             <li class="components-element">

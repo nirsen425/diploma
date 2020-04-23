@@ -67,7 +67,6 @@ class StudentController extends Controller
             DB::beginTransaction();
 
             $userData = [
-                'user_type_id' => 2,
                 'rights_id' => $request['rights'],
                 'login' => $request['login']
             ];
@@ -82,8 +81,7 @@ class StudentController extends Controller
             $student->update([
                 'name' => $request['name'],
                 'patronymic' => $request['patronymic'],
-                'surname' => $request['surname'],
-                'student_ticket' => $request['student_ticket']
+                'surname' => $request['surname']
             ]);
 
             DB::commit();

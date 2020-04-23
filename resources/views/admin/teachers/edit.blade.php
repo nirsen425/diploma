@@ -3,20 +3,23 @@
 @section('content')
     <link href="{{ asset('css/admin/teachers/teacher-update.css') }}" rel="stylesheet">
     @if (session('status'))
-        <div class="alert alert-success">
+        <div class="alert alert-success alert-dismissible fade show">
             {{ session('status') }}
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
         </div>
     @endif
     <div class="content">
         <h3 class="mb-4">Редактирование преподавателя</h3>
-        @if ($errors->any())
-            <div class="alert alert-danger">
-                @foreach($errors->all() as $error)
-                    {{ $error }}
-                    <br>
-                @endforeach
-            </div>
-        @endif
+{{--        @if ($errors->any())--}}
+{{--            <div class="alert alert-danger">--}}
+{{--                @foreach($errors->all() as $error)--}}
+{{--                    {{ $error }}--}}
+{{--                    <br>--}}
+{{--                @endforeach--}}
+{{--            </div>--}}
+{{--        @endif--}}
         <form action="{{ route('lecturers.update', ['teacher' => $teacher->id]) }}" method="POST" id="teacherRegistration" enctype="multipart/form-data">
             @csrf
             <input type="hidden" name="_method" value="PUT">
@@ -52,15 +55,15 @@
                     <input type="text" class="form-control" id="surname" placeholder="Иванов" name="surname" value="{{ $teacher->surname }}">
                 </div>
             </div>
-            <div class="form-group row">
-                <div class="col-lg-2"></div>
-                <div class="col-lg-10">
-                    <div class="custom-control custom-switch">
-                        <input type="checkbox" class="custom-control-input" id="show" name="show" value="1" {{ $teacher->show ? 'checked' : '' }}>
-                        <label class="custom-control-label" for="show">Показывать преподавателя на сайте</label>
-                    </div>
-                </div>
-            </div>
+{{--            <div class="form-group row">--}}
+{{--                <div class="col-lg-2"></div>--}}
+{{--                <div class="col-lg-10">--}}
+{{--                    <div class="custom-control custom-switch">--}}
+{{--                        <input type="checkbox" class="custom-control-input" id="show" name="show" value="1" {{ $teacher->show ? 'checked' : '' }}>--}}
+{{--                        <label class="custom-control-label" for="show">Показывать преподавателя на сайте</label>--}}
+{{--                    </div>--}}
+{{--                </div>--}}
+{{--            </div>--}}
             <div class="form-group row">
                 <label for="rights" class="col-lg-2 font-weight-bold">Права</label>
                 <div class="col-lg-10">

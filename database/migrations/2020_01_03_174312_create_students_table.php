@@ -19,7 +19,7 @@ class CreateStudentsTable extends Migration
             $table->string('patronymic');
             $table->string('surname');
             $table->string('email')->nullable();
-            $table->string('student_ticket');
+//            $table->string('student_ticket');
             $table->bigInteger('group_id')->unsigned();
             $table->foreign('group_id')->references('id')->on('groups');
             $table->bigInteger('user_id')->unsigned();

@@ -21,10 +21,10 @@ Route::get('lecturer/cabinet', 'TeacherCabinetController@index')->name('teacher_
 Route::get('/login', 'Auth\LoginController@showLoginForm')->name('login');
 Route::post('/login', 'Auth\LoginController@login');
 Route::post('/logout', 'Auth\LoginController@logout')->name('logout');
-Route::get('admin/students/register', 'Auth\StudentRegisterController@showRegistrationForm')->name('student_register');
-Route::post('admin/students/register', 'Auth\StudentRegisterController@register');
-Route::get('admin/lecturers/register', 'Auth\TeacherRegisterController@showRegistrationForm')->name('teacher_register');;
-Route::post('admin/lecturers/register', 'Auth\TeacherRegisterController@register');
+//Route::get('admin/students/register', 'Auth\StudentRegisterController@showRegistrationForm')->name('student_register');
+//Route::post('admin/students/register', 'Auth\StudentRegisterController@register');
+//Route::get('admin/lecturers/register', 'Auth\TeacherRegisterController@showRegistrationForm')->name('teacher_register');
+//Route::post('admin/lecturers/register', 'Auth\TeacherRegisterController@register');
 
 Route::get('/admin', function () {
     return view('admin.base.base');

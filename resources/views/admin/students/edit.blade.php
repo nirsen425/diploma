@@ -3,8 +3,11 @@
 @section('content')
     <link href="{{ asset('css/admin/students/student-update.css') }}" rel="stylesheet">
     @if (session('status'))
-        <div class="alert alert-success">
+        <div class="alert alert-success alert-dismissible fade show">
             {{ session('status') }}
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
         </div>
     @endif
     <div class="content">
@@ -52,12 +55,12 @@
                     <input type="text" class="form-control" id="surname" placeholder="Иванов" name="surname" value="{{ $student->surname }}">
                 </div>
             </div>
-            <div class="form-group row">
-                <label for="student_ticket" class="col-lg-2 font-weight-bold">Студенческий билет</label>
-                <div class="col-lg-10">
-                    <input type="text" class="form-control" id="student_ticket" placeholder="Иванов" name="student_ticket" value="{{ $student->student_ticket }}">
-                </div>
-            </div>
+{{--            <div class="form-group row">--}}
+{{--                <label for="student_ticket" class="col-lg-2 font-weight-bold">Студенческий билет</label>--}}
+{{--                <div class="col-lg-10">--}}
+{{--                    <input type="text" class="form-control" id="student_ticket" placeholder="Иванов" name="student_ticket" value="{{ $student->student_ticket }}">--}}
+{{--                </div>--}}
+{{--            </div>--}}
             <div class="form-group row">
                 <label for="rights" class="col-lg-2 font-weight-bold">Права</label>
                 <div class="col-lg-10">

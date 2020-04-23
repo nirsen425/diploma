@@ -30,7 +30,6 @@ class UpdateStudent extends FormRequest
             'patronymic' => ['required', 'string', 'max:255'],
             'surname' => ['required', 'string', 'max:255'],
             'rights' => ['required'],
-            'student_ticket' => ['required'],
             'login' => ['required', 'string', 'max:255', Rule::unique('users')->ignore($userId)],
             'password' => ['sometimes', 'nullable', 'string', 'min:8', 'regex:/^[a-zA-Z0-9]+$/',
                 'regex:/[a-z]+/', 'regex:/[0-9]+/', 'regex:/[A-Z]+/']
