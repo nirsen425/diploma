@@ -12,11 +12,11 @@ class ApplicationTypesTableSeeder extends Seeder
     public function run()
     {
         DB::table('application_types')->insert([
-            'title' => 'practice'
+            'title' => 'Практика'
         ]);
 
         DB::table('application_types')->insert([
-            'title' => 'diploma'
+            'title' => 'Диплом'
         ]);
     }
 }

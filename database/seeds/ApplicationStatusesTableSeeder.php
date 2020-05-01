@@ -12,15 +12,15 @@ class ApplicationStatusesTableSeeder extends Seeder
     public function run()
     {
         DB::table('application_statuses')->insert([
-            'title' => 'wait'
+            'title' => 'Ожидание'
         ]);
 
         DB::table('application_statuses')->insert([
-            'title' => 'confirmed'
+            'title' => 'Подтверждена'
         ]);
 
         DB::table('application_statuses')->insert([
-            'title' => 'rejected'
+            'title' => 'Отклонена'
         ]);
     }
 }

@@ -40,7 +40,7 @@ Route::resource('admin/lecturers', 'Admin\Teachers\TeacherController', ['except'
 
 Route::resource('admin/pages', 'Admin\Pages\PageController');
 
-Route::get('admin/applications', 'Admin\AdminApplicationsController@showTeacherApplications')->name('teacher_applications');
+Route::get('admin/teacher-applications', 'Admin\AdminApplicationsController@showTeacherApplications')->name('teacher_applications');
 
 Route::post('verification/login/{user?}', 'HelpController@loginVerification')->middleware('admin');
 Route::post('verification/title/{page?}', 'HelpController@titleVerification')->middleware('admin');
@@ -56,6 +56,7 @@ Route::get('page/{slug}', function($slug) {
 Route::post('/application/confirm/{studentId}/{typeId}', 'ApplicationController@confirm')->name('application_confirm');
 Route::post('/application/reject/{studentId}/{typeId}', 'ApplicationController@reject')->name('application_reject');
 Route::post('/application/cancel/{teacherId}/{typeId}', 'ApplicationController@cancel')->name('application_cancel');
+Route::post('/application/get-free-practice-places', 'ApplicationController@getFreePracticePlaces');
 Route::post('application/{teacher}', 'ApplicationController@store')->name('application_store');
 // Установка лимитов
 Route::get('admin/set-limits/{year}', 'Admin\AdminApplicationsController@showTeacherLimitsPage')->name('teacher_limits');
@@ -75,3 +76,6 @@ Route::post('student/{student}/update/password', 'StudentCabinetController@updat
 Route::get('report/practice', 'Admin\AdminReportController@getReportPractice')->name('report_practice');
 Route::get('report/diploma', 'Admin\AdminReportController@getReportDiploma')->name('report_diploma');
 
+// Заявки студентов
+Route::get('admin/student-applications/{historyYear}/{groupStoryId?}', 'Admin\AdminApplicationsController@showStudentApplications')->name('student_applications');
+Route::post('admin/student-applications', 'Admin\AdminApplicationsController@changeOrCreateApplication');

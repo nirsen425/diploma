@@ -155,9 +155,9 @@
                     <li class="nav-item">
                         <a class="nav-link text-dark" id="profile-tab" data-toggle="tab" href="#practice-student" role="tab" aria-controls="profile" aria-selected="false">Ваши практиканты</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link text-dark" id="profile-tab" data-toggle="tab" href="#diploma-student" role="tab" aria-controls="profile" aria-selected="false">Сдающие диплом</a>
-                    </li>
+{{--                    <li class="nav-item">--}}
+{{--                        <a class="nav-link text-dark" id="profile-tab" data-toggle="tab" href="#diploma-student" role="tab" aria-controls="profile" aria-selected="false">Сдающие диплом</a>--}}
+{{--                    </li>--}}
                     <li class="nav-item">
                         <a class="nav-link text-dark" id="contact-tab" data-toggle="tab" href="#teacher-edit" role="tab" aria-controls="contact" aria-selected="false">Редактирование</a>
                     </li>
@@ -215,25 +215,25 @@
                         <div class="p-2" id="count-practice-places">На практику {{ $currentYear }} у вас осталось <span id="free-practice-places">{{ $countPlaces }}</span> <span id="places-number-form">{{ $messageNumberForm }}</span> из {{ $teacher->currentYearPracticeLimits() }}</div>
                     </div>
 
-                    <div class="tab-pane fade" id="diploma-student" role="tabpanel" aria-labelledby="profile-tab">
-                        <div class="request-container">
-                            @if (!empty($confirmDiplomaApplicationStudents))
-                                @foreach($confirmDiplomaApplicationStudents as $confirmDiplomaApplicationStudent)
-                                    <div class="request font-weight-bolder">
-                                        <div class="request-name">{{ $confirmDiplomaApplicationStudent->getFullName() }}</div>
-                                        <button class="button application-reject-button"
-                                                student-id="{{ $confirmDiplomaApplicationStudent->id }}"
-                                                type-id="2" countable="yes" data-toggle="modal"
-                                                data-target="#confirm-reject-application">
-                                            Отклонить
-                                        </button>
-                                    </div>
-                                @endforeach
-                            @else
-                                <div class="pt-3 no-request">У вас нет сдающих диплом</div>
-                            @endif
-                        </div>
-                    </div>
+{{--                    <div class="tab-pane fade" id="diploma-student" role="tabpanel" aria-labelledby="profile-tab">--}}
+{{--                        <div class="request-container">--}}
+{{--                            @if (!empty($confirmDiplomaApplicationStudents))--}}
+{{--                                @foreach($confirmDiplomaApplicationStudents as $confirmDiplomaApplicationStudent)--}}
+{{--                                    <div class="request font-weight-bolder">--}}
+{{--                                        <div class="request-name">{{ $confirmDiplomaApplicationStudent->getFullName() }}</div>--}}
+{{--                                        <button class="button application-reject-button"--}}
+{{--                                                student-id="{{ $confirmDiplomaApplicationStudent->id }}"--}}
+{{--                                                type-id="2" countable="yes" data-toggle="modal"--}}
+{{--                                                data-target="#confirm-reject-application">--}}
+{{--                                            Отклонить--}}
+{{--                                        </button>--}}
+{{--                                    </div>--}}
+{{--                                @endforeach--}}
+{{--                            @else--}}
+{{--                                <div class="pt-3 no-request">У вас нет сдающих диплом</div>--}}
+{{--                            @endif--}}
+{{--                        </div>--}}
+{{--                    </div>--}}
 
                     <div class="tab-pane fade" id="teacher-edit" role="tabpanel" aria-labelledby="home-tab">
 

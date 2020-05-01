@@ -54,16 +54,25 @@ $(function () {
                                 '</div>');
                         }
 
-                        let freePracticePlaces = $('#count-practice-places #free-practice-places');
-                        let countPlaces = +freePracticePlaces.text() - 1;
-                        freePracticePlaces.text(countPlaces);
-                        let placesNumberForm = $('#count-practice-places #places-number-form');
-                        placesNumberForm.text(declOfNum(countPlaces, ['место', 'места', 'мест']));
+                        $.ajax({
+                            type: 'post',
+                            headers: {
+                                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                            },
+                            url: "/application/get-free-practice-places",
+                            success: function(countPlaces) {
+                                var countPlaces = countPlaces;
+                                let freePracticePlaces = $('#count-practice-places #free-practice-places');
+                                freePracticePlaces.text(countPlaces);
+                                let placesNumberForm = $('#count-practice-places #places-number-form');
+                                placesNumberForm.text(declOfNum(countPlaces, ['место', 'места', 'мест']));
 
-                        function declOfNum(number, titles) {
-                            cases = [2, 0, 1, 1, 1, 2];
-                            return titles[ (number%100>4 && number%100<20)? 2 : cases[(number%10<5)?number%10:5] ];
-                        }
+                                function declOfNum(number, titles) {
+                                    cases = [2, 0, 1, 1, 1, 2];
+                                    return titles[ (number%100>4 && number%100<20)? 2 : cases[(number%10<5)?number%10:5] ];
+                                }
+                            }
+                        });
 
                         let rejectApplicationButton = $('#practice-student .application-reject-button[type-id="' + typeId + '"]' +
                             '[student-id="' + studentId + '"]');

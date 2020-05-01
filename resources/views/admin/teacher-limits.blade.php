@@ -69,24 +69,27 @@
         </div>
     </div>
 
-{{--    <div class="content drop-shadow">--}}
-    <div>
-        <label for="year" class="font-weight-bold year">Год</label>
+    <div class="bg-white p-3">
         <div class="d-flex">
-{{--            <input type="text" class="mb-2 text-center" name="year">--}}
-            <select class="mb-2 text-center" name="year">
-                @foreach($limitYears as $limitYear)
-                    <option {{ $limitYear->year == $year ? "selected" : "" }}>{{ $limitYear->year }}</option>
-                @endforeach
-                @if (!$yearExist)
-                    <option selected>{{ $year }}</option>
-                @endif
-            </select>
-            <button class="button button-large mb-2 ml-2" id="select-all-teachers">Отметить всех</button>
-            <input type="text" class="mb-2 ml-2 text-center" name="new-year">
-            <button class="button button-large mb-2 ml-2" id="add-new-year">Добавить период</button>
+            <div class="d-flex flex-column">
+                <label for="year" class="font-weight-bold year">Год</label>
+                <select class="mb-2 text-center" name="year">
+                    @foreach($limitYears as $limitYear)
+                        <option {{ $limitYear->year == $year ? "selected" : "" }}>{{ $limitYear->year }}</option>
+                    @endforeach
+                    @if (!$yearExist)
+                        <option selected>{{ $year }}</option>
+                    @endif
+                </select>
+            </div>
+            <button class="button button-large align-self-end mb-2 ml-2" id="select-all-teachers">Отметить всех</button>
+            <div class="d-flex flex-column ml-2">
+                <label for="year" class="font-weight-bold year">Новый период</label>
+                <input type="text" class="mb-2 text-center" name="new-year">
+            </div>
+            <button class="button button-large align-self-end mb-2 ml-2" id="add-new-year">Добавить период</button>
         </div>
-        <table class="table" id="teacher-limits-table">
+        <table class="table bg-light" id="teacher-limits-table">
             <thead class="thead-dark">
                 <tr>
                     <th class="d-none">id</th>

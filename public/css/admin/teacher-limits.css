@@ -28,8 +28,9 @@
 
 select[name="year"] {
     width: 60px;
+    height: 29px;
 }
 
 input[name="new-year"] {
-    width: 100px;
+    width: 110px;
 }

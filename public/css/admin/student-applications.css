@@ -1,0 +1,29 @@
+.group {
+    font-size: 1rem;
+}
+
+.year {
+    font-size: 1rem;
+}
+
+#student-applications-table {
+    background-color: #fff;
+}
+
+select[name="year"] {
+    width: 60px;
+    height: 29px;
+}
+
+select[name="group"] {
+    height: 29px;
+}
+
+select[name="teacher"] {
+    height: 29px;
+}
+
+select[name="status"] {
+    height: 29px;
+    min-width: 122px;
+}

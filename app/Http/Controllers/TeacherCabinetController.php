@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Application;
+use App\Helpers\Helper;
 use App\Http\Requests\UpdateTeacherFullDescriptionRequest;
 use App\Http\Requests\UpdateTeacherPhotoRequest;
 use App\Http\Requests\UpdateTeacherShortDescriptionRequest;
@@ -38,14 +39,14 @@ class TeacherCabinetController extends Controller
         // Получение нерассмотренных учителем заявок за текущий год
         $teacherWaitApplications = $teacher->applications()->where([
             ['status_id', '=', 1],
-            ['year', '=', Carbon::now()->year]
+            ['year', '=', Helper::getSchoolYear()]
         ])->get();
 
         // Получение подтвержденных учителем заявок на практику за текущий год
         $confirmPracticeApplications = $teacher->applications()->where([
             ['status_id', '=', 2],
             ['type_id', '=', 1],
-            ['year', '=', Carbon::now()->year]
+            ['year', '=', Helper::getSchoolYear()]
         ])->get();
 
         // Получение студентов которым преподаватель одобрил заявку на практику за текущий год
@@ -57,7 +58,7 @@ class TeacherCabinetController extends Controller
 //        $confirmDiplomaApplications = $teacher->applications()->where([
 //            ['status_id', '=', 2],
 //            ['type_id', '=', 2],
-//            ['year', '=', Carbon::now()->year]
+//            ['year', '=', Helper::getSchoolYear()]
 //        ])->get();
 
         // Получение студентов которым преподаватель одобрил заявку на диплом за текущий год
@@ -67,7 +68,7 @@ class TeacherCabinetController extends Controller
 
         $data = [
             'teacher' => $teacher,
-            'currentYear' => Carbon::now()->year
+            'currentYear' => Helper::getSchoolYear()
         ];
 
         //<< Помещение заявок в массив для шаблона, если они есть

@@ -3,10 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Application;
+use App\Helpers\Helper;
 use App\Http\Requests\UpdateStudentPasswordRequest;
 use App\Http\Requests\UpdateStudentLoginRequest;
 use App\Student;
-use Carbon\Carbon;
 use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -32,11 +32,19 @@ class StudentCabinetController extends Controller
     {
         $student = $user->student()->first();
         // Получение текущей заявки
-        $currentApplications = Application::where([
+        $currentApplication = Application::where([
             ['student_id', '=', $student->id],
-            ['year', '=', Carbon::now()->year]
-        ])->get();
-        return view('student-profile', ['currentApplications' => $currentApplications, 'student' => $student]);
+            ['year', '=', Helper::getSchoolYear()],
+            ['type_id', '=', 1]
+        ])->get()->last();
+
+        $historyApplications = Application::where([
+            ['student_id', '=', $student->id],
+            ['type_id', '=', 1]
+        ])->whereIn('status_id', [2, 3])->get();
+
+        return view('student-profile', ['currentApplication' => $currentApplication,
+            'historyApplications' => $historyApplications, 'student' => $student]);
     }
 
     public function updatePassword(UpdateStudentPasswordRequest $request, Student $student)

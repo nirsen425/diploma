@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\Helpers\Helper;
 use Illuminate\Database\Eloquent\Model;
 
 class Application extends Model
@@ -12,7 +13,7 @@ class Application extends Model
      * @var array
      */
     protected $fillable = [
-        'student_id', 'teacher_id', 'type_id', 'status_id', 'year'
+        'student_id', 'teacher_id', 'type_id', 'status_id', 'year', 'reply_datetime'
     ];
 
     /**
@@ -20,20 +21,21 @@ class Application extends Model
      *
      * @param $studentId
      * @param $applicationTypeId
-     * @return mixed
+     * @return mixed Возвращает заявку
      */
-    public function applicationExists($studentId, $applicationTypeId)
+    public function waitOrConfirmApplicationExistByCurrentYear($studentId, $applicationTypeId)
     {
         $application = $this->where([
             ['student_id', '=', $studentId],
-            ['type_id', '=', $applicationTypeId]
-        ])->first();
+            ['type_id', '=', $applicationTypeId],
+            ['year', '=', Helper::getSchoolYear()],
+        ])->whereIn('status_id', [1, 2])->first();
 
         if (!$application) {
             return false;
         }
 
-        return true;
+        return $application;
     }
 
     /**
@@ -63,6 +65,18 @@ class Application extends Model
      * @return int timestamp
      */
     public function getCreatedAtAttribute($value)
+    {
+        $date = $this->asDateTime($value);
+        return $date->getTimestamp();
+    }
+
+    /**
+     * Accessor возвращающий время ответа на заявку в виде timestamp
+     *
+     * @param $value
+     * @return int timestamp
+     */
+    public function getReplyDatetimeAttribute($value)
     {
         $date = $this->asDateTime($value);
         return $date->getTimestamp();

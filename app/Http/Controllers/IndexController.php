@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Helpers\Helper;
 use App\Teacher;
 use Carbon\Carbon;
 use Illuminate\Contracts\Auth\Authenticatable;
@@ -29,7 +30,7 @@ class IndexController extends Controller
     public function index(Authenticatable $user)
     {
         $teachers = $this->teacher->getTeachersByCourseForCurrentYear($user->student()->first()->group()->value('course'));
-        return view('teacher-list', ['teachers' => $teachers, 'currentYear' => Carbon::now()->year]);
+        return view('teacher-list', ['teachers' => $teachers, 'currentYear' => Helper::getSchoolYear()]);
     }
 
     /**
@@ -38,8 +39,14 @@ class IndexController extends Controller
      * @param Teacher $teacher
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function showTeacher(Teacher $teacher)
+    public function showTeacher(Teacher $teacher, Authenticatable $user)
     {
-        return view('teacher', ['teacher' => $teacher, 'currentYear' => Carbon::now()->year]);
+        $confirmApplication = $user->student()->first()->applications()->where([
+            ['type_id', '=', 1],
+            ['year', '=', Helper::getSchoolYear()],
+            ['status_id', '=', 2]
+        ])->first();
+
+        return view('teacher', ['teacher' => $teacher, 'currentYear' => Helper::getSchoolYear(), 'confirmApplication' => $confirmApplication]);
     }
 }

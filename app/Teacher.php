@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\Helpers\Helper;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 
@@ -53,12 +54,13 @@ class Teacher extends Model
      */
     public function currentYearPracticeLimits()
     {
-        return $this->currentLimits()->where('year', '=', Carbon::now()->year)->value('limit');
+        return $this->currentLimits()->where('year', '=', Helper::getSchoolYear())->value('limit');
     }
 
     public function countFreePracticePlaces()
     {
-        return $this->currentYearPracticeLimits() - $this->countPracticeApplications();
+        $countFreePracticePlaces = $this->currentYearPracticeLimits() - $this->countPracticeApplications();
+        return ($countFreePracticePlaces >= 0) ? $countFreePracticePlaces : 0;
     }
 
     public function countPracticeApplications()
@@ -66,7 +68,7 @@ class Teacher extends Model
         return $this->applications()->where([
             ['type_id', '=', 1],
             ['status_id', '=', 2],
-            ['year', '=', Carbon::now()->year]
+            ['year', '=', Helper::getSchoolYear()]
         ])->get()->count();
     }
 
@@ -107,7 +109,7 @@ class Teacher extends Model
         $teacherLimits = TeacherLimit::where([
             [$сolumnName, '=', true],
             ['limit', '>', 0],
-            ['year', '=', Carbon::now()->year]
+            ['year', '=', Helper::getSchoolYear()]
         ])->get();
 
         foreach($teacherLimits as $teacherLimit) {

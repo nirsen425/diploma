@@ -87,3 +87,7 @@
         font-size: 0.9rem;
     }
 }
+
+.fas {
+    cursor: pointer;
+}

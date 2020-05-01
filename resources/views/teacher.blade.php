@@ -62,7 +62,7 @@
                 @php
                     $user = Auth::user();
                 @endphp
-                @if ($user and $user->user_type_id == 1)
+                @if (!isset($confirmApplication))
                     <div class="mt-2">
                         <a href="#"
                            class="button button-large application-button" type_id="1" data-toggle="modal"
@@ -92,7 +92,7 @@
                         <a href="#" class="button button-large disabled">Подать заявку на практику</a>
 {{--                    <a href="#" class="button button-large mt-2 mt-lg-0 disabled">Подать заявку на диплом</a>--}}
                     </div>
-                    <div class="hint">Только авторизованные студенты могут подавать заявки</div>
+                    <div class="hint">У вас уже есть подтвержденная заявка</div>
                 @endif
             </div>
         </div>
