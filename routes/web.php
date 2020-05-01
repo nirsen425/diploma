@@ -77,5 +77,5 @@ Route::get('report/practice', 'Admin\AdminReportController@getReportPractice')->
 Route::get('report/diploma', 'Admin\AdminReportController@getReportDiploma')->name('report_diploma');
 
 // Заявки студентов
-Route::get('admin/student-applications/{historyYear}/{groupStoryId?}', 'Admin\AdminApplicationsController@showStudentApplications')->name('student_applications');
+Route::get('admin/student-applications/{historyYear}/{groupStoryId?}', 'Admin\AdminApplicationsController@showStudentLastApplications')->name('student_applications');
 Route::post('admin/student-applications', 'Admin\AdminApplicationsController@changeOrCreateApplication');

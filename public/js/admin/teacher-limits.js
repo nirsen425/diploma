@@ -10,6 +10,12 @@ $(function () {
 
     $('#add-new-year').click(function () {
         let newYear = $('input[name="new-year"]').val();
+
+        if (!newYear) {
+            $('#year-empty').modal('show');
+            return;
+        }
+
         let yearList = $('select[name="year"]');
         let optionList = yearList.find('option');
         let yearExist = false;

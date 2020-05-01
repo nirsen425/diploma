@@ -16,18 +16,18 @@
             <div class="d-flex flex-column ml-2">
                 <label for="group" class="font-weight-bold group">Группа</label>
                 <select class="mb-2" name="group">
-                    @if (isset($groupStories))
-                        @foreach($groupStories as $groupStory)
-                            @if (!isset($currentGroupStory))
+                    @if (isset($groupStoriesBySelectedYear))
+                        @foreach($groupStoriesBySelectedYear as $groupStoryBySelectedYear)
+                            @if (!isset($selectedGroupStory))
                                 <option  class="d-none" selected></option>
                             @endif
-                            <option value="{{ $groupStory->id }}" {{ (isset($currentGroupStory) and $groupStory->id == $currentGroupStory->id) ? "selected" : "" }}>{{ $groupStory->name }}</option>
+                            <option value="{{ $groupStoryBySelectedYear->id }}" {{ (isset($selectedGroupStory) and $groupStoryBySelectedYear->id == $selectedGroupStory->id) ? "selected" : "" }}>{{ $groupStoryBySelectedYear->name }}</option>
                         @endforeach
                     @endif
                 </select>
             </div>
         </div>
-        @if (isset($currentGroupStory))
+        @if (isset($selectedGroupStory))
             <table class="table bg-light" id="student-applications-table">
                 <thead class="thead-dark">
                     <tr>
@@ -38,12 +38,9 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @php
-                        $groups = $currentGroupStory->group()->first();
-                        $students = $groups->students()->get();
-                    @endphp
                     @foreach($students as $student)
                         @php
+                            // Очищаем переменные в новой итерации, так как они могут повлиять на нее
                             unset($applicationTeacherId);
                             unset($currentApplicationStatusId);
                             $application = $student->applications()->where('year', '=', $historyYear)->get()->last();
@@ -57,6 +54,7 @@
                             <td class="align-bottom p-4">{{ $student->getFullName() }}</td>
                             <td class="align-bottom p-4">
                                 @php
+                                    // Получение преподавателей которые берут курс этого студента
                                     $teachers = $teacherModel->getTeachersByCourseForCurrentYear($student->group()->value('course'));
                                 @endphp
                                 <select name="teacher">

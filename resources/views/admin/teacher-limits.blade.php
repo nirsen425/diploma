@@ -69,6 +69,19 @@
         </div>
     </div>
 
+    <div id="year-empty" class="modal fade" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-body">
+                    Новый период не заполнен
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="button" data-dismiss="modal">Ок</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <div class="bg-white p-3">
         <div class="d-flex">
             <div class="d-flex flex-column">

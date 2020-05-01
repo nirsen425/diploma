@@ -24,7 +24,7 @@
             </div>
             @endforeach
         @else
-            <h4 class="col-12 text-center">В данный момент у вас нет преподавателей к которым можно записаться на практику {{ date('Y') }} года</h4>
+            <h4 class="col-12 text-center">В данный момент у вас нет преподавателей к которым можно записаться на практику {{ $currentYear }} года</h4>
         @endif
     </div>
 @endsection
