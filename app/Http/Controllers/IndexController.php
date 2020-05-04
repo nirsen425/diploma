@@ -18,6 +18,7 @@ class IndexController extends Controller
     public function __construct(Teacher $teacher)
     {
         $this->middleware('auth');
+        // Проверка пользователя на студента
         $this->middleware('student');
         $this->teacher = $teacher;
     }
@@ -41,6 +42,8 @@ class IndexController extends Controller
      */
     public function showTeacher(Teacher $teacher, Authenticatable $user)
     {
+        // Получение подтвержденной заявки для студента зашедшего на страницу, в дальнейшем нужную для проверки
+        // возможности отправлять новые заявки
         $confirmApplication = $user->student()->first()->applications()->where([
             ['type_id', '=', 1],
             ['year', '=', Helper::getSchoolYear()],

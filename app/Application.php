@@ -21,7 +21,7 @@ class Application extends Model
      *
      * @param $studentId
      * @param $applicationTypeId
-     * @return mixed Возвращает заявку
+     * @return mixed Возвращает заявку в рассмотрении или принятую, если она существует на текущий год или false
      */
     public function waitOrConfirmApplicationExistByCurrentYear($studentId, $applicationTypeId)
     {

@@ -72,13 +72,13 @@
                     </li>
                 </ul>
             </li>
-            <li>
+            <li id="teacher-applications">
                 <a href="{{ route('teacher_applications') }}">Заявки</a>
             </li>
-            <li>
+            <li id="set-limits">
                 <a href="{{ route('teacher_limits', ['year' => Helper::getSchoolYear()]) }}">Лимиты преподавателей</a>
             </li>
-            <li>
+            <li id="student-applications">
                 <a href="{{ route('student_applications', ['historyYear' => Helper::getSchoolYear()]) }}">Заявки студентов</a>
             </li>
         </ul>

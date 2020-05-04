@@ -19,6 +19,7 @@ class StudentCabinetController extends Controller
     public function __construct()
     {
         $this->middleware('auth');
+        // Проверка пользователя на студента
         $this->middleware('student');
     }
 
@@ -47,6 +48,13 @@ class StudentCabinetController extends Controller
             'historyApplications' => $historyApplications, 'student' => $student]);
     }
 
+    /**
+     * Обновление пароля студента при совпадении старого пароля пришедшего от пользователя и пароля в базе
+     *
+     * @param UpdateStudentPasswordRequest $request
+     * @param Student $student
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function updatePassword(UpdateStudentPasswordRequest $request, Student $student)
     {
         $user = $student->user()->first();
@@ -62,6 +70,13 @@ class StudentCabinetController extends Controller
         return back()->with('result',  ['status' => 'failure', 'message' => 'Неверный старый пароль']);
     }
 
+    /**
+     * Обновление логина студента при верном пароле
+     *
+     * @param UpdateStudentLoginRequest $request
+     * @param Student $student
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function updateLogin(UpdateStudentLoginRequest $request, Student $student)
     {
         $user = $student->user()->first();

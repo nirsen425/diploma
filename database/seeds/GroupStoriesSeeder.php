@@ -14,6 +14,7 @@ class GroupStoriesSeeder extends Seeder
 
         $groups = Group::all();
 
+        // аналог substr_replace с возможностью выбора кодировки(замены русских символов)
         function mb_substr_replace($string, $replace, $start, $limit, $encoding){
             # Ищем символ, который надо заменить
             $symbol = mb_substr($string, $start, $limit, $encoding);
@@ -23,6 +24,7 @@ class GroupStoriesSeeder extends Seeder
                 str_replace($symbol, $replace, $string);
         }
 
+        // Формируем историю для каждой группы на всех курсах
         foreach($groups as $group) {
             $groupYear = $group->year;
             $groupCourse  = $group->course;

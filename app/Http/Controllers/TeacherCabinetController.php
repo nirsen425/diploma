@@ -23,6 +23,7 @@ class TeacherCabinetController extends Controller
     public function __construct(ImageService $imageService)
     {
         $this->middleware('auth');
+        // Проверка пользователя на преподавателя
         $this->middleware('teacher');
         $this->imageService = $imageService;
     }
@@ -87,6 +88,13 @@ class TeacherCabinetController extends Controller
         return view('teacher-profile', $data);
     }
 
+    /**
+     * Обновление пароля преподавателя при совпадении старого пароля пришедшего от пользователя и пароля в базе
+     *
+     * @param UpdateTeacherPasswordRequest $request
+     * @param Teacher $teacher
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function updatePassword(UpdateTeacherPasswordRequest $request, Teacher $teacher)
     {
         $user = $teacher->user()->first();
@@ -102,6 +110,13 @@ class TeacherCabinetController extends Controller
         return back()->with('result',  ['status' => 'failure', 'message' => 'Неверный старый пароль']);
     }
 
+    /**
+     * Обновление логина преподавателя при верном пароле
+     *
+     * @param UpdateTeacherLoginRequest $request
+     * @param Teacher $teacher
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function updateLogin(UpdateTeacherLoginRequest $request, Teacher $teacher)
     {
         $user = $teacher->user()->first();
@@ -125,7 +140,7 @@ class TeacherCabinetController extends Controller
         $cropCoordY = (integer)$request['photo_y'];
         $cropWidth = (integer)$request['photo_width'];
         $cropHeight = (integer)$request['photo_height'];
-        // Обрезаем изображение и получаем его имя
+        // Обрезаем сохраняем изображение и получаем его имя
         $cropPhotoName = $this->imageService
             ->handleUploadedImage($image, $cropCoordX, $cropCoordY, $cropWidth, $cropHeight);
 

@@ -1,5 +1,8 @@
 $(function () {
-
+    // При нажатие кнопки подтверждения заявки, нужно подтвердить подтверждение заявки в модальном окне,
+    // нажав на кнопку подтверждения подтверждения заявки в модальном окне, поэтому переносим
+    // информацию с кнопки подтверждения заявки на кнопку в модальном окне, чтобы
+    // понимать у какого студента принимает заявку в дальнейшем
     $('.application-approve-button').click(function () {
         var $confirmApproveApplicationButton = $('.confirm-approve-application-button');
         $confirmApproveApplicationButton.attr('type-id', $(this).attr('type-id'));
@@ -18,6 +21,7 @@ $(function () {
             url: "/application/confirm/" + studentId+ "/" + typeId,
             success: function(status) {
                 if (status) {
+                    // Удаление заявки студента, которую приняли
                     let confirmedApplication = $('.application-approve-button[type-id="' + typeId + '"]' +
                         '[student-id="' + studentId + '"]').closest(".request");
                     var requestName = confirmedApplication.find('.request-name').text();
@@ -31,6 +35,7 @@ $(function () {
                         newRequestContainer.html('<div class="pt-3 no-request">У вас нет заявок</div>');
                     }
 
+                    // Тип заявки - практика
                     if (typeId == 1) {
                         if (practiceStudentRequestContainer.find('.no-request').length) {
                             practiceStudentRequestContainer.html('<div class="request font-weight-bolder">' +
@@ -65,9 +70,9 @@ $(function () {
                                 let freePracticePlaces = $('#count-practice-places #free-practice-places');
                                 freePracticePlaces.text(countPlaces);
                                 let placesNumberForm = $('#count-practice-places #places-number-form');
-                                placesNumberForm.text(declOfNum(countPlaces, ['место', 'места', 'мест']));
+                                placesNumberForm.text(getСorrectFormWord(countPlaces, ['место', 'места', 'мест']));
 
-                                function declOfNum(number, titles) {
+                                function getСorrectFormWord(number, titles) {
                                     cases = [2, 0, 1, 1, 1, 2];
                                     return titles[ (number%100>4 && number%100<20)? 2 : cases[(number%10<5)?number%10:5] ];
                                 }
@@ -81,7 +86,6 @@ $(function () {
                             let $confirmRejectApplicationButton = $('.confirm-reject-application-button');
                             $confirmRejectApplicationButton.attr('type-id', $(this).attr('type-id'));
                             $confirmRejectApplicationButton.attr('student-id', $(this).attr('student-id'));
-                            $confirmRejectApplicationButton.attr('countable', 'yes');
                         });
                     }
 

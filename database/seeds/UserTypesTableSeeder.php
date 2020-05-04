@@ -12,11 +12,11 @@ class UserTypesTableSeeder extends Seeder
     public function run()
     {
         DB::table('user_types')->insert([
-            'title' => 'student'
+            'title' => 'студент'
         ]);
 
         DB::table('user_types')->insert([
-            'title' => 'teacher'
+            'title' => 'преподаватель'
         ]);
     }
 }

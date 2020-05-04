@@ -57,12 +57,22 @@ class Teacher extends Model
         return $this->currentLimits()->where('year', '=', Helper::getSchoolYear())->value('limit');
     }
 
+    /**
+     * Возвращает количество свободных мест у преподавателя на текущий учебный год
+     *
+     * @return int|mixed
+     */
     public function countFreePracticePlaces()
     {
         $countFreePracticePlaces = $this->currentYearPracticeLimits() - $this->countPracticeApplications();
         return ($countFreePracticePlaces >= 0) ? $countFreePracticePlaces : 0;
     }
 
+    /**
+     * Возвращает количество подтвержденных заявок преподавателем
+     *
+     * @return int
+     */
     public function countPracticeApplications()
     {
         return $this->applications()->where([

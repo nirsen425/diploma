@@ -12,11 +12,11 @@ class RightsTableSeeder extends Seeder
     public function run()
     {
         DB::table('rights')->insert([
-            'title' => 'common'
+            'title' => 'обычные'
         ]);
 
         DB::table('rights')->insert([
-            'title' => 'admin'
+            'title' => 'администратор'
         ]);
     }
 }

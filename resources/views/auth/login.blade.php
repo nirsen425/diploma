@@ -3,12 +3,14 @@
 @section('content')
     <link href="{{ asset('css/login.css') }}" rel="stylesheet">
     @if ($errors->any())
-        <div class="alert alert-danger">
-            @foreach($errors->all() as $error)
+        @foreach($errors->all() as $error)
+            <div class="alert alert-danger alert-dismissible fade show">
                 {{ $error }}
-                <br>
-            @endforeach
-        </div>
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+        @endforeach
     @endif
     <div class="row justify-content-center">
         <div class="col-md-8">

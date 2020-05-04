@@ -25,7 +25,8 @@ class ApplicationController extends Controller
     }
 
     /**
-     * Отправляет заявку преподавателю от пользователя, если у него нет больше заявок
+     * Отправляет заявку преподавателю от студента, кроме случая когда у студента уже есть
+     * заявка на рассмотрении или уже принятая
      *
      * @param ApplicationRequest $request
      * @param Authenticatable $user
@@ -34,13 +35,16 @@ class ApplicationController extends Controller
      */
     public function store(ApplicationRequest $request, Authenticatable $user, Teacher $teacher)
     {
+        // Получение студента, который отправил заявку
         $student = $user->student()->first();
         $studentId = $student->id;
+        // Получение типа заявки, практика(1) или диплом(2)
         $applicationTypeId = $request['type_id'];
         $teacherFullName = $teacher->getFullName();
-        $existApplication = $this->application->waitOrConfirmApplicationExistByCurrentYear($studentId, $applicationTypeId);
+        // Получение заявки в рассмотрении или принятой на текущий учебный год в зависимости от типа заявки
+        $waitOrConfirmApplicationExistByCurrentYear = $this->application->waitOrConfirmApplicationExistByCurrentYear($studentId, $applicationTypeId);
 
-        if (!($existApplication)) {
+        if (!($waitOrConfirmApplicationExistByCurrentYear)) {
 
             $this->application->create([
                 'student_id' => $studentId,
@@ -62,17 +66,18 @@ class ApplicationController extends Controller
                 \"message\": \"$succesMessage\"
             }";
         } else {
+            // Получение имени преподаваетля в зависимости от типа заявки, практика(1) или диплом(2)
             $teacherFullName = $student->getTeacherByTypeActivity($applicationTypeId)->getFullName();
 
             $failureMessage = "Вы уже записаны на практику";
             if ($applicationTypeId == 1) {
                 $failureMessage = "У вас уже есть заявка на практику у преподавателя $teacherFullName.";
-                if ($existApplication->status_id == 1) {
+                if ($waitOrConfirmApplicationExistByCurrentYear->status_id == 1) {
                     $failureMessage .= " Вы можете отменить её в личном кабинете.";
                 }
             } elseif ($applicationTypeId == 2) {
                 $failureMessage = "У вас уже есть заявка на диплом у преподавателя $teacherFullName.";
-                if ($existApplication->status_id == 1) {
+                if ($waitOrConfirmApplicationExistByCurrentYear->status_id == 1) {
                     $failureMessage .= "Вы можете отменить её в личном кабинете.";
                 }
             }
@@ -84,8 +89,17 @@ class ApplicationController extends Controller
         }
     }
 
+    /**
+     * Подтверждение заявки преподавателем
+     *
+     * @param Authenticatable $user
+     * @param $studentId
+     * @param $typeId
+     * @return string
+     */
     public function confirm(Authenticatable $user, $studentId, $typeId)
     {
+        // Получение преподавателя, который подтвердил заявку
         $teacherId = $user->teacher()->value('id');
 
         $application = $this->application->where([
@@ -107,8 +121,17 @@ class ApplicationController extends Controller
         return "false";
     }
 
+    /**
+     * Отклонение заявки преподавателем
+     *
+     * @param Authenticatable $user
+     * @param $studentId
+     * @param $typeId
+     * @return string
+     */
     public function reject(Authenticatable $user, $studentId, $typeId)
     {
+        // Получение преподавателя, который отклонил заявку в рассмотрении или уже подтвержденную
         $teacherId = $user->teacher()->value('id');
 
         $application = $this->application->where([
@@ -129,8 +152,17 @@ class ApplicationController extends Controller
         return "false";
     }
 
+    /**
+     * Отмена(удаление) заявки в рассмотрении отправленной студентом
+     *
+     * @param Authenticatable $user
+     * @param $teacherId
+     * @param $typeId
+     * @return string
+     */
     public function cancel(Authenticatable $user, $teacherId, $typeId)
     {
+        // Получение студента, который отправил заявку
         $studentId = $user->student()->value('id');
 
         $application = $this->application->where([
@@ -150,6 +182,12 @@ class ApplicationController extends Controller
         return "false";
     }
 
+    /**
+     * Получение количеста свободных мест для преподавателя
+     *
+     * @param Authenticatable $user
+     * @return mixed
+     */
     public function getFreePracticePlaces(Authenticatable $user)
     {
         return $user->teacher()->first()->countFreePracticePlaces();

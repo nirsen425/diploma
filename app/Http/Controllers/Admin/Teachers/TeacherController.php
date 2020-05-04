@@ -97,7 +97,7 @@ class TeacherController extends Controller
                 $cropCoordY = (integer)$request['photo_y'];
                 $cropWidth = (integer)$request['photo_width'];
                 $cropHeight = (integer)$request['photo_height'];
-                // Обрезаем изображение и получаем его имя
+                // Обрезаем и сохраняем изображение, получаем его имя
                 $cropPhotoName = $this->imageService
                     ->handleUploadedImage($image, $cropCoordX, $cropCoordY, $cropWidth, $cropHeight);
 

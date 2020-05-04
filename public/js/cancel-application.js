@@ -1,4 +1,8 @@
 $(function () {
+    // При нажатие кнопки отмены заявки, нужно подтвердить отмену заявки в модальном окне,
+    // нажав на кнопку подтверждения отмены заявки в модальном окне, поэтому переносим
+    // информацию с кнопки отмены заявки на кнопку в модальном окне, чтобы
+    // понимать заявку для какого преподавателя отменять
     $('.application-cancel-button').click(function () {
         $confirmCancelApplicationButton = $('.confirm-cancel-application-button');
         $confirmCancelApplicationButton.attr('type-id', $(this).attr('type-id'));

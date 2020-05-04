@@ -42,6 +42,7 @@ class StudentRegisterController extends Controller
     public function __construct()
     {
         $this->middleware('auth');
+        // Проверка пользователя на права администратора
         $this->middleware('admin');
     }
 

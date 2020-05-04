@@ -1,3 +1,4 @@
+// Перевод timestamp'а содержавшегося в элементах с классом .date в локальное время(ru) в читаемом формате
 $(function () {
     $('.date').each(function (i, elem) {
         let timestamp = $(this).text();
