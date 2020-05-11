@@ -205,7 +205,7 @@
                                         <div class="p-2">
                                             <div class="font-weight-bolder">Статус</div>
                                             <div>
-                                                @switch($currentApplication->status_id)
+                                                @switch($historyApplication->status_id)
                                                     @case(1)
                                                     Ожидание
                                                     @break

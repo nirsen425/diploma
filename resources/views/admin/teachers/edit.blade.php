@@ -106,6 +106,6 @@
     </div>
     <script src="{{ asset('ckeditor/ckeditor.js') }}"></script>
     <script src="{{ asset('js/admin/teachers/teacher-update.js') }}"></script>
-    <script src="{{ asset('js/admin/teachers/teacher-active-sumbenu.js') }}"></script>
+    <script src="{{ asset('js/admin/teachers/teacher-active-submenu.js') }}"></script>
     <script src="{{ asset('js/admin/teachers/teacher-update-password-correction.js') }}"></script>
 @endsection
