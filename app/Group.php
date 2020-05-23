@@ -15,4 +15,14 @@ class Group extends Model
     {
         return $this->hasMany('App\Student');
     }
+
+    /**
+     * Получение Files, привязанных к Group.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function files()
+    {
+        return $this->belongsToMany('App\File', 'groups_files', 'group_id', 'files_id');
+    }
 }

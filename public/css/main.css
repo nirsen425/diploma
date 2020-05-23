@@ -21,6 +21,10 @@ a {
     color: white;
 }
 
+.fa-download {
+    color: #343a40;
+}
+
 .button {
     position: relative;
     background-color: #202730;

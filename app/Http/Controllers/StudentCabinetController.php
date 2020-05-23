@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Application;
+use App\File;
 use App\Helpers\Helper;
 use App\Http\Requests\UpdateStudentPasswordRequest;
 use App\Http\Requests\UpdateStudentLoginRequest;
@@ -43,8 +44,12 @@ class StudentCabinetController extends Controller
             ['type_id', '=', 1]
         ])->whereIn('status_id', [2, 3])->get();
 
+        $files = File::orderByDesc('created_at')->get();
+
         return view('student-profile', ['currentApplication' => $currentApplication,
-            'historyApplications' => $historyApplications, 'student' => $student]);
+                                              'historyApplications' => $historyApplications,
+                                              'student' => $student,
+                                              'files' => $files]);
     }
 
     public function updatePassword(UpdateStudentPasswordRequest $request, Student $student)
