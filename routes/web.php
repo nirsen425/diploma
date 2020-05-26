@@ -82,7 +82,8 @@ Route::post('student/{student}/update/login', 'StudentCabinetController@updateLo
 Route::post('student/{student}/update/password', 'StudentCabinetController@updatePassword')->name('student_password_update');
 
 // Получение отчета
-Route::get('report/practice', 'Admin\AdminReportController@getReportPractice')->name('report_practice');
+Route::get('report/practice/group', 'Admin\AdminReportController@getReportPracticeGroup')->name('report_practice_group');
+Route::get('report/practice/teacher', 'Admin\AdminReportController@getReportPracticeTeacher')->name('report_practice_teacher');
 Route::get('report/diploma', 'Admin\AdminReportController@getReportDiploma')->name('report_diploma');
 
 // Заявки студентов
