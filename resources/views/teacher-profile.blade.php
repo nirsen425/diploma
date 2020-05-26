@@ -122,6 +122,14 @@
             </div>
         @endif
     @endif
+    @if (session('notify_failure'))
+        <div class="alert alert-warning alert-dismissible fade show">
+            {{ session('notify_failure') }}
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+    @endif
     <div class="row no-gutters">
         <div class="col-lg-4 text-center mb-3 mb-lg-0 text-dark">
             <div class="bg-white mr-lg-3 p-3 rounded drop-shadow">
@@ -158,6 +166,9 @@
 {{--                    <li class="nav-item">--}}
 {{--                        <a class="nav-link text-dark" id="profile-tab" data-toggle="tab" href="#diploma-student" role="tab" aria-controls="profile" aria-selected="false">Сдающие диплом</a>--}}
 {{--                    </li>--}}
+                    <li class="nav-item">
+                        <a class="nav-link text-dark" id="contact-tab" data-toggle="tab" href="#teacher-files" role="tab" aria-controls="contact" aria-selected="false">Файлы</a>
+                    </li>
                     <li class="nav-item">
                         <a class="nav-link text-dark" id="contact-tab" data-toggle="tab" href="#teacher-edit" role="tab" aria-controls="contact" aria-selected="false">Редактирование</a>
                     </li>
@@ -235,7 +246,38 @@
 {{--                            @endif--}}
 {{--                        </div>--}}
 {{--                    </div>--}}
-
+                    <div class="tab-pane fade" id="teacher-files" role="tabpanel" aria-labelledby="home-tab">
+                        @if(!$files->isEmpty())
+                            <div class="pt-3 pb-3">
+                                <table class="table bg-light table-hover" id="files-table">
+                                    <thead class="thead-dark">
+                                    <tr>
+                                        <th class="d-none">id</th>
+                                        <th scope="col" class="pl-8">Название файла</th>
+                                        <th scope="col" class="pl-8">Дата загрузки</th>
+                                        <th scope="col" class="pl-8">Действия</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    @foreach($files as $file)
+                                        <tr>
+                                            <td class="d-none file-id">{{ $file->id }}</td>
+                                            <td class="align-bottom p-8">{{ $file->name }}.{{ $file->extension }}</td>
+                                            <td class="align-bottom p-8 date">{{ $file->created_at }}</td>
+                                            <td>
+                                                <a href="{{ route('t_file_download', ['fileId' => $file->id]) }}" class="download" file-id="{{ $file->id }}" >
+                                                    <i class="fa fa-download"></i>
+                                                </a>
+                                            </td>
+                                        </tr>
+                                    @endforeach
+                                    </tbody>
+                                </table>
+                            </div>
+                        @else
+                            <div class="pt-3 pl-2">Нет загруженных файлов</div>
+                        @endif
+                    </div>
                     <div class="tab-pane fade" id="teacher-edit" role="tabpanel" aria-labelledby="home-tab">
 
                         <div class="p-2 mt-3 d-flex justify-content-between align-items-center change text-white">

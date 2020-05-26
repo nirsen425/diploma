@@ -20,6 +20,14 @@
             </div>
         @endif
     @endif
+    @if (session('notify_failure'))
+        <div class="alert alert-warning alert-dismissible fade show">
+            {{ session('notify_failure') }}
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+    @endif
     <div id="confirm-cancel-application" class="modal fade" tabindex="-1">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -95,6 +103,9 @@
                     </li>
                     <li class="nav-item">
                         <a class="nav-link text-dark" id="profile-tab" data-toggle="tab" href="#request-history" role="tab" aria-controls="profile" aria-selected="false">История заявок</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-dark" id="profile-tab" data-toggle="tab" href="#student-files" role="tab" aria-controls="profile" aria-selected="false">Файлы</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link text-dark" id="profile-tab" data-toggle="tab" href="#student-edit" role="tab" aria-controls="profile" aria-selected="false">Редактирование</a>
@@ -234,6 +245,38 @@
                                 <div class="pt-3 pl-2">У вас нет истории заявок</div>
                             @endif
                         </div>
+                    </div>
+                    <div class="tab-pane fade" id="student-files" role="tabpanel" aria-labelledby="home-tab">
+                        @if(!$files->isEmpty())
+                            <div class="pt-3 pb-3">
+                                <table class="table bg-light table-hover" id="files-table">
+                                    <thead class="thead-dark">
+                                    <tr>
+                                        <th class="d-none">id</th>
+                                        <th scope="col" class="pl-8">Название файла</th>
+                                        <th scope="col" class="pl-8">Дата загрузки</th>
+                                        <th scope="col" class="pl-8">Действия</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    @foreach($files as $file)
+                                        <tr>
+                                            <td class="d-none file-id">{{ $file->id }}</td>
+                                            <td class="align-bottom p-8">{{ $file->name }}.{{ $file->extension }}</td>
+                                            <td class="align-bottom p-8 date">{{ $file->created_at }}</td>
+                                            <td>
+                                                <a href="{{ route('s_file_download', ['fileId' => $file->id]) }}" class="download" file-id="{{ $file->id }}" >
+                                                    <i class="fa fa-download"></i>
+                                                </a>
+                                            </td>
+                                        </tr>
+                                    @endforeach
+                                    </tbody>
+                                </table>
+                            </div>
+                        @else
+                            <div class="pt-3 pl-2">Нет загруженных файлов</div>
+                        @endif
                     </div>
                     <div class="tab-pane fade" id="student-edit" role="tabpanel" aria-labelledby="home-tab">
 

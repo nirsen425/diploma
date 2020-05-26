@@ -8,8 +8,8 @@
             <div class="row">
                 <h3 class="col-12 col-lg-6 mt-2">Студенты преподавателей</h3>
                 <div class="col-12 col-lg-6 text-lg-right">
-                    <a href="{{ route('report_practice') }}" class="button button-large mt-2">Сформировать отчет по практике</a>
-                    <a href="{{ route('report_diploma') }}" class="button button-large mt-2">Сформировать отчет по диплому</a>
+                    <a href="{{ route('report_practice_group') }}" class="button button-large mt-2">Сформировать отчет (по группе)</a>
+                    <a href="{{ route('report_practice_teacher') }}" class="button button-large mt-2">Сформировать отчет (по преподавателю)</a>
                 </div>
             </div>
         </div>
