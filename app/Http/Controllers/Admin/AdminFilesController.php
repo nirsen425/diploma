@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Course;
+use App\Direction;
 use App\Http\Controllers\Controller;
 use App\File;
 use App\Group;
@@ -12,18 +14,35 @@ use Illuminate\Support\Facades\Storage;
 class AdminFilesController extends Controller
 {
     protected $file;
+    protected $direction;
+    protected $course;
 
-    public function __construct(File $file)
+    public function __construct(File $file, Direction $direction, Course $course)
     {
         $this->middleware('auth');
         $this->middleware('admin');
         $this->file = $file;
+        $this->direction = $direction;
+        $this->course = $course;
     }
 
-    public function index()
+    public function index($directionId, $courseId = null)
     {
-        $files = File::orderByDesc('created_at')->get();
-        return view('admin.files', ['files' => $files]);
+        if (isset($directionId))
+        {
+            $direction = $this->direction->where('id', '=', $directionId)->first();
+            if (isset($courseId))
+            {
+                $directionCourse = $direction->courses()->where('course_id', '=', $courseId)->first();
+                $courseFiles = $directionCourse->files()->where('direction_id', '=', $directionId)->get();
+                $data['courseFiles'] = $courseFiles;
+            }
+        }
+        $data['selectedDirectionId'] = $directionId;
+        $data['selectedCourseId'] = $courseId;
+        $data['directions'] = $this->direction->get();
+        $data['courses'] = $this->course->get();
+        return view('admin.files', $data);
     }
 
     public function upload(Request $request)

@@ -85,7 +85,7 @@
                 <a href="#">Информация и сроки</a>
             </li>
             <li>
-                <a href="{{ route('files') }}">Файлы</a>
+                <a href="{{ route('files', ['directionId' => '1']) }}">Файлы</a>
             </li>
         </ul>
     </aside>

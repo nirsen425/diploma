@@ -59,56 +59,60 @@
             </div>
         </div>
 
-        @if (isset($selectedTeacher))
-            <div class="teacher text-white">
-                <a href="{{ route('lecturers.show', ['teacher' => $selectedTeacher->id]) }}" class="student-link d-block pl-3 pt-2 pb-2 mt-2">{{ $selectedTeacher->getFullName() }}</a>
-            </div>
-            <div class="p-3">
-                <div class="teacher-application">
-                    @if (!$practiceApplications->isEmpty())
-                        <table class="table">
-                            <tr >
-                                <td class="student-practice text-white pl-3 pr-3 pt-1 pb-1">
-                                    ФИО студента
-                                </td>
-                                <td class="student-practice text-white pr-3 pt-1 pb-1">
-                                    Номер группы
-                                </td>
-                            </tr>
-                            @foreach($students as $student)
-                                <tr class="student-container bg-white">
-                                    <td class="student">
-                                        <a href="{{ route('students.show', ['student' => $student->id]) }}" class="student-link d-block p-3">{{ $student->getFullName() }}</a>
+        @if (isset($yearsApplication))
+            @if (isset($selectedTeacher))
+                <div class="teacher text-white">
+                    <a href="{{ route('lecturers.show', ['teacher' => $selectedTeacher->id]) }}" class="student-link d-block pl-3 pt-2 pb-2 mt-2">{{ $selectedTeacher->getFullName() }}</a>
+                </div>
+                <div class="p-3">
+                    <div class="teacher-application">
+                        @if (!$practiceApplications->isEmpty())
+                            <table class="table">
+                                <tr >
+                                    <td class="student-practice text-white pl-3 pr-3 pt-1 pb-1">
+                                        ФИО студента
                                     </td>
-                                    <td class="student">
-                                        {{ $student->group()->first()->name }}
+                                    <td class="student-practice text-white pr-3 pt-1 pb-1">
+                                        Номер группы
                                     </td>
                                 </tr>
-                            @endforeach
-                        </table>
-                    @else
-                        <div class="student p-3">Нет студентов</div>
-                    @endif
-                </div>
-<!--
-                <div class="student-diploma text-white pl-3 pt-1 pb-1">Студенты проходящие дипломную работу</div>
-                    @php
-                        // Получение одобренных преподавателем заявок на диплом
-                          $diplomaApplications = $selectedTeacher->applications()->where([['year', '=', $selectedYear], ['status_id', '=', 2], ['type_id', '=', 2]])->get()
-                    @endphp
-                    <div class="student-container bg-white">
-                        @if (!$practiceApplications->isEmpty())
-                            @foreach($diplomaApplications as $diplomaApplication)
-                                <div class="student">
-                                    <a href="{{ route('students.show', ['student' => $diplomaApplication->student()->value('id')]) }}" class="student-link d-block p-3">{{ $diplomaApplication->student()->first()->getFullName() }}</a>
-                                </div>
-                            @endforeach
+                                @foreach($students as $student)
+                                    <tr class="student-container bg-white">
+                                        <td class="student">
+                                            <a href="{{ route('students.show', ['student' => $student->id]) }}" class="student-link d-block p-3">{{ $student->getFullName() }}</a>
+                                        </td>
+                                        <td class="student">
+                                            {{ $student->group()->first()->name }}
+                                        </td>
+                                    </tr>
+                                @endforeach
+                            </table>
                         @else
                             <div class="student p-3">Нет студентов</div>
                         @endif
-                </div>
+                    </div>
+                <!--
+                <div class="student-diploma text-white pl-3 pt-1 pb-1">Студенты проходящие дипломную работу</div>
+                    @php
+                    // Получение одобренных преподавателем заявок на диплом
+                      $diplomaApplications = $selectedTeacher->applications()->where([['year', '=', $selectedYear], ['status_id', '=', 2], ['type_id', '=', 2]])->get()
+                @endphp
+                    <div class="student-container bg-white">
+                        @if (!$practiceApplications->isEmpty())
+                    @foreach($diplomaApplications as $diplomaApplication)
+                        <div class="student">
+                            <a href="{{ route('students.show', ['student' => $diplomaApplication->student()->value('id')]) }}" class="student-link d-block p-3">{{ $diplomaApplication->student()->first()->getFullName() }}</a>
+                                </div>
+                            @endforeach
+                @else
+                    <div class="student p-3">Нет студентов</div>
+@endif
+                    </div>
 -->
-            </div>
+                </div>
+            @endif
+        @else
+            <div class="student p-3">Нет существующих заявок</div>
         @endif
     </div>
 

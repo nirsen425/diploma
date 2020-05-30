@@ -86,7 +86,7 @@
                             <td class="align-bottom p-4">
                                 @php
                                     // Получение преподавателей которые берут курс этого студента
-                                    $teachers = $teacherModel->getTeachersByCourseForCurrentYear($student->group()->value('course'));
+                                    $teachers = $teacherModel->getTeachersByCourseForCurrentYear($student->group()->value('course_id'));
                                 @endphp
                                 <select name="teacher">
                                     <option class="d-none"></option>

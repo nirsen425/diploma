@@ -16,13 +16,23 @@ class File extends Model
     ];
 
     /**
-     * Получение Groups, привязанных к File.
+     * Получение Courses, привязанных к Files.
      *
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
      */
-    public function groups()
+    public function courses()
     {
-        return $this->belongsToMany('App\Group');
+        return $this->belongsToMany('App\Course', 'file_direction_course', 'file_id', 'course_id');
+    }
+
+    /**
+     * Получение Directions, привязанных к Files.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
+    public function directions()
+    {
+        return $this->belongsToMany('App\Direction', 'file_direction_course', 'file_id', 'direction_id')->withTimestamps();;
     }
 
     /**

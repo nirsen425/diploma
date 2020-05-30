@@ -45,7 +45,13 @@ class StudentCabinetController extends Controller
             ['type_id', '=', 1]
         ])->whereIn('status_id', [2, 3])->get();
 
-        $files = File::orderByDesc('created_at')->get();
+        $group = $student->group()->first();
+        $direction = $group->direction()->first();
+        $course = $group->course()->first();
+        $files = $direction->files()->where([
+            ['direction_id', '=', $direction->id],
+            ['course_id', '=', $course->id]
+        ])->get();
 
         return view('student-profile', ['currentApplication' => $currentApplication,
                                               'historyApplications' => $historyApplications,

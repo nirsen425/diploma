@@ -4,20 +4,19 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Group extends Model
+class Practice extends Model
 {
     /**
-     * Получение Students привязанных к Groups
+     * The attributes that are mass assignable.
      *
-     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     * @var array
      */
-    public function students()
-    {
-        return $this->hasMany('App\Student');
-    }
+    protected $fillable = [
+        'name', 'practice_start', 'practice_end', 'practice_info', 'direction_id', 'course_id'
+    ];
 
     /**
-     * Получение Course, привязанного к Group
+     * Получение Course, привязанного к Practice
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
@@ -27,7 +26,7 @@ class Group extends Model
     }
 
     /**
-     * Получение Direction, привязанного к Group
+     * Получение Direction, привязанного к Practice
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */

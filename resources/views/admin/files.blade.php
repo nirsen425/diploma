@@ -89,79 +89,80 @@
                 <h3 class="col-12 col-lg-6 mt-2">Файлы</h3>
             </div>
         </div>
-
-
-
         <div class="d-flex pl-3 pb-3 pr-3">
             <div class="d-flex flex-column">
                 <label for="direction" class="direction font-weight-bold year">Направление</label>
                 <select class="mb-2 text-center" name="direction">
-                    <option  class="d-none" selected></option>
-                    <option>09.03.02 Информационные системы и технологии</option>
-                    <option>15.03.04 Автоматизация технологических процессов и производств</option>
+                    @foreach($directions as $direction)
+                        <option value="{{ $direction->id }}" {{ $direction->id == $selectedDirectionId ? "selected" : "" }}>{{ $direction->direction . ' ' . $direction->direction_name }}</option>
+                    @endforeach
                 </select>
             </div>
             <div class="d-flex flex-column ml-2">
                 <label for="course" class="course font-weight-bold group">Курс</label>
                 <select class="mb-2 text-center" name="course">
-                    <option  class="d-none" selected></option>
-                    <option>1</option>
-                    <option>2</option>
-                    <option>3</option>
-                    <option>4</option>
+                    @if(isset($courses))
+                        @foreach($courses as $course)
+                            @if(!isset($selectedCourseId))
+                                <option class="d-none" selected></option>
+                            @endif
+                            <option value="{{ $course->id }}" {{ (isset($selectedCourseId) and $course->id == $selectedCourseId) ? "selected" : "" }}> {{ $course->course }} </option>
+                        @endforeach
+                    @endif
                 </select>
             </div>
         </div>
-
-
-
-        <form action="{{ route('file_upload') }}" method="POST" id="uploadFile" enctype="multipart/form-data">
-            @csrf
-            <div class="input-group pl-3 pb-3 pr-3">
-                <div class="custom-file">
-                    <input class="custom-file-input" type="file" multiple id="files" name="files[]">
-                    <label class="custom-file-label" for="files" id="file-label" data-browse="Добавить файл">Файлы не выбраны</label>
+        @if(isset($selectedCourseId))
+            <form action="{{ route('file_upload') }}" method="POST" id="uploadFile" enctype="multipart/form-data">
+                @csrf
+                <div class="input-group pl-3 pb-3 pr-3">
+                    <div class="custom-file">
+                        <input class="custom-file-input" type="file" multiple id="files" name="files[]">
+                        <label class="custom-file-label" for="files" id="file-label" data-browse="Добавить файл">Файлы не выбраны</label>
+                    </div>
+                    <div class="input-group-append">
+                        <input class="btn btn-outline-secondary" type="submit" name="submit" value="Загрузить">
+                    </div>
                 </div>
-                <div class="input-group-append">
-                    <input class="btn btn-outline-secondary" type="submit" name="submit" value="Загрузить">
-                </div>
-            </div>
-        </form>
-        @if(!$files->isEmpty())
-            <div class="p-3">
-                <table class="table bg-light table-hover" id="files-table">
-                    <thead class="thead-dark">
+            </form>
+            @if(!$courseFiles->isEmpty())
+                <div class="p-3">
+                    <table class="table bg-light table-hover" id="files-table">
+                        <thead class="thead-dark">
                         <tr>
                             <th class="d-none">id</th>
                             <th scope="col" class="pl-8">Название файла</th>
                             <th scope="col" class="pl-8">Дата загрузки</th>
                             <th scope="col" class="pl-8">Действия</th>
                         </tr>
-                    </thead>
-                    <tbody>
-                        @foreach($files as $file)
+                        </thead>
+                        <tbody>
+                        @foreach($courseFiles as $courseFile)
                             <tr>
-                                <td class="d-none file-id">{{ $file->id }}</td>
-                                <td class="align-bottom p-8">{{ $file->name }}.{{ $file->extension }}</td>
-                                <td class="align-bottom p-8 date">{{ $file->created_at }}</td>
+                                <td class="d-none file-id">{{ $courseFile->id }}</td>
+                                <td class="align-bottom p-8">{{ $courseFile->name }}.{{ $courseFile->extension }}</td>
+                                <td class="align-bottom p-8 date">{{ $courseFile->created_at }}</td>
                                 <td>
-                                    <a href="{{ route('file_download', ['fileId' => $file->id]) }}">
+                                    <a href="{{ route('file_download', ['fileId' => $courseFile->id]) }}">
                                         <i class="fa fa-download"></i>
                                     </a>
-                                    <a href="#" class="delete" file-id="{{ $file->id }}" data-toggle="modal" data-target="#confirmDelete">
+                                    <a href="#" class="delete" file-id="{{ $courseFile->id }}" data-toggle="modal" data-target="#confirmDelete">
                                         <i class="fas fa-trash-alt"></i>
                                     </a>
                                 </td>
                             </tr>
                         @endforeach
-                    </tbody>
-                </table>
-            </div>
-        @else
-            <div class="pt-3 pl-2">Нет загруженных файлов</div>
+                        </tbody>
+                    </table>
+                </div>
+            @else
+                <div class="pt-3 pl-2">Нет загруженных файлов</div>
+            @endif
         @endif
     </div>
+
     <script src="{{ asset('js/local-time.js') }}"></script>
+    <script src="{{ asset('js/admin/files.js') }}"></script>
     <script src="{{ asset('js/admin/files-browse.js') }}"></script>
     <script src="{{ asset('js/admin/files-upload.js') }}"></script>
     <script src="{{ asset('js/admin/files-delete.js') }}"></script>

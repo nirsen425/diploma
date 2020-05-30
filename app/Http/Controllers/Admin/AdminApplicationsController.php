@@ -49,7 +49,7 @@ class AdminApplicationsController extends Controller
      */
     public function showTeacherLimitsPage($year)
     {
-        $teachers = $this->teacher->all();
+        $teachers = $this->teacher->all()->sortBy('surname');
         // Года для выпадающего списка
         $limitYears = $this->teacherLimit->select('year')->distinct()->orderBy('year')->get();
         // Проверка существования года в выпадающем списке для возможного добавление нового года в выпадющий список
@@ -189,10 +189,13 @@ class AdminApplicationsController extends Controller
 
         }
         // Сортировка по фамилии
-        $teachersBySelectedYear = collect($teachersBySelectedYear);
-        $teachersBySelectedYear = $teachersBySelectedYear->sortBy('surname');
-        $teachersBySelectedYear = $teachersBySelectedYear->values()->all();
-        $data['teachersBySelectedYear'] = $teachersBySelectedYear;
+        if (isset($teachersBySelectedYear))
+        {
+            $teachersBySelectedYear = collect($teachersBySelectedYear);
+            $teachersBySelectedYear = $teachersBySelectedYear->sortBy('surname');
+            $teachersBySelectedYear = $teachersBySelectedYear->values()->all();
+            $data['teachersBySelectedYear'] = $teachersBySelectedYear;
+        }
 
         // Получение модели 'teacher', если она выбрана в выпадающем списке
         if(isset($teacherId))

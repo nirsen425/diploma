@@ -246,7 +246,7 @@
                             @endif
                         </div>
                     </div>
-                    <div class="tab-pane fade" id="student-files" role="tabpanel" aria-labelledby="home-tab">
+                    <div class="tab-pane fade" id="student-files" role="tabpanel" aria-labelledby="profile-tab">
                         @if(!$files->isEmpty())
                             <div class="pt-3 pb-3">
                                 <table class="table bg-light table-hover" id="files-table">

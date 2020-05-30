@@ -19,15 +19,10 @@ use Illuminate\Support\Str;
 $factory->define(Group::class, function (Faker $faker) {
     $course = rand(1, 4);
     $year = $faker->unique()->randomDigit;
-    $practice_start = $faker->date(2020 + $year . '-07-' . rand(1, 15));
-    $practice_end = $faker->date(2020 + $year . '-07-' . rand(16, 30));
     return [
         'name' => 'НМТ-' . $course . $year . '39' . [29, 30, 31][rand(0,2)],
-        'direction_code' => ['09.03.02', '15.03.04'][rand(0, 1)],
-        'direction' => ['Информационные системы и технологии', 'Автоматизация технологических процессов и производств'][rand(0, 1)],
         'year' => 2020 + $year,
-        'course' => $course,
-        'practice_start' => $practice_start,
-        'practice_end' => $practice_end,
+        'direction_id' => rand(1, 2),
+        'course_id' => $course,
     ];
 });

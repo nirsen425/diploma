@@ -17,9 +17,10 @@ class CreateGroupStoriesTable extends Migration
             $table->bigIncrements('id');
             $table->bigInteger('group_id')->unsigned();
             $table->foreign('group_id')->references('id')->on('groups');
+            $table->bigInteger('course_id')->unsigned();
+            $table->foreign('course_id')->references('id')->on('courses');
             $table->string('name');
             $table->smallInteger('year_history');
-            $table->tinyInteger('course');
             $table->timestamps();
         });
     }
