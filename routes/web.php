@@ -40,9 +40,6 @@ Route::resource('admin/lecturers', 'Admin\Teachers\TeacherController', ['except'
 
 Route::resource('admin/pages', 'Admin\Pages\PageController');
 
-//заявки (отчет)
-Route::get('admin/teacher-applications', 'Admin\AdminApplicationsController@showTeacherApplications')->name('teacher_applications');
-
 //Файлы
 Route::get('admin/files', 'Admin\AdminFilesController@index')->name('files');
 Route::post('admin/file/upload', 'Admin\AdminFilesController@upload')->name('file_upload');
@@ -82,10 +79,11 @@ Route::post('student/{student}/update/login', 'StudentCabinetController@updateLo
 Route::post('student/{student}/update/password', 'StudentCabinetController@updatePassword')->name('student_password_update');
 
 // Получение отчета
-Route::get('report/practice/group', 'Admin\AdminReportController@getReportPracticeGroup')->name('report_practice_group');
-Route::get('report/practice/teacher', 'Admin\AdminReportController@getReportPracticeTeacher')->name('report_practice_teacher');
+Route::get('report/practice/group/{year?}/{groupStoryId?}', 'Admin\AdminReportController@getReportPracticeGroup')->name('report_practice_group');
+Route::get('report/practice/teacher/{year?}/{teacherId?}', 'Admin\AdminReportController@getReportPracticeTeacher')->name('report_practice_teacher');
 Route::get('report/diploma', 'Admin\AdminReportController@getReportDiploma')->name('report_diploma');
 
 // Заявки студентов
 Route::get('admin/student-applications/{historyYear}/{groupStoryId?}', 'Admin\AdminApplicationsController@showStudentLastApplications')->name('student_applications');
 Route::post('admin/student-applications', 'Admin\AdminApplicationsController@changeOrCreateApplication');
+Route::get('admin/teacher-applications/{selectedYear}/{teacherId?}', 'Admin\AdminApplicationsController@showTeacherApplications')->name('teacher_applications');

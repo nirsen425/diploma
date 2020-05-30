@@ -52,7 +52,8 @@ class Student extends Model
      */
     public function getFullName()
     {
-        return $this->name . " " . $this->patronymic . " " . $this->surname;
+        //return $this->name . " " . $this->patronymic . " " . $this->surname;
+        return $this->surname . " " . $this->name . " " . $this->patronymic;
     }
 
     /**

@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use App\Application;
 use App\Student;
 use App\Teacher;
+use App\Group;
+use App\GroupStory;
 use Illuminate\Http\Request;
 use PhpOffice\PhpWord\IOFactory;
 use PhpOffice\PhpWord\PhpWord;
@@ -16,20 +18,26 @@ class AdminReportController extends Controller
     protected $application;
     protected $teacher;
     protected $student;
+    protected $group;
+    protected $groupStory;
 
     /**
      * AdminController constructor.
      * @param Application $application
      * @param Teacher $teacher
      * @param Student $student
+     * @param Group $group
+     * @param GroupStory $groupStory
      */
-    public function __construct(Application $application, Teacher $teacher, Student $student)
+    public function __construct(Application $application, Teacher $teacher, Student $student, Group $group, GroupStory $groupStory)
     {
         $this->middleware('auth');
         $this->middleware('admin');
         $this->application = $application;
         $this->teacher = $teacher;
         $this->student = $student;
+        $this->group = $group;
+        $this->groupStory = $groupStory;
     }
 
     //  Конвертация миллиметров в твипы
@@ -46,13 +54,30 @@ class AdminReportController extends Controller
 
     /**
      * Создание отчета по практике (по группе)
+     * @param $year
+     * @param $groupStoryId
+     * @return string
+     * @throws \PhpOffice\PhpWord\Exception\Exception
      */
-    public function getReportPracticeGroup()
+    public function getReportPracticeGroup($year, $groupStoryId)
     {
+        /**
+         * Связь и получение списка студентов и преподавателей для списка отчета
+         */
+        $groupStory = $this->groupStory->where('id', '=', $groupStoryId)->first();
+        $groupName = $groupStory->name;
+        $group = $groupStory->group()->first();
+        $students = $group->students()->orderBy('surname')->get();
+        foreach ($students as $student) {
+            $applications[] = $student->applications()->first();
+        }
+        foreach ($applications as $application) {
+            $teachers[] = $application->teacher()->first();
+        }
+
         /**
          * Объект и его параметры
          */
-
         //  Создание объекта
         $phpWord = new PhpWord();
 
@@ -69,7 +94,6 @@ class AdminReportController extends Controller
         /**
          * Создание секции
          */
-
         //  Массив стилей
         $sectionStyle = array(
             'marginLeft' => $this->m2t(25),
@@ -86,7 +110,6 @@ class AdminReportController extends Controller
         /**
          * Создание заголовка
          */
-
         //  Массив стилей текста
         $headerTextStyle = array(
             'size' => 16,
@@ -110,8 +133,8 @@ class AdminReportController extends Controller
         );
 
         //  Текст заголовка
-        $headerDoc = "Список студентов и руководителей на практику 2020";
-        $headerGroup = "группы НМТ - 463929";
+        $headerDoc = "Список студентов и руководителей на практику $year";
+        $headerGroup = "группа $groupName";
 
         //  Добавление текста заголовка
         #   1 параметр - текст
@@ -127,7 +150,6 @@ class AdminReportController extends Controller
         /**
          * Создание таблицы
          */
-
         //  Массив стилей таблицы
         $tableStyle = array(
             'borderColor' => '000000',
@@ -167,49 +189,30 @@ class AdminReportController extends Controller
         // Заголовок таблицы
         $table->addRow();
         $table->addCell($cellWidth, $cellStyle)->addText(
-            'ФИО студента', $headerTableTextStyle, $tableParagraphStyle
+            "ФИО студента", $headerTableTextStyle, $tableParagraphStyle
         );
         $table->addCell($cellWidth, $cellStyle)->addText(
-            'ФИО руководителя', $headerTableTextStyle, $tableParagraphStyle
+            "ФИО руководителя", $headerTableTextStyle, $tableParagraphStyle
         );
-
-
-        /*
-        $counter = 0;
-        foreach($teachers as $teacher) {
-            $counter++;
-            $table->addCell()->addText($teacher->getFullName());
-        }
-        $teacherCount = $teachers->count();
-        for($i = 0; $i < $teacherCount; $i++) {
-            $table->addRow();
-        }
-        */
-
 
         //  Контент таблицы
-        $table->addRow();
-        $table->addCell($cellWidth, $cellStyle)->addText(
-            'Конюхов Алексей Сергеевич', $tableTextStyle, $tableParagraphStyle
-        );
-        $table->addCell($cellWidth, $cellStyle)->addText(
-            'Шипачева Екатерина Николаевна', $tableTextStyle, $tableParagraphStyle
-        );
-
-        $table->addRow();
-        $table->addCell($cellWidth, $cellStyle)->addText(
-            'Федотовских Юрий Алексеевич', $tableTextStyle, $tableParagraphStyle
-        );
-        $table->addCell($cellWidth, $cellStyle)->addText(
-            'Маянц Майя Львовна', $tableTextStyle, $tableParagraphStyle
-        );
+        $studentsCount = $students->count();
+        for($i = 0; $i < $studentsCount; $i++)
+        {
+            $table->addRow();
+            $table->addCell($cellWidth, $cellStyle)->addText(
+                $students[$i]->getFullName(), $tableTextStyle, $tableParagraphStyle
+            );
+            $table->addCell($cellWidth, $cellStyle)->addText(
+                $teachers[$i]->getFullName(), $tableTextStyle, $tableParagraphStyle
+            );
+        }
 
         /**
          * Сохранение и передача файла пользователю на скачивание
          */
-
         //  Имя файла
-        $file = 'Список студентов и руководителей на практику (НМТ-463929).docx';
+        $file = "Список студентов и руководителей на практику ($groupName).docx";
 
         //  Набор заголовков
         header("Content-Description: File Transfer");
@@ -227,12 +230,26 @@ class AdminReportController extends Controller
     /**
      * Создание отчета по практике (по руководителю)
      */
-    public function getReportPracticeTeacher()
+    public function getReportPracticeTeacher($year, $teacherId)
     {
+        /**
+         * Связь и получение списка студентов и их групп для списка отчета
+         */
+        $teacher = $this->teacher->where('id', '=', $teacherId)->first();
+        $teacherFullName = $teacher->getFullName();
+        $practiceApplications = $teacher->applications()->where([['year', '=', $year], ['status_id', '=', 2], ['type_id', '=', 1]])->get();
+        foreach ($practiceApplications as $practiceApplication)
+        {
+            $students[] = $practiceApplication->student()->first();
+        }
+        // Сортировка по фамилии
+        $students = collect($students);
+        $students = $students->sortBy('surname');
+        $students = $students->values()->all();
+
         /**
          * Объект и его параметры
          */
-
         //  Создание объекта
         $phpWord = new PhpWord();
 
@@ -249,7 +266,6 @@ class AdminReportController extends Controller
         /**
          * Создание секции
          */
-
         //  Массив стилей
         $sectionStyle = array(
             'marginLeft' => $this->m2t(25),
@@ -266,7 +282,6 @@ class AdminReportController extends Controller
         /**
          * Создание заголовка
          */
-
         //  Массив стилей текста
         $headerTextStyle = array(
             'size' => 16,
@@ -290,8 +305,8 @@ class AdminReportController extends Controller
         );
 
         //  Текст заголовка
-        $headerDoc = "Список студентов на практику 2020";
-        $headerGroup = "руководителя Маянц Майи Львовны";
+        $headerDoc = "Список студентов на практику $year";
+        $headerGroup = "руководитель $teacherFullName";
 
         //  Добавление текста заголовка
         #   1 параметр - текст
@@ -307,7 +322,6 @@ class AdminReportController extends Controller
         /**
          * Создание таблицы
          */
-
         //  Массив стилей таблицы
         $tableStyle = array(
             'borderColor' => '000000',
@@ -354,38 +368,23 @@ class AdminReportController extends Controller
         );
 
         //  Контент таблицы
-        $table->addRow();
-        $table->addCell($cellWidth, $cellStyle)->addText(
-            'Конюхов Алексей Сергеевич', $tableTextStyle, $tableParagraphStyle
-        );
-        $table->addCell($cellWidth, $cellStyle)->addText(
-            'НМТ - 463931', $tableTextStyle, $tableParagraphStyle
-        );
-
-        $table->addRow();
-        $table->addCell($cellWidth, $cellStyle)->addText(
-            'Федотовских Юрий Алексеевич', $tableTextStyle, $tableParagraphStyle
-        );
-        $table->addCell($cellWidth, $cellStyle)->addText(
-            'НМТ - 463929', $tableTextStyle, $tableParagraphStyle
-        );
-
-//        $counter = 0;
-//        foreach($teachers as $teacher) {
-//            $counter++;
-//            $table->addCell()->addText($teacher->getFullName());
-//        }
-//        $teacherCount = $teachers->count();
-//        for($i = 0; $i < $teacherCount; $i++) {
-//            $table->addRow();
-//        }
+        $studentsCount = count($students);
+        for($i = 0; $i < $studentsCount; $i++)
+        {
+            $table->addRow();
+            $table->addCell($cellWidth, $cellStyle)->addText(
+                $students[$i]->getFullName(), $tableTextStyle, $tableParagraphStyle
+            );
+            $table->addCell($cellWidth, $cellStyle)->addText(
+                $students[$i]->group()->first()->name, $tableTextStyle, $tableParagraphStyle
+            );
+        }
 
         /**
          * Сохранение и передача файла пользователю на скачивание
          */
-
         //  Имя файла
-        $file = 'Список студентов на практику 2020 (Маянц Майя Львовна).docx';
+        $file = "Список студентов на практику $year ($teacherFullName).docx";
 
         //  Набор заголовков
         header("Content-Description: File Transfer");

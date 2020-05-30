@@ -3,8 +3,39 @@
 @section('content')
     <link href="{{ asset('css/admin/student-applications.css') }}" rel="stylesheet">
 
-    <div class="bg-white p-3" >
-        <div class="d-flex">
+    <div class="bg-white">
+        <div class="container-fluid p-3">
+            <div class="row">
+                <h3 class="col-12 col-lg-6 mt-2">Заявки студентов</h3>
+                <div class="col-12 col-lg-6 text-lg-right">
+                    @php
+                        // достаем year и groupStoryId из адресной строки
+                        // "admin/student-applications/{year}/{groupStoryId}"
+                        $uri = Request::path();
+                        // разбиваем "/" и заносим в элементы массива
+                        $uriParam = explode('/', $uri);
+                        // если year и groupStoryId существуют, передаем их как параметры
+                        // если нет, обнуляем (кнопка будет выключена)
+                        if(isset($uriParam[2]) and isset($uriParam[3])) {
+                            $year = $uriParam[2];
+                            $groupStoryId = $uriParam[3];
+                        }
+                        else {
+                            $year = null;
+                            $groupStoryId = null;
+                        }
+                        //var_dump($uriParam);
+                    @endphp
+                    @if (isset($selectedGroupStory))
+                        <a href="{{ route('report_practice_group', ['year' => $year, 'groupStoryId' => $groupStoryId]) }}" class="button button-large mt-2" id="student-report">Сформировать отчет (по группе)</a>
+                    @else
+                        <a href="#" class="button button-large disabled mt-2">Сформировать отчет (по группе)</a>
+                    @endif
+                </div>
+            </div>
+        </div>
+
+        <div class="d-flex pl-3 pb-3 pr-3">
             <div class="d-flex flex-column">
                 <label for="year" class="font-weight-bold year">Год</label>
                 <select class="mb-2 text-center" name="year">
@@ -19,7 +50,7 @@
                     @if (isset($groupStoriesBySelectedYear))
                         @foreach($groupStoriesBySelectedYear as $groupStoryBySelectedYear)
                             @if (!isset($selectedGroupStory))
-                                <option  class="d-none" selected></option>
+                                <option class="d-none" selected></option>
                             @endif
                             <option value="{{ $groupStoryBySelectedYear->id }}" {{ (isset($selectedGroupStory) and $groupStoryBySelectedYear->id == $selectedGroupStory->id) ? "selected" : "" }}>{{ $groupStoryBySelectedYear->name }}</option>
                         @endforeach

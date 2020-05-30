@@ -89,6 +89,32 @@
                 <h3 class="col-12 col-lg-6 mt-2">Файлы</h3>
             </div>
         </div>
+
+
+
+        <div class="d-flex pl-3 pb-3 pr-3">
+            <div class="d-flex flex-column">
+                <label for="direction" class="direction font-weight-bold year">Направление</label>
+                <select class="mb-2 text-center" name="direction">
+                    <option  class="d-none" selected></option>
+                    <option>09.03.02 Информационные системы и технологии</option>
+                    <option>15.03.04 Автоматизация технологических процессов и производств</option>
+                </select>
+            </div>
+            <div class="d-flex flex-column ml-2">
+                <label for="course" class="course font-weight-bold group">Курс</label>
+                <select class="mb-2 text-center" name="course">
+                    <option  class="d-none" selected></option>
+                    <option>1</option>
+                    <option>2</option>
+                    <option>3</option>
+                    <option>4</option>
+                </select>
+            </div>
+        </div>
+
+
+
         <form action="{{ route('file_upload') }}" method="POST" id="uploadFile" enctype="multipart/form-data">
             @csrf
             <div class="input-group pl-3 pb-3 pr-3">

@@ -17,7 +17,30 @@ $('select[name="teacher"]').change(function () {
     selectStatus.focus();
 });
 
+// подсчет подтвержденных заявок для де/активации кнопки отчета
+function SwitchButton() {
+    let applicationCount = document.getElementsByName('status').length;
+    let confirmApplicationCount = 0;
+    $('select[name="status"]').each(function () {
+            if($(this).val() === "2") {
+                confirmApplicationCount++;
+            }
+    });
+    if(applicationCount === confirmApplicationCount)
+    {
+        $('#student-report').removeClass('disabled');
+    }
+    else {
+        $('#student-report').addClass("disabled");
+    }
+}
+
+$(function () {
+    SwitchButton();
+});
+
 $('select[name="status"]').change(function () {
+    SwitchButton();
     let teacherId = $(this).closest('tr').find('td select[name="teacher"] option:selected').val();
     let studentId = $(this).closest('tr').find('.student-id').text();
     let statusId = $(this).find('option:selected').val();

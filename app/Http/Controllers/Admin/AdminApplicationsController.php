@@ -41,14 +41,8 @@ class AdminApplicationsController extends Controller
         $this->applicationStatus = $applicationStatus;
     }
 
-    public function showTeacherApplications()
-    {
-        $teachers = $this->teacher->all();
-        return view('admin.teacher-applications', ['teachers' => $teachers]);
-    }
-
     /**
-     * Показывает сколько студентов преподаваетли берут на практику и какие курсы, сортируя по году
+     * Показывает сколько студентов преподаватели берут на практику и какие курсы, сортируя по году
      *
      * @param $year Выбранный год из списка
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
@@ -106,11 +100,11 @@ class AdminApplicationsController extends Controller
 
             // Получаем группу из таблицы groups связанную с группой из history_group
             $group = $selectedGroupStory->group()->first();
-            $students = $group->students()->get();
+            $students = $group->students()->orderBy('surname')->get();
             $parameters['students'] = $students;
         }
 
-        $groupStoriesBySelectedYear = $this->groupStory->where('year_history', '=', $historyYear)->get();
+        $groupStoriesBySelectedYear = $this->groupStory->where('year_history', '=', $historyYear)->orderBy('name')->get();
         $parameters['groupStoriesBySelectedYear'] = $groupStoriesBySelectedYear;
         $parameters['historyYear'] = $historyYear;
         $parameters['yearsGroupStories'] = $yearsGroupStories;
@@ -169,5 +163,60 @@ class AdminApplicationsController extends Controller
         }
 
         return "true" ;
+    }
+
+    /**
+     * Вывод списка студентов и их групп руководителя по году и заявке
+     * @param $selectedYear
+     * @param null $teacherId
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function showTeacherApplications($selectedYear, $teacherId = null)
+    {
+        $data['selectedYear'] = $selectedYear;
+
+        // Получением уникальные года из заявок для выпадающего списка
+        $yearsApplications = $this->application->select('year')->distinct()->orderBy('year')->get();
+        $data['yearsApplications'] = $yearsApplications;
+
+        // Получение уникальных teacher_id из заявок, где year = выбраному году из списка
+        $applicationsBySelectedYear = $this->application->select('teacher_id')->distinct()->where('year', '=', $selectedYear)->get();
+
+        // Получение списка уникальных руководителей для выпадающего списка
+        foreach ($applicationsBySelectedYear as $applicationBySelectedYear)
+        {
+            $teachersBySelectedYear[] = $applicationBySelectedYear->teacher()->first();
+
+        }
+        // Сортировка по фамилии
+        $teachersBySelectedYear = collect($teachersBySelectedYear);
+        $teachersBySelectedYear = $teachersBySelectedYear->sortBy('surname');
+        $teachersBySelectedYear = $teachersBySelectedYear->values()->all();
+        $data['teachersBySelectedYear'] = $teachersBySelectedYear;
+
+        // Получение модели 'teacher', если она выбрана в выпадающем списке
+        if(isset($teacherId))
+        {
+            $selectedTeacher = $this->teacher->where('id', '=', $teacherId)->first();
+            $data['selectedTeacher'] = $selectedTeacher;
+            // Получение одобренных преподавателем заявок на практику
+            $practiceApplications = $selectedTeacher->applications()->where([['year', '=', $selectedYear], ['status_id', '=', 2], ['type_id', '=', 1]])->get();
+            $data['practiceApplications'] = $practiceApplications;
+            // Получение студентов, привязанных к заявкам
+            foreach ($practiceApplications as $practiceApplication)
+            {
+                $students[] = $practiceApplication->student()->first();
+            }
+            // Сортировка по фамилии
+            if (isset($students))
+            {
+                $students = collect($students);
+                $students = $students->sortBy('surname');
+                $students = $students->values()->all();
+                $data['students'] = $students;
+            }
+        }
+
+        return view('admin.teacher-applications', $data);
     }
 }
