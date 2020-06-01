@@ -36,22 +36,27 @@ class Direction extends Model
     }
 
     /**
-     * Получение Courses, привязанных к Directions.
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
-     */
-    public function courses()
-    {
-        return $this->belongsToMany('App\Course', 'file_direction_course', 'direction_id', 'course_id')->withTimestamps();
-    }
-
-    /**
      * Получение Files, привязанных к Directions.
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
      */
     public function files()
     {
-        return $this->belongsToMany('App\File', 'file_direction_course', 'direction_id', 'file_id')->withTimestamps();
+        return $this->belongsToMany(
+            'App\File',
+            'file_direction_course',
+            'direction_id',
+            'file_id'
+        )->withPivot('course_id')->withTimestamps();
     }
+
+    /**
+     * Получение Courses, привязанных к Directions.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
+    /*public function courses()
+    {
+        return $this->belongsToMany('App\Course', 'file_direction_course', 'direction_id', 'course_id')->withTimestamps();
+    }*/
 }

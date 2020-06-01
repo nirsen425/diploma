@@ -79,14 +79,18 @@ Route::get('admin/teacher-applications/{selectedYear}/{teacherId?}', 'Admin\Admi
 // Получение отчета
 Route::get('report/practice/group/{year?}/{groupStoryId?}', 'Admin\AdminReportController@getReportPracticeGroup')->name('report_practice_group');
 Route::get('report/practice/teacher/{year?}/{teacherId?}', 'Admin\AdminReportController@getReportPracticeTeacher')->name('report_practice_teacher');
-Route::get('report/diploma', 'Admin\AdminReportController@getReportDiploma')->name('report_diploma');
+//Route::get('report/diploma', 'Admin\AdminReportController@getReportDiploma')->name('report_diploma');
+
+// Информация и сроки
+Route::get('admin/practice-info/{directionId}/{courseId?}', 'Admin\AdminPracticeController@index')->name('practice_info');
+Route::post('admin/practice-info/{directionId?}/{courseId?}/edit', 'Admin\AdminPracticeController@edit')->name('practice_info_edit');
 
 //Файлы
 Route::get('admin/files/{directionId?}/{courseId?}', 'Admin\AdminFilesController@index')->name('files');
 
-Route::post('admin/file/upload', 'Admin\AdminFilesController@upload')->name('file_upload');
-Route::get('admin/file/download/{fileId}', 'Admin\AdminFilesController@download')->name('file_download');
-Route::post('admin/file/delete/{fileId}', 'Admin\AdminFilesController@destroy')->name('file_delete');
+Route::post('admin/file/upload/{directionId}/{courseId}', 'Admin\AdminFilesController@upload')->name('file_upload');
+Route::get('admin/file/download/{directionId}/{courseId}/{fileId}', 'Admin\AdminFilesController@download')->name('file_download');
+Route::post('admin/file/delete/{directionId}/{courseId}/{fileId}', 'Admin\AdminFilesController@destroy')->name('file_delete');
 
-Route::get('student/file/download/{fileId}', 'FilesController@download')->name('s_file_download');
-Route::get('teacher/file/download/{fileId}', 'FilesController@download')->name('t_file_download');
+Route::get('student/file/download/{fileId}', 'FilesController@studentDownload')->name('student_file_download');
+//Route::get('teacher/file/download/{fileId}', 'FilesController@teacherDownload')->name('teacher_file_download');

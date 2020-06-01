@@ -8,7 +8,7 @@ use App\Http\Controllers\Controller;
 use App\File;
 use App\Group;
 use Illuminate\Http\Request;
-//use App\Http\Requests\UploadFiles;
+use App\Http\Requests\UploadFiles;
 use Illuminate\Support\Facades\Storage;
 
 class AdminFilesController extends Controller
@@ -33,11 +33,14 @@ class AdminFilesController extends Controller
             $direction = $this->direction->where('id', '=', $directionId)->first();
             if (isset($courseId))
             {
-                $directionCourse = $direction->courses()->where('course_id', '=', $courseId)->first();
-                $courseFiles = $directionCourse->files()->where('direction_id', '=', $directionId)->get();
-                $data['courseFiles'] = $courseFiles;
+                $directionCourseFiles = $direction->files()->orderBy('created_at')->wherePivot('course_id', '=', $courseId)->get();
+                if (isset($directionCourseFiles))
+                {
+                    $data['directionCourseFiles'] = $directionCourseFiles;
+                }
             }
         }
+
         $data['selectedDirectionId'] = $directionId;
         $data['selectedCourseId'] = $courseId;
         $data['directions'] = $this->direction->get();
@@ -45,80 +48,128 @@ class AdminFilesController extends Controller
         return view('admin.files', $data);
     }
 
-    public function upload(Request $request)
+    public function upload(Request $request, $directionId, $courseId)
     {
-        $files = $request->file('files');
-        if($request->hasFile('files'))
+        if (isset($directionId))
         {
-            $exFile = array();
-            foreach ($files as $file) {
-                $fullName = $file->getClientOriginalName();
-                $name = pathinfo($fullName, PATHINFO_FILENAME);
-                $ext = $file->getClientOriginalExtension();
-                $exist = Storage::disk('local')->exists('/public/files/'. $name . '.' . $ext);
-                if($exist)
+            $direction = $this->direction->where('id', '=', $directionId)->first();
+            $directionCode = $direction->direction;
+            $directionName = $direction->direction_name;
+
+            if (isset($courseId))
+            {
+                $course = $this->course->where('id', '=', $courseId)->first();
+                $courseName = $course->course;
+
+                $files = $request->file('files');
+                if($request->hasFile('files'))
                 {
-                    array_push($exFile, $fullName);
-                    continue;
-                }
-                else
-                {
-                    $path = Storage::putFileAs('public/files', $file, $name . '.' . $ext);
-                    if ($path)
+                    $exFile = array();
+                    foreach ($files as $file) {
+                        $fullName = $file->getClientOriginalName();
+                        $name = pathinfo($fullName, PATHINFO_FILENAME);
+                        $extension = $file->getClientOriginalExtension();
+
+                        $path = '/public/files/' . $directionCode . ' ' . $directionName . '/' . $courseName . ' курс';
+
+                        $exist = Storage::disk('local')->exists($path . '/' . $name . '.' . $extension);
+
+                        if($exist)
+                        {
+                            array_push($exFile, $fullName);
+                            continue;
+                        }
+                        else
+                        {
+                            $putPath = Storage::putFileAs($path, $file, $name . '.' . $extension);
+
+                            if ($putPath)
+                            {
+                                $direction->files()->save(
+                                    $this->file->create([
+                                        'name' => $name,
+                                        'extension' => $extension,
+                                        'path' => $path
+                                    ]),
+                                    ['course_id' => $courseId]
+                                );
+                            }
+                        }
+                    }
+                    if(!$exFile)
                     {
-                        $this->file->create([
-                            'name' => $name,
-                            'extension' => $ext
-                        ]);
+                        return back()->with('notify_success', 'Все файлы успешно загружены.');
+                    }
+                    else
+                    {
+                        $exNames = implode('", "', $exFile);
+                        return back()->with('notify_failure', 'Файлы: "' . $exNames . '" не были загружены, они уже существуют.');
                     }
                 }
             }
-            if(!$exFile)
-            {
-                return back()->with('notify_success', 'Все файлы успешно загружены.');
-            }
-            else
-            {
-                $exNames = implode(', ', $exFile);
-                return back()->with('notify_failure', 'Файлы: ' . $exNames . ' не были загружены, они уже существуют.');
+        }
+    }
+
+    public function download($directionId, $courseId, $id)
+    {
+        if (isset($directionId)) {
+            $direction = $this->direction->where('id', '=', $directionId)->first();
+            $directionCode = $direction->direction;
+            $directionName = $direction->direction_name;
+
+            if (isset($courseId)) {
+                $course = $this->course->where('id', '=', $courseId)->first();
+                $courseName = $course->course;
+
+                $path = '/public/files/' . $directionCode . ' ' . $directionName . '/' . $courseName . ' курс';
+
+                $file = File::find($id);
+                $search = Storage::disk('local')->exists($path . '/' . $file->name . '.' . $file->extension);
+
+                if ($search) {
+                    return Storage::disk('local')->download($path . '/' . $file->name . '.' . $file->extension);
+
+                } else {
+                    return back()->with('notify_failure', 'Не удалось скачать файл ' . '"' . $file->name . '.' . $file->extension . '".');
+                }
             }
         }
     }
 
-    public function download($id)
+    public function destroy($directionId, $courseId, $id)
     {
-        $file = File::find($id);
-        $search = Storage::disk('local')->exists('/public/files/'. $file->name . '.' . $file->extension);
-        if ($search)
+        if (isset($directionId))
         {
-            return Storage::disk('local')->download('public/files/'. $file->name . '.' . $file->extension);
-        }
-        else
-        {
-            return back()->with('notify_failure', 'Не удалось скачать файл ' . '"' . $file->name . '.' . $file->extension . '".');
-        }
-    }
+            $direction = $this->direction->where('id', '=', $directionId)->first();
+            $directionCode = $direction->direction;
+            $directionName = $direction->direction_name;
 
-    public function destroy($id)
-    {
-        $file = File::find($id);
-        $search = Storage::disk('local')->exists('/public/files/'. $file->name . '.' . $file->extension);
-        if ($search)
-        {
-            $del = Storage::disk('local')->delete('/public/files/'. $file->name . '.' . $file->extension);
-            if ($del)
+            if (isset($courseId))
             {
-                $file->delete();
-                return "{
-                    \"status\": true
-                }";
+                $course = $this->course->where('id', '=', $courseId)->first();
+                $courseName = $course->course;
+
+                $path = '/public/files/' . $directionCode . ' ' . $directionName . '/' . $courseName . ' курс';
+
+                $file = File::find($id);
+                $search = Storage::disk('local')->exists($path . '/' . $file->name . '.' . $file->extension);
+
+                if ($search) {
+                    $del = Storage::disk('local')->delete($path . '/' . $file->name . '.' . $file->extension);
+
+                    if ($del) {
+                        $file->delete();
+
+                        return "{
+                            \"status\": true
+                        }";
+                    }
+                } else {
+                    return "{
+                        \"status\": false
+                    }";
+                }
             }
-        }
-        else
-        {
-            return "{
-                \"status\": false
-            }";
         }
     }
 }

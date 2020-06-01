@@ -16,7 +16,7 @@ class CreateFileDirectionCourseTable extends Migration
         Schema::create('file_direction_course', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->bigInteger('file_id')->unsigned();
-            $table->foreign('file_id')->references('id')->on('files');
+            $table->foreign('file_id')->references('id')->on('files')->onDelete('cascade');
             $table->bigInteger('direction_id')->unsigned();
             $table->foreign('direction_id')->references('id')->on('directions');
             $table->bigInteger('course_id')->unsigned();

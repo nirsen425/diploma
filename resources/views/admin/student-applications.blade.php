@@ -8,26 +8,8 @@
             <div class="row">
                 <h3 class="col-12 col-lg-6 mt-2">Заявки студентов</h3>
                 <div class="col-12 col-lg-6 text-lg-right">
-                    @php
-                        // достаем year и groupStoryId из адресной строки
-                        // "admin/student-applications/{year}/{groupStoryId}"
-                        $uri = Request::path();
-                        // разбиваем "/" и заносим в элементы массива
-                        $uriParam = explode('/', $uri);
-                        // если year и groupStoryId существуют, передаем их как параметры
-                        // если нет, обнуляем (кнопка будет выключена)
-                        if(isset($uriParam[2]) and isset($uriParam[3])) {
-                            $year = $uriParam[2];
-                            $groupStoryId = $uriParam[3];
-                        }
-                        else {
-                            $year = null;
-                            $groupStoryId = null;
-                        }
-                        //var_dump($uriParam);
-                    @endphp
                     @if (isset($selectedGroupStory))
-                        <a href="{{ route('report_practice_group', ['year' => $year, 'groupStoryId' => $groupStoryId]) }}" class="button button-large mt-2" id="student-report">Сформировать отчет (по группе)</a>
+                        <a href="{{ route('report_practice_group', ['year' => $historyYear, 'groupStoryId' => $selectedGroupStory]) }}" class="button button-large mt-2" id="student-report">Сформировать отчет (по группе)</a>
                     @else
                         <a href="#" class="button button-large disabled mt-2">Сформировать отчет (по группе)</a>
                     @endif

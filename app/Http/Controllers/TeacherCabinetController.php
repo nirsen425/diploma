@@ -68,7 +68,11 @@ class TeacherCabinetController extends Controller
 //            $confirmDiplomaApplicationStudents[] = $confirmDiplomaApplication->student()->first();
 //        }
 
+
+
         $files = File::orderByDesc('created_at')->get();
+
+
 
         $data = [
             'teacher' => $teacher,

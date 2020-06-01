@@ -8,26 +8,8 @@
             <div class="row">
                 <h3 class="col-12 col-lg-6 mt-2">Заявки руководителей</h3>
                 <div class="col-12 col-lg-6 text-lg-right">
-                    @php
-                        // достаем year и teacherId из адресной строки
-                        // "admin/teacher-applications/{year}/{teacherId}"
-                        $uri = Request::path();
-                        // разбиваем "/" и заносим в элементы массива
-                        $uriParam = explode('/', $uri);
-                        // если year и teacherId существуют, передаем их как параметры
-                        // если нет, обнуляем (кнопка будет выключена)
-                        if(isset($uriParam[2]) and isset($uriParam[3])) {
-                            $year = $uriParam[2];
-                            $teacherId = $uriParam[3];
-                        }
-                        else {
-                            $year = null;
-                            $teacherId = null;
-                        }
-                        //var_dump($uriParam);
-                    @endphp
                     @if (isset($selectedTeacher) and (!$practiceApplications->isEmpty()))
-                        <a href="{{ route('report_practice_teacher', ['year' => $year, 'teacherId' => $teacherId]) }}" class="button button-large mt-2">Сформировать отчет (по руководителю)</a>
+                        <a href="{{ route('report_practice_teacher', ['year' => $selectedYear, 'teacherId' => $selectedTeacher]) }}" class="button button-large mt-2">Сформировать отчет (по руководителю)</a>
                     @else
                         <a href="#" class="button button-large disabled mt-2">Сформировать отчет (по руководителю)</a>
                     @endif
@@ -82,7 +64,7 @@
                                             <a href="{{ route('students.show', ['student' => $student->id]) }}" class="student-link d-block p-3">{{ $student->getFullName() }}</a>
                                         </td>
                                         <td class="student">
-                                            {{ $student->group()->first()->name }}
+                                            {{ $student->group()->first()->groupStories()->where('year_history', '=', $selectedYear)->first()->name }}
                                         </td>
                                     </tr>
                                 @endforeach
@@ -91,24 +73,28 @@
                             <div class="student p-3">Нет студентов</div>
                         @endif
                     </div>
-                <!--
-                <div class="student-diploma text-white pl-3 pt-1 pb-1">Студенты проходящие дипломную работу</div>
-                    @php
-                    // Получение одобренных преподавателем заявок на диплом
-                      $diplomaApplications = $selectedTeacher->applications()->where([['year', '=', $selectedYear], ['status_id', '=', 2], ['type_id', '=', 2]])->get()
-                @endphp
+
+
+<!--
+                    <div class="student-diploma text-white pl-3 pt-1 pb-1">Студенты проходящие дипломную работу</div>
+                        @php
+                            // Получение одобренных преподавателем заявок на диплом
+                            $diplomaApplications = $selectedTeacher->applications()->where([['year', '=', $selectedYear], ['status_id', '=', 2], ['type_id', '=', 2]])->get()
+                        @endphp
                     <div class="student-container bg-white">
                         @if (!$practiceApplications->isEmpty())
-                    @foreach($diplomaApplications as $diplomaApplication)
-                        <div class="student">
-                            <a href="{{ route('students.show', ['student' => $diplomaApplication->student()->value('id')]) }}" class="student-link d-block p-3">{{ $diplomaApplication->student()->first()->getFullName() }}</a>
+                            @foreach($diplomaApplications as $diplomaApplication)
+                                <div class="student">
+                                    <a href="{{ route('students.show', ['student' => $diplomaApplication->student()->value('id')]) }}" class="student-link d-block p-3">{{ $diplomaApplication->student()->first()->getFullName() }}</a>
                                 </div>
                             @endforeach
-                @else
-                    <div class="student p-3">Нет студентов</div>
-@endif
+                        @else
+                            <div class="student p-3">Нет студентов</div>
+                        @endif
                     </div>
 -->
+
+
                 </div>
             @endif
         @else

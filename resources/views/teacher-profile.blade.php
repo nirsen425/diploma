@@ -167,7 +167,10 @@
 {{--                        <a class="nav-link text-dark" id="profile-tab" data-toggle="tab" href="#diploma-student" role="tab" aria-controls="profile" aria-selected="false">Сдающие диплом</a>--}}
 {{--                    </li>--}}
                     <li class="nav-item">
-                        <a class="nav-link text-dark" id="contact-tab" data-toggle="tab" href="#teacher-files" role="tab" aria-controls="contact" aria-selected="false">Файлы</a>
+                        <a class="nav-link text-dark" id="contact-tab" data-toggle="tab" href="#practice-info" role="tab" aria-controls="profile" aria-selected="false">Информация</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-dark" id="contact-tab" data-toggle="tab" href="#teacher-files" role="tab" aria-controls="profile" aria-selected="false">Файлы</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link text-dark" id="contact-tab" data-toggle="tab" href="#teacher-edit" role="tab" aria-controls="contact" aria-selected="false">Редактирование</a>
@@ -246,7 +249,57 @@
 {{--                            @endif--}}
 {{--                        </div>--}}
 {{--                    </div>--}}
+
+
+
+                    <div class="tab-pane fade" id="practice-info" role="tabpanel" aria-labelledby="profile-tab">
+                        <div class="d-flex pl-3 pt-3">
+                            <div class="d-flex flex-column">
+                                <label for="direction" class="font-weight-bold direction">Направление</label>
+                                <select class="mb-2 text-center" name="direction">
+                                    <option>09.03.02 Информационные системы и технологии</option>
+                                </select>
+                            </div>
+                            <div class="d-flex flex-column ml-2">
+                                <label for="course" class="font-weight-bold course">Курс</label>
+                                <select class="mb-2" name="course">
+                                    <option class="d-none" selected></option>
+                                    <option>4</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group row pl-3 pt-3 pr-3">
+                            <label class="col-lg-3 col-form-label font-weight-bold application-time">Сроки подачи заявок</label>
+                            <label class="col-lg-9 col-form-label application-time">c 20202022 по 02020202</label>
+                        </div>
+                        <div class="form-group row pl-3 pt-3 pr-3">
+                            <label class="col-lg-3 col-form-label font-weight-bold practice-time">Сроки практики</label>
+                            <label class="col-lg-9 col-form-label practice-time">c 20202022 по 02020202</label>
+                        </div>
+                        <div class="form-group row pl-3 pt-3 pr-3">
+                            <label class="col-lg-3 col-form-label font-weight-bold practice-info">Информация</label>
+                            <label class="col-lg-9 col-form-label practice-info">  </label>
+                        </div>
+                    </div>
+
+
+
                     <div class="tab-pane fade" id="teacher-files" role="tabpanel" aria-labelledby="home-tab">
+                        <div class="d-flex pl-3 pt-3">
+                            <div class="d-flex flex-column">
+                                <label for="direction" class="font-weight-bold direction">Направление</label>
+                                <select class="mb-2 text-center" name="direction">
+                                    <option>09.03.02 Информационные системы и технологии</option>
+                                </select>
+                            </div>
+                            <div class="d-flex flex-column ml-2">
+                                <label for="course" class="font-weight-bold course">Курс</label>
+                                <select class="mb-2" name="course">
+                                    <option class="d-none" selected></option>
+                                    <option>4</option>
+                                </select>
+                            </div>
+                        </div>
                         @if(!$files->isEmpty())
                             <div class="pt-3 pb-3">
                                 <table class="table bg-light table-hover" id="files-table">
@@ -265,7 +318,7 @@
                                             <td class="align-bottom p-8">{{ $file->name }}.{{ $file->extension }}</td>
                                             <td class="align-bottom p-8 date">{{ $file->created_at }}</td>
                                             <td>
-                                                <a href="{{ route('t_file_download', ['fileId' => $file->id]) }}" class="download" file-id="{{ $file->id }}" >
+                                                <a href="" class="download" file-id="{{ $file->id }}" >
                                                     <i class="fa fa-download"></i>
                                                 </a>
                                             </td>
@@ -278,6 +331,9 @@
                             <div class="pt-3 pl-2">Нет загруженных файлов</div>
                         @endif
                     </div>
+
+
+
                     <div class="tab-pane fade" id="teacher-edit" role="tabpanel" aria-labelledby="home-tab">
 
                         <div class="p-2 mt-3 d-flex justify-content-between align-items-center change text-white">

@@ -15,6 +15,8 @@ class CreatePracticesTable extends Migration
     {
         Schema::create('practices', function (Blueprint $table) {
             $table->bigIncrements('id');
+            $table->date('application_start');
+            $table->date('application_end');
             $table->date('practice_start');
             $table->date('practice_end');
             $table->text('practice_info');

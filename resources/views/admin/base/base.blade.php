@@ -82,7 +82,7 @@
                 <a href="{{ route('teacher_applications', ['selectedYear' => Helper::getSchoolYear()]) }}">Заявки руководителей</a>
             </li>
             <li>
-                <a href="#">Информация и сроки</a>
+                <a href="{{ route('practice_info', ['directionId' => '1']) }}">Информация и сроки</a>
             </li>
             <li>
                 <a href="{{ route('files', ['directionId' => '1']) }}">Файлы</a>

@@ -12,18 +12,8 @@ class File extends Model
      * @var array
      */
     protected $fillable = [
-        'name', 'extension'
+        'name', 'extension', 'path'
     ];
-
-    /**
-     * Получение Courses, привязанных к Files.
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
-     */
-    public function courses()
-    {
-        return $this->belongsToMany('App\Course', 'file_direction_course', 'file_id', 'course_id');
-    }
 
     /**
      * Получение Directions, привязанных к Files.
@@ -32,8 +22,23 @@ class File extends Model
      */
     public function directions()
     {
-        return $this->belongsToMany('App\Direction', 'file_direction_course', 'file_id', 'direction_id')->withTimestamps();;
+        return $this->belongsToMany(
+            'App\Direction',
+            'file_direction_course',
+            'file_id',
+            'direction_id'
+        )->withPivot('course_id')->withTimestamps();;
     }
+
+    /**
+     * Получение Courses, привязанных к Files.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
+    /*public function courses()
+    {
+        return $this->belongsToMany('App\Course', 'file_direction_course', 'file_id', 'course_id');
+    }*/
 
     /**
      * Accessor возвращающий время загрузки файла в виде timestamp

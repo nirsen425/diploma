@@ -1,4 +1,4 @@
-.files-container {
+.practice-info-container {
     background-color: #fff;
 }
 
@@ -8,6 +8,18 @@
 
 .course {
     font-size: 1rem;
+}
+
+.practice-time {
+    font-size: 1.2rem;
+}
+
+.application-time {
+    font-size: 1.2rem;
+}
+
+.practice-info {
+    font-size: 1.2rem;
 }
 
 select[name="direction"] {

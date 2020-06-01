@@ -7,6 +7,7 @@ use App\File;
 use App\Helpers\Helper;
 use App\Http\Requests\UpdateStudentPasswordRequest;
 use App\Http\Requests\UpdateStudentLoginRequest;
+use App\Practice;
 use App\Student;
 use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Http\Request;
@@ -48,14 +49,23 @@ class StudentCabinetController extends Controller
         $group = $student->group()->first();
         $direction = $group->direction()->first();
         $course = $group->course()->first();
+
+        //Информация и сроки
+        $practice = Practice::where([
+            ['direction_id', '=', $direction->id],
+            ['course_id', '=', $course->id]
+        ])->first();
+
+        // Файлы
         $files = $direction->files()->where([
             ['direction_id', '=', $direction->id],
             ['course_id', '=', $course->id]
-        ])->get();
+        ])->orderBy('created_at')->get();
 
         return view('student-profile', ['currentApplication' => $currentApplication,
                                               'historyApplications' => $historyApplications,
                                               'student' => $student,
+                                              'practice' => $practice,
                                               'files' => $files]);
     }
 

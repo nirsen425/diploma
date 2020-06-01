@@ -12,7 +12,7 @@ class Practice extends Model
      * @var array
      */
     protected $fillable = [
-        'name', 'practice_start', 'practice_end', 'practice_info', 'direction_id', 'course_id'
+        'name', 'application_start', 'application_end', 'practice_start', 'practice_end', 'practice_info', 'direction_id', 'course_id'
     ];
 
     /**

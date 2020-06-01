@@ -105,6 +105,9 @@
                         <a class="nav-link text-dark" id="profile-tab" data-toggle="tab" href="#request-history" role="tab" aria-controls="profile" aria-selected="false">История заявок</a>
                     </li>
                     <li class="nav-item">
+                        <a class="nav-link text-dark" id="profile-tab" data-toggle="tab" href="#practice-info" role="tab" aria-controls="profile" aria-selected="false">Информация</a>
+                    </li>
+                    <li class="nav-item">
                         <a class="nav-link text-dark" id="profile-tab" data-toggle="tab" href="#student-files" role="tab" aria-controls="profile" aria-selected="false">Файлы</a>
                     </li>
                     <li class="nav-item">
@@ -246,6 +249,22 @@
                             @endif
                         </div>
                     </div>
+                    <div class="tab-pane fade p-3" id="practice-info" role="tabpanel" aria-labelledby="profile-tab">
+                        <div class="form-group row">
+                            <label class="col-lg-2 col-form-label font-weight-bold application-time">Сроки подачи заявок</label>
+                            <label class="col-lg-4 col-form-label application-time">c {{ $practice->application_start }} по {{ $practice->application_start }}</label>
+                        </div>
+
+                        <div class="form-group row">
+                            <label class="col-lg-2 col-form-label font-weight-bold practice-time">Сроки практики</label>
+                            <label class="col-lg-4 col-form-label practice-time">c {{ $practice->practice_start }} по {{ $practice->practice_start }}</label>
+                        </div>
+
+                        <div class="form-group row">
+                            <label class="col-lg-2 col-form-label font-weight-bold practice-info">Информация</label>
+                            <label class="col-lg-8 col-form-label practice-info"> {!! $practice->practice_info !!} </label>
+                        </div>
+                    </div>
                     <div class="tab-pane fade" id="student-files" role="tabpanel" aria-labelledby="profile-tab">
                         @if(!$files->isEmpty())
                             <div class="pt-3 pb-3">
@@ -265,7 +284,7 @@
                                             <td class="align-bottom p-8">{{ $file->name }}.{{ $file->extension }}</td>
                                             <td class="align-bottom p-8 date">{{ $file->created_at }}</td>
                                             <td>
-                                                <a href="{{ route('s_file_download', ['fileId' => $file->id]) }}" class="download" file-id="{{ $file->id }}" >
+                                                <a href="{{ route('student_file_download', ['fileId' => $file->id]) }}" class="download" file-id="{{ $file->id }}" >
                                                     <i class="fa fa-download"></i>
                                                 </a>
                                             </td>

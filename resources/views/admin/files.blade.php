@@ -94,7 +94,7 @@
                 <label for="direction" class="direction font-weight-bold year">Направление</label>
                 <select class="mb-2 text-center" name="direction">
                     @foreach($directions as $direction)
-                        <option value="{{ $direction->id }}" {{ $direction->id == $selectedDirectionId ? "selected" : "" }}>{{ $direction->direction . ' ' . $direction->direction_name }}</option>
+                        <option value="{{ $direction->id }}" {{ $direction->id == $selectedDirectionId ? "selected" : "" }}> {{ $direction->direction . ' ' . $direction->direction_name }} </option>
                     @endforeach
                 </select>
             </div>
@@ -112,8 +112,9 @@
                 </select>
             </div>
         </div>
+
         @if(isset($selectedCourseId))
-            <form action="{{ route('file_upload') }}" method="POST" id="uploadFile" enctype="multipart/form-data">
+            <form action="{{ route('file_upload', ['directionId' => $selectedDirectionId, 'courseId' => $selectedCourseId]) }}" method="POST" id="uploadFile" enctype="multipart/form-data">
                 @csrf
                 <div class="input-group pl-3 pb-3 pr-3">
                     <div class="custom-file">
@@ -125,7 +126,7 @@
                     </div>
                 </div>
             </form>
-            @if(!$courseFiles->isEmpty())
+            @if(!$directionCourseFiles->isEmpty())
                 <div class="p-3">
                     <table class="table bg-light table-hover" id="files-table">
                         <thead class="thead-dark">
@@ -137,16 +138,16 @@
                         </tr>
                         </thead>
                         <tbody>
-                        @foreach($courseFiles as $courseFile)
+                        @foreach($directionCourseFiles as $directionCourseFile)
                             <tr>
-                                <td class="d-none file-id">{{ $courseFile->id }}</td>
-                                <td class="align-bottom p-8">{{ $courseFile->name }}.{{ $courseFile->extension }}</td>
-                                <td class="align-bottom p-8 date">{{ $courseFile->created_at }}</td>
+                                <td class="d-none file-id">{{ $directionCourseFile->id }}</td>
+                                <td class="align-bottom p-8">{{ $directionCourseFile->name }}.{{ $directionCourseFile->extension }}</td>
+                                <td class="align-bottom p-8 date">{{ $directionCourseFile->created_at }}</td>
                                 <td>
-                                    <a href="{{ route('file_download', ['fileId' => $courseFile->id]) }}">
+                                    <a href="{{ route('file_download', ['directionId' => $selectedDirectionId, 'courseId' => $selectedCourseId, 'fileId' => $directionCourseFile->id]) }}">
                                         <i class="fa fa-download"></i>
                                     </a>
-                                    <a href="#" class="delete" file-id="{{ $courseFile->id }}" data-toggle="modal" data-target="#confirmDelete">
+                                    <a href="#" class="delete" direction-id="{{ $selectedDirectionId }}" course-id="{{ $selectedDirectionId }}" file-id="{{ $directionCourseFile->id }}" data-toggle="modal" data-target="#confirmDelete">
                                         <i class="fas fa-trash-alt"></i>
                                     </a>
                                 </td>
