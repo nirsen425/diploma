@@ -5,8 +5,8 @@
     <div class="row">
         @if ($teachers)
             @foreach($teachers as $teacher)
-            <div class="col col-md-6">
-                <div class="d-flex teacher-cart bg-white mt-3 rounded text-break">
+            <div class="col col-md-6 mt-3">
+                <div class="d-flex teacher-cart bg-white rounded text-break">
                     <div class="p-2">
                         <img src="{{ asset("storage/images/" . $teacher->photo) }}" class="teacher-photo rounded" alt="Преподаватель">
                     </div>

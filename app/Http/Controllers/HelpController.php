@@ -1,10 +1,12 @@
 <?php
 
 namespace App\Http\Controllers;
+
 use App\ImageService;
 use App\User;
 use App\Page;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class HelpController extends Controller
 {
@@ -112,6 +114,19 @@ class HelpController extends Controller
      */
     public function uploadImage(Request $request)
     {
+        $validator = Validator::make($request->all(), [
+            'upload' => 'required|image|max:512'
+        ]);
+
+        if ($validator->fails()) {
+            return '{
+            "uploaded": 0,
+            "error": {
+                "message": "Файл должен быть изображением и его размер не должен превышать 512 Кб"
+                }
+            }';
+        }
+
         $path = $request->file("upload")->store("public/images");
         $imageName = $this->imageService->getNameUploadedImage($path);
         $imagePath = asset("storage/images/" . $imageName);

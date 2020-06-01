@@ -65,6 +65,22 @@ $(function () {
        $(this).toggleClass('active');
    });
 
+    $('.course-selector').click(function () {
+        let cell = $(this).closest('td');
+        let allChecked = true;
+        cell.find('.course-selector').each(function () {
+            if (!$(this).prop('checked')) {
+                allChecked = false;
+            }
+        });
+        let allCourseSelector = $(cell.find('.all-course-selector'));
+        if (allChecked) {
+            allCourseSelector.addClass('active').prop('checked', true);
+        } else {
+            allCourseSelector.removeClass('active').prop('checked', false);
+        }
+    });
+
    $('#change-limits').click(function () {
        // if (!$('select[name="year"]').text()) {
        //     $('#emptyYear').modal('show');

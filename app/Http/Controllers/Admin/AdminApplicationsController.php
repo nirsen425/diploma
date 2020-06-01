@@ -9,6 +9,7 @@ use App\Student;
 use App\Teacher;
 use App\TeacherLimit;
 use App\Group;
+use App\Helpers\Helper;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
@@ -93,9 +94,28 @@ class AdminApplicationsController extends Controller
     {
         // Получаем уникальные года из истории групп для вывода в выпадающий список
         $yearsGroupStories = $this->groupStory->select('year_history')->distinct()->orderBy('year_history')->get();
+        // Проверка на существующий год
+        $yearExistInGroupStories = false;
+        foreach ($yearsGroupStories->toArray() as $yearGroupStory) {
+            if ($yearGroupStory["year_history"] == $historyYear) {
+                $yearExistInGroupStories = true;
+            }
+        }
+
+        if (!$yearExistInGroupStories) {
+            return redirect()->route('student_applications', ['historyYear' => Helper::getSchoolYear()]);
+        }
+
         // Если группы выбрали из выпадающего списка, передаем ее модель в шаблон
         if (isset($groupStoryId)) {
-            $selectedGroupStory = $this->groupStory->where('id', '=', $groupStoryId)->first();
+            $selectedGroupStory = $this->groupStory->where([
+                ['id', '=', $groupStoryId],
+                ['year_history', '=', $historyYear]
+            ])->first();
+            if (!isset($selectedGroupStory)) {
+                return redirect()->route('student_applications', ['historyYear' => Helper::getSchoolYear()]);
+            }
+
             $parameters['selectedGroupStory'] = $selectedGroupStory;
 
             // Получаем группу из таблицы groups связанную с группой из history_group
@@ -126,6 +146,16 @@ class AdminApplicationsController extends Controller
         // Получение массива с данными о заявке из ajax запроса
         $applictionDataArray = $request->applictionDataArray;
 
+        if (!in_array($applictionDataArray['statusId'], [1,2,3])) {
+            return "false";
+        }
+
+        $student = $this->student->where('id', '=', $applictionDataArray['studentId'])->first();
+        $teacher = $this->teacher->where('id', '=', $applictionDataArray['teacherId'])->first();
+        if (!$student->hasAccessForSendApplicationForTeacher($teacher)) {
+            return "false";
+        }
+
         $lastApplication = $this->application->where([
             ['year', '=', $applictionDataArray['year']],
             ['student_id', '=', $applictionDataArray['studentId']]
@@ -145,6 +175,33 @@ class AdminApplicationsController extends Controller
 
             $lastApplication->update($parameters);
         } else {
+            // Получаем уникальные года из истории групп для вывода в выпадающий список
+            $yearsGroupStories = $this->groupStory->select('year_history')->distinct()->orderBy('year_history')->get();
+
+            // Проверка на существующий год
+            $yearExistInGroupStories = false;
+            $historyYear = $applictionDataArray['year'];
+            foreach ($yearsGroupStories->toArray() as $yearGroupStory) {
+                if ($yearGroupStory["year_history"] == $historyYear) {
+                    $yearExistInGroupStories = true;
+                }
+            }
+
+            if (!$yearExistInGroupStories) {
+                return "false";
+            }
+
+            $groupId = $student->group()->first()->course;
+
+            $selectedGroupStory = $this->groupStory->where([
+                ['id', '=', $groupId],
+                ['year_history', '=', $historyYear]
+            ])->first();
+
+            if (!isset($selectedGroupStory)) {
+                return "false";
+            }
+
             $parameters = [
                 'year' => $applictionDataArray['year'],
                 'student_id' => $applictionDataArray['studentId'],

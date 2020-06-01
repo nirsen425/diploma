@@ -3,8 +3,8 @@
 @section('content')
     <link href="{{ asset('css/admin/student-applications.css') }}" rel="stylesheet">
 
-    <div class="bg-white">
-        <div class="container-fluid p-3">
+    <div class="bg-white shell p-3" >
+      <div class="container-fluid p-3">
             <div class="row">
                 <h3 class="col-12 col-lg-6 mt-2">Заявки студентов</h3>
                 <div class="col-12 col-lg-6 text-lg-right">
@@ -16,7 +16,6 @@
                 </div>
             </div>
         </div>
-
         <div class="d-flex pl-3 pb-3 pr-3">
             <div class="d-flex flex-column">
                 <label for="year" class="font-weight-bold year">Год</label>

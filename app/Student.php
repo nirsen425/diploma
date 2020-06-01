@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\Helpers\Helper;
 use Illuminate\Database\Eloquent\Model;
 
 class Student extends Model
@@ -65,5 +66,31 @@ class Student extends Model
     public function getTeacherByTypeActivity($typeActivity)
     {
         return $this->applications()->where('type_id', '=', $typeActivity)->first()->teacher()->first();
+    }
+
+    public function hasAccessForSendApplicationForTeacher($teacher)
+    {
+        $teacherLimitForCurrentYear = $teacher->currentLimits()
+            ->where('year', '=', Helper::getSchoolYear())->first();
+        if (isset($teacherLimitForCurrentYear) and $teacherLimitForCurrentYear->limit > 0) {
+            $studentCourse = $this->group()->first()->course;
+            if ($studentCourse == 1) {
+                $сolumnName = 'first_course';
+            }
+
+            if ($studentCourse == 2) {
+                $сolumnName = 'second_course';
+            }
+
+            if ($studentCourse == 3) {
+                $сolumnName = 'third_course';
+            }
+
+            if ($studentCourse == 4) {
+                $сolumnName = 'fourth_course';
+            }
+
+            return $teacherLimitForCurrentYear->$сolumnName;
+        }
     }
 }

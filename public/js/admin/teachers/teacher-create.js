@@ -123,6 +123,7 @@ $(document).ready(function () {
             full_description: {
                 required: true,
                 minlength: 50,
+                maxlength: 15000
             },
             photo: {
                 imageResolution: function (element) {
@@ -155,7 +156,8 @@ $(document).ready(function () {
             },
             full_description: {
                 required: "Это поле обязательно для заполнения",
-                minlength: "Полное описание должно состоять минимиум из 50 символов"
+                minlength: "Полное описание должно состоять минимиум из 50 символов",
+                maxlength: "Полное описание не должно превышать 15000 символов"
             },
             photo: {
                 required: "Выберите фото",

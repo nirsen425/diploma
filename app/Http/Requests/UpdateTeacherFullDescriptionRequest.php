@@ -24,7 +24,7 @@ class UpdateTeacherFullDescriptionRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'full_description' => ['required', 'string', 'min:50', 'max:16000'],
         ];
     }
 }

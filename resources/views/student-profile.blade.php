@@ -80,7 +80,7 @@
 
     <div class="row no-gutters">
         <div class="col-12 text-dark">
-            <div class="bg-white p-3 rounded drop-shadow">
+            <div class="bg-white p-3 rounded drop-shadow shell">
                 <div class="profile-title">Профиль студента</div>
                 <hr>
                 <div class="bg-white mr-lg-3 p-3 rounded">
@@ -171,7 +171,7 @@
                                         @if ($currentApplication->status_id != 1)
                                             <div class="p-2">
                                                 <div class="font-weight-bolder">Дата ответа</div>
-                                                <div class="date">{{ $currentApplication->reply_datetime }}</div>
+                                                <div class="date text-break">{{ $currentApplication->reply_datetime }}</div>
                                             </div>
                                         @endif
                                     </div>
@@ -240,7 +240,7 @@
                                         </div>
                                         <div class="p-2">
                                             <div class="font-weight-bolder">Дата ответа</div>
-                                            <div class="date">{{ $historyApplication->reply_datetime }}</div>
+                                            <div class="date text-break">{{ $historyApplication->reply_datetime }}</div>
                                         </div>
                                     </div>
                                 @endforeach

@@ -20,7 +20,7 @@ $(function () {
             },
             url: "/application/cancel/" + teacherId + "/" + typeId,
             success: function(status) {
-                if (status) {
+                if (status == "true") {
                     $('#is-cancel-confirmed').modal('show');
                     let canceledApplication = $('.application-cancel-button[type-id="' + typeId + '"]' +
                         '[teacher-id="' + teacherId + '"]').closest('.request');

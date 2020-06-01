@@ -82,25 +82,29 @@
         </div>
     </div>
 
-    <div class="bg-white p-3">
-        <div class="d-flex">
-            <div class="d-flex flex-column">
-                <label for="year" class="font-weight-bold year">Год</label>
-                <select class="mb-2 text-center" name="year">
-                    @foreach($limitYears as $limitYear)
-                        <option {{ $limitYear->year == $year ? "selected" : "" }}>{{ $limitYear->year }}</option>
-                    @endforeach
-                    @if (!$yearExist)
-                        <option selected>{{ $year }}</option>
-                    @endif
-                </select>
+    <div class="bg-white shell p-3 text-break">
+        <div class="d-flex flex-column flex-lg-row ">
+            <div class="d-flex">
+                <div class="d-flex flex-column">
+                    <label for="year" class="font-weight-bold year">Год</label>
+                    <select class="mb-2 text-center" name="year">
+                        @foreach($limitYears as $limitYear)
+                            <option {{ $limitYear->year == $year ? "selected" : "" }}>{{ $limitYear->year }}</option>
+                        @endforeach
+                        @if (!$yearExist)
+                            <option selected>{{ $year }}</option>
+                        @endif
+                    </select>
+                </div>
+                <button class="button button-large align-self-end mb-2 ml-2" id="select-all-teachers">Отметить всех</button>
             </div>
-            <button class="button button-large align-self-end mb-2 ml-2" id="select-all-teachers">Отметить всех</button>
-            <div class="d-flex flex-column ml-2">
-                <label for="year" class="font-weight-bold year">Новый период</label>
-                <input type="text" class="mb-2 text-center" name="new-year">
+            <div class="d-flex">
+                <div class="d-flex flex-column ml-lg-2">
+                    <label for="year" class="font-weight-bold year">Новый период</label>
+                    <input type="text" class="mb-2 text-center" name="new-year">
+                </div>
+                <button class="button button-large align-self-end mb-2 ml-2" id="add-new-year">Добавить период</button>
             </div>
-            <button class="button button-large align-self-end mb-2 ml-2" id="add-new-year">Добавить период</button>
         </div>
         <table class="table bg-light" id="teacher-limits-table">
             <thead class="thead-dark">
@@ -146,7 +150,7 @@
                                 </div>
                                 <div class="d-flex flex-column ml-1">
                                     <label for="all_course">Все</label>
-                                    <input type="checkbox" class="align-self-center medium-checkbox all-course-selector" name="all_course" {{ (isset($teacherLimit) and $teacherLimit->first_course and $teacherLimit->second_course and $teacherLimit->third_course and $teacherLimit->fourth_course) ? "checked" : "" }}>
+                                    <input type="checkbox" class="align-self-center medium-checkbox all-course-selector {{ (isset($teacherLimit) and $teacherLimit->first_course and $teacherLimit->second_course and $teacherLimit->third_course and $teacherLimit->fourth_course) ? "active" : "" }}" name="all_course" {{ (isset($teacherLimit) and $teacherLimit->first_course and $teacherLimit->second_course and $teacherLimit->third_course and $teacherLimit->fourth_course) ? "checked" : "" }}>
                                 </div>
                             </div>
                         </td>

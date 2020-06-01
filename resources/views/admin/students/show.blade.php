@@ -2,7 +2,7 @@
 
 @section('content')
     <link href="{{ asset('css/admin/students/student-show.css') }}" rel="stylesheet">
-    <div class="content">
+    <div class="content text-break">
         <h3 class="mb-3">Просмотр студента</h3>
         <div class="font-weight-bold">ФИО</div>
         <div>{{ $student->getFullName() }}</div>

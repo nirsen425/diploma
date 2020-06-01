@@ -32,7 +32,7 @@ $(function () {
             },
             url: "/application/reject/" + studentId+ "/" + typeId,
             success: function(status) {
-                if (status) {
+                if (status == "true") {
                     // Удаление заявки студента, которую отклонили
                     let rejectedApplication = $('.application-reject-button[type-id="' + typeId + '"]' +
                         '[student-id="' + studentId + '"]').closest(".request");

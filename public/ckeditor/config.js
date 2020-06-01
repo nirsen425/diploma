@@ -28,13 +28,17 @@ CKEDITOR.editorConfig = function( config ) {
 
 	// Remove some buttons provided by the standard plugins, which are
 	// not needed in the Standard(s) toolbar.
-	config.removeButtons = 'Underline,Subscript,Superscript';
+	config.removeButtons = 'Underline,Subscript,Superscript,Paste,Cut,Copy,Styles,Scayt,,Indent,Outdent';
+
 
 	// Set the most common block elements.
 	config.format_tags = 'p;h1;h2;h3;pre';
 
 	// Simplify the dialog windows.
 	config.removeDialogTabs = 'image:advanced;link:advanced';
+
+	config.removePlugins = 'link,magicline,a11yhelp,about,pastetext,pastetools,tableselection,' +
+		'pastefromgdocs,pastefromword,specialchar,table,tabletools';
 
 	CKEDITOR.on('instanceReady', function (e) {
 		var instance = e.editor;

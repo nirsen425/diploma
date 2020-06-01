@@ -29,3 +29,7 @@
         max-height: 100%;
     }
 }
+
+header {
+    min-width: 490px;
+}
