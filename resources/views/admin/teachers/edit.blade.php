@@ -77,7 +77,7 @@
                 <label for="photo" class="col-lg-2 col-form-label font-weight-bold">Фотография</label>
                 <div class="col-lg-10">
                     <div class="custom-file">
-                        <input type="file" accept="image/*" class="custom-file-input" id="photo" name="photo" lang="ru">
+                        <input type="file" accept="image/*" class="custom-file-input" id="photo" name="photo" lang="ru" data-msg-accept="Файл должен иметь один из форматов jpg, jpeg или png">
                         <label class="custom-file-label" for="photo" data-browse="Изменить фото">Выберите фото</label>
                     </div>
                     <div class="teacher-image-container mt-3">
@@ -106,6 +106,7 @@
     </div>
     <script src="{{ asset('ckeditor/ckeditor.js') }}"></script>
     <script src="{{ asset('js/admin/teachers/teacher-update.js') }}"></script>
-    <script src="{{ asset('js/admin/teachers/teacher-active-sumbenu.js') }}"></script>
+    <script src="{{ asset('js/admin/teachers/teacher-active-submenu.js') }}"></script>
     <script src="{{ asset('js/admin/teachers/teacher-update-password-correction.js') }}"></script>
+    <script src="{{ asset('js/additional-methods.js') }}"></script>
 @endsection

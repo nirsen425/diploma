@@ -24,7 +24,7 @@ class UpdateTeacherShortDescriptionRequest extends FormRequest
     public function rules()
     {
         return [
-            'short_description' => ['required', 'string', 'min:10', 'max:100'],
+            'short_description' => ['required', 'string', 'min:10', 'max:140'],
         ];
     }
 }

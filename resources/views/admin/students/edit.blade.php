@@ -10,7 +10,7 @@
             </button>
         </div>
     @endif
-    <div class="content">
+    <div class="content text-break">
         <h3 class="mb-4">Редактирование студента</h3>
         @if ($errors->any())
             <div class="alert alert-danger">

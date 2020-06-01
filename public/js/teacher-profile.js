@@ -63,6 +63,9 @@ $(function () {
     $.validator.addMethod("imageResolution", function (value, element) {
         var $image = $('#teacherImage');
         var cropper = $image.data('cropper');
+        if (typeof cropper == 'undefined') {
+            return false;
+        }
         var $cropData = cropper.getData(true);
         if ($cropData['width'] >= 200 || $cropData['height'] >= 200) {
             return true;
@@ -84,6 +87,25 @@ $(function () {
         var regexp = new RegExp("[0-9]");
         return value.match(regexp);
     }, "Пароль должен содержать хотя бы одну цифру");
+
+    jQuery.validator.addMethod("filesizeMax", function(value, element, param) {
+        var isOptional = this.optional(element),
+            file;
+
+        if(isOptional) {
+            return isOptional;
+        }
+
+        if ($(element).attr("type") === "file") {
+
+            if (element.files && element.files.length) {
+
+                file = element.files[0];
+                return ( file.size && file.size <= param );
+            }
+        }
+        return false;
+    }, "Вес изображения должен быть меньше 512 Кб");
 
     $("#login-update-form").validate({
         rules: {
@@ -158,12 +180,14 @@ $(function () {
         rules: {
             photo: {
                 required: true,
+                extension: "jpg|jpeg|png",
+                filesizeMax: 524288,
                 imageResolution: true
             }
         },
         messages: {
             photo: {
-                required: "Загрузите фотографию"
+                required: "Загрузите фотографию",
             }
         },
     });
@@ -172,13 +196,13 @@ $(function () {
         rules: {
             short_description: {
                 required: true,
-                rangelength: [10, 100]
+                rangelength: [10, 138]
             }
         },
         messages: {
             short_description: {
                 required: "Это поле обязательно для заполнения",
-                rangelength: "Краткое описание должно состоять минимум из 10 символов и максимум из 100"
+                rangelength: "Краткое описание должно состоять минимум из 10 символов и максимум из 135"
             }
         },
     });
@@ -187,13 +211,15 @@ $(function () {
         rules: {
             full_description: {
                 required: true,
-                minlength: 50
+                minlength: 50,
+                maxlength: 15000
             }
         },
         messages: {
             full_description: {
                 required: "Это поле обязательно для заполнения",
-                minlength: "Полное описание должно состоять минимум из 50 символов"
+                minlength: "Полное описание должно состоять минимум из 50 символов",
+                maxlength: "Полное описание не должно превышать 15000 символов"
             }
         },
         // Определение места вставки сообщения об ошибке
@@ -208,11 +234,26 @@ $(function () {
 
     // Загрузка фото
     var loadFile = function(event) {
-        var teacherImage = document.getElementById('teacherImage');
-        teacherImage.src = URL.createObjectURL(event.target.files[0]);
 
         var $image = $('#teacherImage');
         $image.cropper('destroy');
+
+        if (typeof event.target.files[0] == 'undefined') {
+            $image.removeAttr('src');
+            $('.custom-file-label').text("Выберите фото");
+            $(this).valid();
+            return;
+        } else {
+            $('.custom-file-label[for="photo"]').text(event.target.files[0].name);
+        }
+
+        if (!event.target.files[0].name.match(new RegExp("(.jpg|.JPG|.jpeg|.JPEG|.png|.PNG)$"))) {
+            $image.removeAttr('src');
+            $(this).valid();
+            return;
+        }
+
+        $image.attr('src', URL.createObjectURL(event.target.files[0]));
 
         $image.cropper({
             aspectRatio: 1 / 1,
@@ -232,6 +273,14 @@ $(function () {
             $('#photo_y').val($cropData['y']);
             $('#photo_width').val($cropData['width']);
             $('#photo_height').val($cropData['height']);
+        });
+
+        $image.bind('ready', function () {
+            $('#photo').valid();
+        });
+
+        $image.bind('cropend', function () {
+            $('#photo').valid();
         });
     };
 

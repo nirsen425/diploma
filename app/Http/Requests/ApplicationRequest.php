@@ -24,7 +24,7 @@ class ApplicationRequest extends FormRequest
     public function rules()
     {
         return [
-            'type_id' => ['required', 'between:1,2']
+            'type_id' => ['required']
         ];
     }
 }

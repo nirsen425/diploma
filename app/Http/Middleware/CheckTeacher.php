@@ -2,6 +2,7 @@
 
 namespace App\Http\Middleware;
 
+use App\Helpers\Helper;
 use Closure;
 
 class CheckTeacher
@@ -15,7 +16,8 @@ class CheckTeacher
      */
     public function handle($request, Closure $next)
     {
-        if ($request->user()->user_type_id == 2) {
+        $user = $request->user();
+        if (Helper::isTeacher($user)) {
             return $next($request);
         }
 
