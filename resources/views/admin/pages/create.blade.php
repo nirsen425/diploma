@@ -9,14 +9,14 @@
     @endif
     <div class="content text-break">
         <h3>Создание страницы</h3>
-        @if ($errors->any())
-            <div class="alert alert-danger">
-                @foreach($errors->all() as $error)
-                    {{ $error }}
-                    <br>
-                @endforeach
-            </div>
-        @endif
+{{--        @if ($errors->any())--}}
+{{--            <div class="alert alert-danger">--}}
+{{--                @foreach($errors->all() as $error)--}}
+{{--                    {{ $error }}--}}
+{{--                    <br>--}}
+{{--                @endforeach--}}
+{{--            </div>--}}
+{{--        @endif--}}
         <form action="{{ route('pages.store') }}" method="POST" id="pageRegistration">
             @csrf
 

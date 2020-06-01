@@ -38,6 +38,10 @@ Route::resource('admin/lecturers', 'Admin\Teachers\TeacherController', ['except'
     'create', 'store'
 ]])->parameters(['lecturers' => 'teacher']);
 
+Route::resource('admin/groups', 'Admin\Groups\GroupController', ['only' => [
+    'index', 'create', 'store'
+]]);
+
 Route::resource('admin/pages', 'Admin\Pages\PageController');
 
 Route::get('admin/teacher-applications', 'Admin\AdminApplicationsController@showTeacherApplications')->name('teacher_applications');
