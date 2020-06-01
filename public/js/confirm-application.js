@@ -20,7 +20,7 @@ $(function () {
             },
             url: "/application/confirm/" + studentId+ "/" + typeId,
             success: function(status) {
-                if (status) {
+                if (status == "true") {
                     // Удаление заявки студента, которую приняли
                     let confirmedApplication = $('.application-approve-button[type-id="' + typeId + '"]' +
                         '[student-id="' + studentId + '"]').closest(".request");
@@ -125,7 +125,7 @@ $(function () {
 
                     $('#is-approve-confirmed').modal('show');
                 } else {
-                    $('#is-reject-failure').modal('show');
+                    $('#is-approve-failure').modal('show');
                 }
             }
         });

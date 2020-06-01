@@ -28,7 +28,7 @@ class UpdateTeacherPhotoRequest extends FormRequest
             'photo_y' => ['required', 'integer'],
             'photo_width' => ['required', 'integer'],
             'photo_height' => ['required', 'integer'],
-            'photo' => ['required', 'image', 'dimensions:min_width=200,min_height=200', 'min_resolve', 'crop_image_square']
+            'photo' => ['required', 'image', 'max:512', 'dimensions:min_width=200,min_height=200', 'min_resolve', 'crop_image_square']
         ];
     }
 }

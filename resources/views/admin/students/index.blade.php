@@ -54,7 +54,6 @@
     <table class="table student-table">
         <thead class="thead-dark">
         <tr>
-            <th scope="col">Студенческий билет</th>
             <th scope="col">Имя</th>
             <th scope="col">Отчество</th>
             <th scope="col">Фамилия</th>
@@ -64,7 +63,6 @@
         <tbody>
         @foreach($students as $student)
             <tr>
-                <td>{{ $student->student_ticket }}</td>
                 <td>{{ $student->name }}</td>
                 <td>{{ $student->patronymic }}</td>
                 <td>{{ $student->surname }}</td>

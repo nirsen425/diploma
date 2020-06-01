@@ -3,7 +3,7 @@
 @section('content')
     <link href="{{ asset('css/admin/student-applications.css') }}" rel="stylesheet">
 
-    <div class="bg-white p-3" >
+    <div class="bg-white shell p-3" >
         <div class="d-flex">
             <div class="d-flex flex-column">
                 <label for="year" class="font-weight-bold year">Год</label>

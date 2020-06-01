@@ -14,7 +14,7 @@ use App\User;
 use App\Page;
 
 Route::get('/', 'IndexController@index')->name('index');
-Route::get('lecturer/show/{teacher}', 'IndexController@showTeacher')->name('teacher_show');
+Route::get('lecturer/show/{teacher}', 'IndexController@showTeacher')->name('teacher_show')->middleware('studentAccessForFullTeacherDescription');
 Route::get('student/cabinet', 'StudentCabinetController@index')->name('student_cabinet_index');
 Route::get('lecturer/cabinet', 'TeacherCabinetController@index')->name('teacher_cabinet_index');
 

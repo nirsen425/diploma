@@ -21,8 +21,8 @@ $factory->define(Teacher::class, function (Faker $faker) {
         'name' => $faker->firstName,
         'patronymic' => 'Allan',
         'surname' => $faker->lastName,
-        'short_description' => $faker->paragraph(3, true),
-        'full_description' => $faker->paragraph(7, true),
+        'short_description' => $faker->paragraph(2, true),
+        'full_description' => $faker->paragraph(5, true),
         'photo' => 'empty.png'
     ];
 });

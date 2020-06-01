@@ -37,9 +37,18 @@ class ApplicationController extends Controller
     {
         // Получение студента, который отправил заявку
         $student = $user->student()->first();
+
+        if (!$student->hasAccessForSendApplicationForTeacher($teacher)) {
+            $permissionErrorMessage = "Вы не можете отправить заявку этому преподавателю";
+            return "{
+                \"status\": false,
+                \"message\": \"$permissionErrorMessage\"
+            }";
+        }
+
         $studentId = $student->id;
         // Получение типа заявки, практика(1) или диплом(2)
-        $applicationTypeId = $request['type_id'];
+        $applicationTypeId = 1;
         $teacherFullName = $teacher->getFullName();
         // Получение заявки в рассмотрении или принятой на текущий учебный год в зависимости от типа заявки
         $waitOrConfirmApplicationExistByCurrentYear = $this->application->waitOrConfirmApplicationExistByCurrentYear($studentId, $applicationTypeId);
@@ -105,7 +114,7 @@ class ApplicationController extends Controller
         $application = $this->application->where([
             ['teacher_id', '=', $teacherId],
             ['student_id', '=', $studentId],
-            ['type_id', '=', $typeId],
+            ['type_id', '=', 1],
             ['year', '=', Helper::getSchoolYear()],
             ['status_id', '=', 1]
         ])->first();
@@ -137,7 +146,7 @@ class ApplicationController extends Controller
         $application = $this->application->where([
             ['teacher_id', '=', $teacherId],
             ['student_id', '=', $studentId],
-            ['type_id', '=', $typeId],
+            ['type_id', '=', 1],
             ['year', '=', Helper::getSchoolYear()]
         ])->whereIn('status_id', [1, 2])->first();
 
@@ -168,7 +177,7 @@ class ApplicationController extends Controller
         $application = $this->application->where([
             ['teacher_id', '=', $teacherId],
             ['student_id', '=', $studentId],
-            ['type_id', '=', $typeId],
+            ['type_id', '=', 1],
             ['year', '=', Helper::getSchoolYear()],
             ['status_id', '=', 1]
         ])->first();

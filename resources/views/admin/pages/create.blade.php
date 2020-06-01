@@ -7,7 +7,7 @@
             {{ session('status') }}
         </div>
     @endif
-    <div class="content">
+    <div class="content text-break">
         <h3>Создание страницы</h3>
         @if ($errors->any())
             <div class="alert alert-danger">
@@ -44,7 +44,7 @@
             </div>
             <div class="form-group">
                 <label for="meta_words">Ключевые слова</label>
-                <input type="text" class="form-control" id="meta_words" placeholder="Иванов" name="meta_words" value="{{ old('meta_words') }}">
+                <input type="text" class="form-control" id="meta_words" name="meta_words" value="{{ old('meta_words') }}">
             </div>
             <button type="submit" class="btn">Создать</button>
         </form>

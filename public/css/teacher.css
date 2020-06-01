@@ -22,3 +22,7 @@ img {
         height: 150px;
     }
 }
+
+pre {
+    white-space: normal !important;
+}

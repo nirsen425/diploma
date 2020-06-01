@@ -295,7 +295,7 @@
                                 <div class="form-group">
                                     <label for="photo">Фотография</label>
                                     <div class="custom-file">
-                                        <input type="file" accept="image/*" class="custom-file-input" id="photo" name="photo" lang="ru">
+                                        <input type="file" accept="image/*" class="custom-file-input" id="photo" name="photo" lang="ru" data-rule-required="true" data-msg-accept="Файл должен иметь один из форматов jpg, jpeg или png">
                                         <label class="custom-file-label" for="photo" data-browse="Изменить фото">Выберите фото</label>
                                     </div>
                                     <div class="teacher-image-container mt-3">
@@ -352,4 +352,5 @@
     <script src="{{ asset('js/teacher-profile.js') }}"></script>
     <script src="{{ asset('js/confirm-application.js') }}"></script>
     <script src="{{ asset('js/reject-application.js') }}"></script>
+    <script src="{{ asset('js/additional-methods.js') }}"></script>
 @endsection

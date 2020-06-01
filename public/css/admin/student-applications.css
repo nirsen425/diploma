@@ -27,3 +27,7 @@ select[name="status"] {
     height: 29px;
     min-width: 122px;
 }
+
+.shell {
+    min-width: 520px;
+}
