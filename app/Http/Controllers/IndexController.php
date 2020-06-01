@@ -30,7 +30,7 @@ class IndexController extends Controller
      */
     public function index(Authenticatable $user)
     {
-        $teachers = $this->teacher->getTeachersByCourseForCurrentYear($user->student()->first()->group()->value('course'));
+        $teachers = $this->teacher->getTeachersByCourseForCurrentYear($user->student()->first()->group()->value('course_id'));
         return view('teacher-list', ['teachers' => $teachers, 'currentYear' => Helper::getSchoolYear()]);
     }
 

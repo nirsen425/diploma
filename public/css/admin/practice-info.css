@@ -1,0 +1,32 @@
+.practice-info-container {
+    background-color: #fff;
+}
+
+.direction {
+    font-size: 1rem;
+}
+
+.course {
+    font-size: 1rem;
+}
+
+.practice-time {
+    font-size: 1.2rem;
+}
+
+.application-time {
+    font-size: 1.2rem;
+}
+
+.practice-info {
+    font-size: 1.2rem;
+}
+
+select[name="direction"] {
+    height: 29px;
+}
+
+select[name="course"] {
+    width: 40px;
+    height: 29px;
+}

@@ -44,8 +44,6 @@ Route::resource('admin/groups', 'Admin\Groups\GroupController', ['only' => [
 
 Route::resource('admin/pages', 'Admin\Pages\PageController');
 
-Route::get('admin/teacher-applications', 'Admin\AdminApplicationsController@showTeacherApplications')->name('teacher_applications');
-
 Route::post('verification/login/{user?}', 'HelpController@loginVerification')->middleware('admin');
 Route::post('verification/title/{page?}', 'HelpController@titleVerification')->middleware('admin');
 Route::post('upload/image', 'HelpController@uploadImage')->middleware('auth');
@@ -76,10 +74,27 @@ Route::post('teacher/{teacher}/update/full-description', 'TeacherCabinetControll
 Route::post('student/{student}/update/login', 'StudentCabinetController@updateLogin')->name('student_login_update');
 Route::post('student/{student}/update/password', 'StudentCabinetController@updatePassword')->name('student_password_update');
 
-// Получение отчета
-Route::get('report/practice', 'Admin\AdminReportController@getReportPractice')->name('report_practice');
-Route::get('report/diploma', 'Admin\AdminReportController@getReportDiploma')->name('report_diploma');
-
 // Заявки студентов
 Route::get('admin/student-applications/{historyYear}/{groupStoryId?}', 'Admin\AdminApplicationsController@showStudentLastApplications')->name('student_applications');
 Route::post('admin/student-applications', 'Admin\AdminApplicationsController@changeOrCreateApplication');
+// Заявки руководителей
+Route::get('admin/teacher-applications/{selectedYear}/{teacherId?}', 'Admin\AdminApplicationsController@showTeacherApplications')->name('teacher_applications');
+
+// Получение отчета
+Route::get('report/practice/group/{year?}/{groupStoryId?}', 'Admin\AdminReportController@getReportPracticeGroup')->name('report_practice_group');
+Route::get('report/practice/teacher/{year?}/{teacherId?}', 'Admin\AdminReportController@getReportPracticeTeacher')->name('report_practice_teacher');
+//Route::get('report/diploma', 'Admin\AdminReportController@getReportDiploma')->name('report_diploma');
+
+// Информация и сроки
+Route::get('admin/practice-info/{directionId}/{courseId?}', 'Admin\AdminPracticeController@index')->name('practice_info');
+Route::post('admin/practice-info/{directionId?}/{courseId?}/edit', 'Admin\AdminPracticeController@edit')->name('practice_info_edit');
+
+//Файлы
+Route::get('admin/files/{directionId?}/{courseId?}', 'Admin\AdminFilesController@index')->name('files');
+
+Route::post('admin/file/upload/{directionId}/{courseId}', 'Admin\AdminFilesController@upload')->name('file_upload');
+Route::get('admin/file/download/{directionId}/{courseId}/{fileId}', 'Admin\AdminFilesController@download')->name('file_download');
+Route::post('admin/file/delete/{directionId}/{courseId}/{fileId}', 'Admin\AdminFilesController@destroy')->name('file_delete');
+
+Route::get('student/file/download/{fileId}', 'FilesController@studentDownload')->name('student_file_download');
+//Route::get('teacher/file/download/{fileId}', 'FilesController@teacherDownload')->name('teacher_file_download');

@@ -91,3 +91,20 @@
 .fas {
     cursor: pointer;
 }
+
+.direction {
+    font-size: 1rem;
+}
+
+.course {
+    font-size: 1rem;
+}
+
+select[name="direction"] {
+    height: 29px;
+}
+
+select[name="course"] {
+    width: 40px;
+    height: 29px;
+}

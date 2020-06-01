@@ -72,14 +72,20 @@
                     </li>
                 </ul>
             </li>
-            <li id="teacher-applications">
-                <a href="{{ route('teacher_applications') }}">Заявки</a>
-            </li>
             <li id="set-limits">
                 <a href="{{ route('teacher_limits', ['year' => Helper::getSchoolYear()]) }}">Лимиты преподавателей</a>
             </li>
             <li id="student-applications">
                 <a href="{{ route('student_applications', ['historyYear' => Helper::getSchoolYear()]) }}">Заявки студентов</a>
+            </li>
+            <li id="teacher-applications">
+                <a href="{{ route('teacher_applications', ['selectedYear' => Helper::getSchoolYear()]) }}">Заявки руководителей</a>
+            </li>
+            <li>
+                <a href="{{ route('practice_info', ['directionId' => '1']) }}">Информация и сроки</a>
+            </li>
+            <li>
+                <a href="{{ route('files', ['directionId' => '1']) }}">Файлы</a>
             </li>
         </ul>
     </aside>
