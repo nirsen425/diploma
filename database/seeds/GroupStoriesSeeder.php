@@ -27,7 +27,7 @@ class GroupStoriesSeeder extends Seeder
         // Формируем историю для каждой группы на всех курсах
         foreach($groups as $group) {
             $groupYear = $group->year;
-            $groupCourse  = $group->course;
+            $groupCourse  = $group->course_id;
             $groupName = $group->name;
             for($groupHistoryCourse = 1; $groupHistoryCourse <= $groupCourse; $groupHistoryCourse++) {
                 $groupHistoryNameByCourse = mb_substr_replace($groupName, $groupHistoryCourse, 4, 1, 'utf-8');
@@ -36,7 +36,7 @@ class GroupStoriesSeeder extends Seeder
                     'group_id' => $group->id,
                     'name' => $groupHistoryNameByCourse,
                     'year_history' => $groupYear - ($groupCourse - $groupHistoryCourse),
-                    'course' => $groupHistoryCourse
+                    'course_id' => $groupHistoryCourse
                 ]);
             }
         }

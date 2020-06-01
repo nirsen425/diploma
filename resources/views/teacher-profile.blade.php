@@ -122,6 +122,14 @@
             </div>
         @endif
     @endif
+    @if (session('notify_failure'))
+        <div class="alert alert-warning alert-dismissible fade show">
+            {{ session('notify_failure') }}
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+    @endif
     <div class="row no-gutters">
         <div class="col-lg-4 text-center mb-3 mb-lg-0 text-dark">
             <div class="bg-white mr-lg-3 p-3 rounded drop-shadow">
@@ -158,6 +166,12 @@
 {{--                    <li class="nav-item">--}}
 {{--                        <a class="nav-link text-dark" id="profile-tab" data-toggle="tab" href="#diploma-student" role="tab" aria-controls="profile" aria-selected="false">Сдающие диплом</a>--}}
 {{--                    </li>--}}
+                    <li class="nav-item">
+                        <a class="nav-link text-dark" id="contact-tab" data-toggle="tab" href="#practice-info" role="tab" aria-controls="profile" aria-selected="false">Информация</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-dark" id="contact-tab" data-toggle="tab" href="#teacher-files" role="tab" aria-controls="profile" aria-selected="false">Файлы</a>
+                    </li>
                     <li class="nav-item">
                         <a class="nav-link text-dark" id="contact-tab" data-toggle="tab" href="#teacher-edit" role="tab" aria-controls="contact" aria-selected="false">Редактирование</a>
                     </li>
@@ -235,6 +249,90 @@
 {{--                            @endif--}}
 {{--                        </div>--}}
 {{--                    </div>--}}
+
+
+
+                    <div class="tab-pane fade" id="practice-info" role="tabpanel" aria-labelledby="profile-tab">
+                        <div class="d-flex pl-3 pt-3">
+                            <div class="d-flex flex-column">
+                                <label for="direction" class="font-weight-bold direction">Направление</label>
+                                <select class="mb-2 text-center" name="direction">
+                                    <option>09.03.02 Информационные системы и технологии</option>
+                                </select>
+                            </div>
+                            <div class="d-flex flex-column ml-2">
+                                <label for="course" class="font-weight-bold course">Курс</label>
+                                <select class="mb-2" name="course">
+                                    <option class="d-none" selected></option>
+                                    <option>4</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group row pl-3 pt-3 pr-3">
+                            <label class="col-lg-3 col-form-label font-weight-bold application-time">Сроки подачи заявок</label>
+                            <label class="col-lg-9 col-form-label application-time">c 20202022 по 02020202</label>
+                        </div>
+                        <div class="form-group row pl-3 pt-3 pr-3">
+                            <label class="col-lg-3 col-form-label font-weight-bold practice-time">Сроки практики</label>
+                            <label class="col-lg-9 col-form-label practice-time">c 20202022 по 02020202</label>
+                        </div>
+                        <div class="form-group row pl-3 pt-3 pr-3">
+                            <label class="col-lg-3 col-form-label font-weight-bold practice-info">Информация</label>
+                            <label class="col-lg-9 col-form-label practice-info">  </label>
+                        </div>
+                    </div>
+
+
+
+                    <div class="tab-pane fade" id="teacher-files" role="tabpanel" aria-labelledby="home-tab">
+                        <div class="d-flex pl-3 pt-3">
+                            <div class="d-flex flex-column">
+                                <label for="direction" class="font-weight-bold direction">Направление</label>
+                                <select class="mb-2 text-center" name="direction">
+                                    <option>09.03.02 Информационные системы и технологии</option>
+                                </select>
+                            </div>
+                            <div class="d-flex flex-column ml-2">
+                                <label for="course" class="font-weight-bold course">Курс</label>
+                                <select class="mb-2" name="course">
+                                    <option class="d-none" selected></option>
+                                    <option>4</option>
+                                </select>
+                            </div>
+                        </div>
+                        @if(!$files->isEmpty())
+                            <div class="pt-3 pb-3">
+                                <table class="table bg-light table-hover" id="files-table">
+                                    <thead class="thead-dark">
+                                    <tr>
+                                        <th class="d-none">id</th>
+                                        <th scope="col" class="pl-8">Название файла</th>
+                                        <th scope="col" class="pl-8">Дата загрузки</th>
+                                        <th scope="col" class="pl-8">Действия</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    @foreach($files as $file)
+                                        <tr>
+                                            <td class="d-none file-id">{{ $file->id }}</td>
+                                            <td class="align-bottom p-8">{{ $file->name }}.{{ $file->extension }}</td>
+                                            <td class="align-bottom p-8 date">{{ $file->created_at }}</td>
+                                            <td>
+                                                <a href="" class="download" file-id="{{ $file->id }}" >
+                                                    <i class="fa fa-download"></i>
+                                                </a>
+                                            </td>
+                                        </tr>
+                                    @endforeach
+                                    </tbody>
+                                </table>
+                            </div>
+                        @else
+                            <div class="pt-3 pl-2">Нет загруженных файлов</div>
+                        @endif
+                    </div>
+
+
 
                     <div class="tab-pane fade" id="teacher-edit" role="tabpanel" aria-labelledby="home-tab">
 

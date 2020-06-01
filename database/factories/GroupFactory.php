@@ -21,8 +21,8 @@ $factory->define(Group::class, function (Faker $faker) {
     $year = $faker->unique()->randomDigit;
     return [
         'name' => 'НМТ-' . $course . $year . '39' . [29, 30, 31][rand(0,2)],
-        'direction' => ['Направление 1', 'Направление 2'][rand(0, 1)],
         'year' => 2020 + $year,
-        'course' => $course
+        'direction_id' => rand(1, 2),
+        'course_id' => $course,
     ];
 });

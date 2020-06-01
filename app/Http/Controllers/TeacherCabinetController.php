@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Application;
+use App\File;
 use App\Helpers\Helper;
 use App\Http\Requests\UpdateTeacherFullDescriptionRequest;
 use App\Http\Requests\UpdateTeacherPhotoRequest;
@@ -67,9 +68,16 @@ class TeacherCabinetController extends Controller
 //            $confirmDiplomaApplicationStudents[] = $confirmDiplomaApplication->student()->first();
 //        }
 
+
+
+        $files = File::orderByDesc('created_at')->get();
+
+
+
         $data = [
             'teacher' => $teacher,
-            'currentYear' => Helper::getSchoolYear()
+            'currentYear' => Helper::getSchoolYear(),
+            'files' => $files
         ];
 
         //<< Помещение заявок в массив для шаблона, если они есть

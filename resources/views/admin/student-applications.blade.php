@@ -4,7 +4,19 @@
     <link href="{{ asset('css/admin/student-applications.css') }}" rel="stylesheet">
 
     <div class="bg-white shell p-3" >
-        <div class="d-flex">
+      <div class="container-fluid p-3">
+            <div class="row">
+                <h3 class="col-12 col-lg-6 mt-2">Заявки студентов</h3>
+                <div class="col-12 col-lg-6 text-lg-right">
+                    @if (isset($selectedGroupStory))
+                        <a href="{{ route('report_practice_group', ['year' => $historyYear, 'groupStoryId' => $selectedGroupStory]) }}" class="button button-large mt-2" id="student-report">Сформировать отчет (по группе)</a>
+                    @else
+                        <a href="#" class="button button-large disabled mt-2">Сформировать отчет (по группе)</a>
+                    @endif
+                </div>
+            </div>
+        </div>
+        <div class="d-flex pl-3 pb-3 pr-3">
             <div class="d-flex flex-column">
                 <label for="year" class="font-weight-bold year">Год</label>
                 <select class="mb-2 text-center" name="year">
@@ -19,7 +31,7 @@
                     @if (isset($groupStoriesBySelectedYear))
                         @foreach($groupStoriesBySelectedYear as $groupStoryBySelectedYear)
                             @if (!isset($selectedGroupStory))
-                                <option  class="d-none" selected></option>
+                                <option class="d-none" selected></option>
                             @endif
                             <option value="{{ $groupStoryBySelectedYear->id }}" {{ (isset($selectedGroupStory) and $groupStoryBySelectedYear->id == $selectedGroupStory->id) ? "selected" : "" }}>{{ $groupStoryBySelectedYear->name }}</option>
                         @endforeach
@@ -55,7 +67,7 @@
                             <td class="align-bottom p-4">
                                 @php
                                     // Получение преподавателей которые берут курс этого студента
-                                    $teachers = $teacherModel->getTeachersByCourseForCurrentYear($student->group()->value('course'));
+                                    $teachers = $teacherModel->getTeachersByCourseForCurrentYear($student->group()->value('course_id'));
                                 @endphp
                                 <select name="teacher">
                                     <option class="d-none"></option>
