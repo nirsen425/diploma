@@ -21,7 +21,7 @@ class CheckStudentAccessForFullTeacherDescription
             $teacherLimitForCurrentYear = $request->teacher->currentLimits()
                 ->where('year', '=', Helper::getSchoolYear())->first();
             if (isset($teacherLimitForCurrentYear) and $teacherLimitForCurrentYear->limit > 0) {
-                $studentCourse = $user->student()->first()->group()->first()->course;
+                $studentCourse = $user->student()->first()->group()->first()->course_id;
                 if ($studentCourse == 1) {
                     $сolumnName = 'first_course';
                 }

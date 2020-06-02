@@ -191,10 +191,10 @@ class AdminApplicationsController extends Controller
                 return "false";
             }
 
-            $groupId = $student->group()->first()->course;
-
+            $groupId = $student->group()->first()->id;
+            
             $selectedGroupStory = $this->groupStory->where([
-                ['id', '=', $groupId],
+                ['group_id', '=', $groupId],
                 ['year_history', '=', $historyYear]
             ])->first();
 

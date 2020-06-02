@@ -73,7 +73,7 @@ class Student extends Model
         $teacherLimitForCurrentYear = $teacher->currentLimits()
             ->where('year', '=', Helper::getSchoolYear())->first();
         if (isset($teacherLimitForCurrentYear) and $teacherLimitForCurrentYear->limit > 0) {
-            $studentCourse = $this->group()->first()->course;
+            $studentCourse = $this->group()->first()->course_id;
             if ($studentCourse == 1) {
                 $сolumnName = 'first_course';
             }
