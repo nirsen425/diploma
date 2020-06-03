@@ -2,6 +2,7 @@
 
 namespace App;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 
 class Practice extends Model
@@ -12,8 +13,10 @@ class Practice extends Model
      * @var array
      */
     protected $fillable = [
-        'name', 'application_start', 'application_end', 'practice_start', 'practice_end', 'practice_info', 'direction_id', 'course_id'
+        'application_start', 'application_end', 'practice_start', 'practice_end', 'practice_info', 'direction_id', 'course_id'
     ];
+
+    protected $dates = ['application_start', 'application_end', 'practice_start', 'practice_end'];
 
     /**
      * Получение Course, привязанного к Practice
@@ -33,5 +36,41 @@ class Practice extends Model
     public function direction()
     {
         return $this->belongsTo('App\Direction');
+    }
+
+    /**
+     * Получение даты старта подачи заявок в нужном формате
+     * @param $value
+     * @return string
+     */
+    public function getApplicationStartAttribute($value) {
+        return Carbon::parse($value)->format('d.m.Y');
+    }
+
+    /**
+     * Получение даты конца подачи заявок в нужном формате
+     * @param $value
+     * @return string
+     */
+    public function getApplicationEndAttribute($value) {
+        return Carbon::parse($value)->format('d.m.Y');
+    }
+
+    /**
+     * Получение даты начала практики в нужном формате
+     * @param $value
+     * @return string
+     */
+    public function getPracticeStartAttribute($value) {
+        return Carbon::parse($value)->format('d.m.Y');
+    }
+
+    /**
+     * Получение даты конца практики в нужном формате
+     * @param $value
+     * @return string
+     */
+    public function getPracticeEndAttribute($value) {
+        return Carbon::parse($value)->format('d.m.Y');
     }
 }

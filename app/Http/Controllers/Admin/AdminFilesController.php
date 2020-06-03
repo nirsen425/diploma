@@ -33,7 +33,7 @@ class AdminFilesController extends Controller
             $direction = $this->direction->where('id', '=', $directionId)->first();
             if (isset($courseId))
             {
-                $directionCourseFiles = $direction->files()->orderBy('created_at')->wherePivot('course_id', '=', $courseId)->get();
+                $directionCourseFiles = $direction->files()->orderByDesc('created_at')->wherePivot('course_id', '=', $courseId)->get();
                 if (isset($directionCourseFiles))
                 {
                     $data['directionCourseFiles'] = $directionCourseFiles;
