@@ -2,6 +2,7 @@
 
 namespace App;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 
 class File extends Model
@@ -31,24 +32,11 @@ class File extends Model
     }
 
     /**
-     * Получение Courses, привязанных к Files.
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
-     */
-    /*public function courses()
-    {
-        return $this->belongsToMany('App\Course', 'file_direction_course', 'file_id', 'course_id');
-    }*/
-
-    /**
-     * Accessor возвращающий время загрузки файла в виде timestamp
-     *
+     * Получение даты загрузки файла в нужном формате
      * @param $value
-     * @return int timestamp
+     * @return string
      */
-    public function getCreatedAtAttribute($value)
-    {
-        $date = $this->asDateTime($value);
-        return $date->getTimestamp();
+    public function getCreatedAtAttribute($value) {
+        return Carbon::parse($value)->timezone('Asia/Yekaterinburg')->format('d.m.Y H:i:s');
     }
 }

@@ -17,6 +17,8 @@ Route::get('/', 'IndexController@index')->name('index');
 Route::get('lecturer/show/{teacher}', 'IndexController@showTeacher')->name('teacher_show');
 Route::get('student/cabinet', 'StudentCabinetController@index')->name('student_cabinet_index');
 Route::get('lecturer/cabinet', 'TeacherCabinetController@index')->name('teacher_cabinet_index');
+Route::post('lecturer/cabinet/practice', 'TeacherCabinetController@getPracticeByDirectionCourse');
+Route::post('lecturer/cabinet/files', 'TeacherCabinetController@getFilesByDirectionCourse');
 
 Route::get('/login', 'Auth\LoginController@showLoginForm')->name('login');
 Route::post('/login', 'Auth\LoginController@login');
@@ -93,4 +95,4 @@ Route::get('admin/file/download/{directionId}/{courseId}/{fileId}', 'Admin\Admin
 Route::post('admin/file/delete/{directionId}/{courseId}/{fileId}', 'Admin\AdminFilesController@destroy')->name('file_delete');
 
 Route::get('student/file/download/{fileId}', 'FilesController@studentDownload')->name('student_file_download');
-//Route::get('teacher/file/download/{fileId}', 'FilesController@teacherDownload')->name('teacher_file_download');
+Route::get('teacher/file/download/{directionId}/{courseId}/{fileId}', 'FilesController@teacherDownload')->name('teacher_file_download');
