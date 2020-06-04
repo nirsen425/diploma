@@ -31,3 +31,7 @@ select[name="status"] {
 .shell {
     min-width: 520px;
 }
+
+.student-empty {
+    border-top: 1px solid #e7e8ec;
+}

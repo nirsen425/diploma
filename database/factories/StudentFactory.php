@@ -21,8 +21,8 @@ $factory->define(Student::class, function (Faker $faker) {
         'name' => $faker->firstName,
         'patronymic' => 'Allan',
         'surname' => $faker->lastName,
-        'email' => $faker->unique()->safeEmail,
 //        'student_ticket' => '12345678',
+        'personal_number' => Str::random(8),
         'status' => rand(0, 1)
     ];
 });

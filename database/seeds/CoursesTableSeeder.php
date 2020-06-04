@@ -26,5 +26,9 @@ class CoursesTableSeeder extends Seeder
         DB::table('courses')->insert([
             'course' => '4'
         ]);
+
+        DB::table('courses')->insert([
+            'course' => 'Выпущена'
+        ]);
     }
 }

@@ -3,8 +3,11 @@
 @section('content')
     <link href="{{ asset('css/admin/groups/group-create.css') }}" rel="stylesheet">
     @if (session('status'))
-        <div class="alert alert-success">
+        <div class="alert alert-success alert-dismissible fade show">
             {{ session('status') }}
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
         </div>
     @endif
     <div class="content">
@@ -17,35 +20,40 @@
                 @endforeach
             </div>
         @endif
-        <form action="{{ route('groups.store') }}" method="POST" id="groupRegistration">
+        <form action="{{ route('groups.store') }}" method="POST" enctype="multipart/form-data" id="groupCreate">
             @csrf
 
-            <div class="form-row">
-                <div class="form-group col-md-6">
-                    <label for="name">Название</label>
-                    <input type="text" class="form-control" id="name" name="name" value="{{ old('name') }}">
-                </div>
+            <div class="form-group">
+                <label for="name">Название</label>
+                <input type="text" class="form-control" id="name" name="name" value="{{ old('name') }}">
             </div>
             <div class="form-group">
-                <label for="direction">Права</label>
+                <label for="direction">Направление</label>
                 <select class="custom-select" id="direction" name="direction">
-                    <option value="1" {{ old('course') == 1 ? 'selected' : '' }}>1</option>
-                    <option value="2" {{ old('course') == 2 ? 'selected' : '' }}>2</option>
-                    <option value="2" {{ old('course') == 3 ? 'selected' : '' }}>3</option>
-                    <option value="2" {{ old('course') == 4 ? 'selected' : '' }}>4</option>
+                    @foreach($directions as $direction)
+                        <option value="{{ $direction->id }}" {{ old('direction') == $direction->id ? 'selected' : '' }}>{{ $direction->direction }}</option>
+                    @endforeach
                 </select>
             </div>
             <div class="form-group">
-                <label for="course">Права</label>
+                <label for="course">Курс</label>
                 <select class="custom-select" id="course" name="course">
-                    <option value="1" {{ old('course') == 1 ? 'selected' : '' }}>1</option>
-                    <option value="2" {{ old('course') == 2 ? 'selected' : '' }}>2</option>
-                    <option value="2" {{ old('course') == 3 ? 'selected' : '' }}>3</option>
-                    <option value="2" {{ old('course') == 4 ? 'selected' : '' }}>4</option>
+                    @foreach($courses as $course)
+                        <option value="{{ $course->id }}" {{ old('course') == $course->id ? 'selected' : '' }}>{{ $course->course }}</option>
+                    @endforeach
                 </select>
+            </div>
+            <div class="form-group">
+                <label for="students">Студенты группы</label>
+                <div class="custom-file">
+                    <input type="file" class="custom-file-input" id="students" name="students" lang="ru">
+                    <label class="custom-file-label" for="students" data-browse="Загрузите csv со студентами группы">Выберите файл</label>
+                </div>
             </div>
             <button type="submit" class="btn">Создать</button>
         </form>
     </div>
+
     <script src="{{ asset('js/admin/groups/group-create.js') }}"></script>
+    <script src="{{ asset('js/additional-methods.js') }}"></script>
 @endsection

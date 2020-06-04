@@ -8,8 +8,8 @@
             <div class="row">
                 <h3 class="col-12 col-lg-6 mt-2">Заявки студентов</h3>
                 <div class="col-12 col-lg-6 text-lg-right">
-                    @if (isset($selectedGroupStory))
-                        <a href="{{ route('report_practice_group', ['year' => $historyYear, 'groupStoryId' => $selectedGroupStory]) }}" class="button button-large mt-2" id="student-report">Сформировать отчет (по группе)</a>
+                    @if (isset($selectedGroup))
+                        <a href="{{ route('report_practice_group', ['year' => $historyYear, 'groupStoryId' => $selectedGroup]) }}" class="button button-large mt-2" id="student-report">Сформировать отчет (по группе)</a>
                     @else
                         <a href="#" class="button button-large disabled mt-2">Сформировать отчет (по группе)</a>
                     @endif
@@ -20,26 +20,28 @@
             <div class="d-flex flex-column">
                 <label for="year" class="font-weight-bold year">Год</label>
                 <select class="mb-2 text-center" name="year">
-                    @foreach($yearsGroupStories as $yearsGroupStory)
-                        <option {{ $yearsGroupStory->year_history == $historyYear ? "selected" : "" }}>{{ $yearsGroupStory->year_history }}</option>
-                    @endforeach
+                    @if (isset($yearsGroup))
+                        @foreach($yearsGroup as $yearGroup)
+                            <option {{ $yearGroup == $historyYear ? "selected" : "" }}>{{ $yearGroup }}</option>
+                        @endforeach
+                    @endif
                 </select>
             </div>
             <div class="d-flex flex-column ml-2">
                 <label for="group" class="font-weight-bold group">Группа</label>
                 <select class="mb-2" name="group">
-                    @if (isset($groupStoriesBySelectedYear))
-                        @foreach($groupStoriesBySelectedYear as $groupStoryBySelectedYear)
-                            @if (!isset($selectedGroupStory))
+                    @if (isset($groupsBySelectedYear))
+                        @foreach($groupsBySelectedYear as $groupBySelectedYear)
+                            @if (!isset($selectedGroup))
                                 <option class="d-none" selected></option>
                             @endif
-                            <option value="{{ $groupStoryBySelectedYear->id }}" {{ (isset($selectedGroupStory) and $groupStoryBySelectedYear->id == $selectedGroupStory->id) ? "selected" : "" }}>{{ $groupStoryBySelectedYear->name }}</option>
+                            <option value="{{ $groupBySelectedYear->id }}" {{ (isset($selectedGroup) and $groupBySelectedYear->id == $selectedGroup->id) ? "selected" : "" }}>{{ $groupBySelectedYear->name }}</option>
                         @endforeach
                     @endif
                 </select>
             </div>
         </div>
-        @if (isset($selectedGroupStory))
+        @if (isset($selectedGroup) and !$students->isEmpty())
             <table class="table bg-light" id="student-applications-table">
                 <thead class="thead-dark">
                     <tr>
@@ -71,9 +73,11 @@
                                 @endphp
                                 <select name="teacher">
                                     <option class="d-none"></option>
-                                    @foreach($teachers as $teacher)
-                                        <option {{ (isset($applicationTeacherId) and $applicationTeacherId == $teacher->id) ? 'selected' : ''}} value="{{ $teacher->id }}">{{ $teacher->getFullName() }}</option>
-                                    @endforeach
+                                    @if(!empty($teachers))
+                                        @foreach($teachers as $teacher)
+                                            <option {{ (isset($applicationTeacherId) and $applicationTeacherId == $teacher->id) ? 'selected' : ''}} value="{{ $teacher->id }}">{{ $teacher->getFullName() }}</option>
+                                        @endforeach
+                                    @endif
                                 </select>
                             </td>
 
@@ -91,6 +95,8 @@
                     @endforeach
                 </tbody>
             </table>
+        @else
+            <div class="student-empty p-3">Нет студентов</div>
         @endif
     </div>
 

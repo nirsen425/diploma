@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\VerificationEmailRequest;
 use App\ImageService;
 use App\User;
 use App\Page;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\Rule;
 
 class HelpController extends Controller
 {
@@ -106,6 +108,20 @@ class HelpController extends Controller
         return $page->value('title') === $title;
     }
 
+    public function emailVerification(Request $request)
+    {
+        $userId = $request->user()->id;
+
+        $validator = Validator::make($request->all(), [
+            'email' => Rule::unique('users')->ignore($userId)
+        ]);
+
+        if ($validator->fails()) {
+            return "false";
+        }
+
+        return "true";
+    }
     /**
      * Загрузка изображения
      *

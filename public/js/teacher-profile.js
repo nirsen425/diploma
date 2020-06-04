@@ -24,6 +24,10 @@ $(function () {
         $(this).toggleClass('fa-arrow-up').toggleClass('fa-arrow-down');
     });
 
+    $(".toggle-email-form").click(function () {
+        $('#email-update').slideToggle();
+        $('.toggle-email-form').toggleClass('fa-arrow-up').toggleClass('fa-arrow-down');
+    });
 
     // Текстовый редактор
     CKEDITOR.replace("full_description", {
@@ -55,7 +59,7 @@ $(function () {
         return value.match(regexp);
     }, "Логин может содержать только цифры и латинские буквы");
 
-    $.validator.addMethod("password", function (value, element) {
+    $.validator.addMethod("pwcheck", function (value, element) {
         var regexp = new RegExp("^[a-zA-Z0-9]+$");
         return value.match(regexp);
     }, "Пароль может содержать только цифры и латинские буквы");
@@ -120,7 +124,7 @@ $(function () {
             },
             password: {
                 required: true,
-                password: true,
+                pwcheck: true,
                 minlength: 8
             },
         },
@@ -141,12 +145,12 @@ $(function () {
         rules: {
             old_password: {
                 required: true,
-                password: true,
+                pwcheck: true,
                 minlength: 8
             },
             new_password: {
                 required: true,
-                password: true,
+                pwcheck: true,
                 smallLetters: true,
                 bigLetters: true,
                 hasNumber: true,
@@ -154,7 +158,7 @@ $(function () {
             },
             new_password_confirmation: {
                 required: true,
-                password: true,
+                pwcheck: true,
                 minlength: 8,
                 equalTo: "#new_password"
             },
@@ -172,6 +176,35 @@ $(function () {
                 required: "Это поле обязательно для заполнения",
                 minlength: "Пароль состоит не менее, чем из 8 символов",
                 equalTo: "Новый пароль и его подтверждение не совпадают",
+            }
+        },
+    });
+
+    $("#email-update-form").validate({
+        rules: {
+            email: {
+                required: true,
+                email: true,
+                remote: {
+                    url: "/verification/email",
+                    type: "post",
+                }
+            },
+            password: {
+                required: true,
+                minlength: 8,
+                pwcheck: true,
+            }
+        },
+        messages: {
+            email: {
+                required: "Это поле обязательно для заполнения",
+                email: "Некорректный email",
+                remote: "Этот email уже занят"
+            },
+            password: {
+                required: "Это поле обязательно для заполнения",
+                minlength: "Пароль состоит не менее, чем из 8 символов"
             }
         },
     });

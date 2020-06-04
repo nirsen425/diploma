@@ -343,6 +343,27 @@
                                 <button type="submit" class="button button-large">Изменить</button>
                             </form>
                         </div>
+                        <div class="p-2 mt-3 d-flex justify-content-between align-items-center change text-white">
+                            <div>Изменить email</div>
+                            <i class="fas fa-arrow-up toggle-email-form"></i>
+                        </div>
+                        <div class="form-container p-3" id="email-update">
+                            <form action="{{ route('user_email_update') }}" class="mt-3" method="POST" id="email-update-form">
+                                @csrf
+
+                                <div class="form-group">
+                                    <label for="email">Email</label>
+                                    <input type="text" class="form-control"
+                                           id="email" name="email"
+                                           value="{{ $student->user()->value('email') }}">
+                                </div>
+                                <div class="form-group">
+                                    <label for="password-for-email">Пароль</label>
+                                    <input type="password" class="form-control" id="password-for-email" name="password">
+                                </div>
+                                <button type="submit" class="button button-large">Изменить</button>
+                            </form>
+                        </div>
                     </div>
                 </div>
             </div>

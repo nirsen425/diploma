@@ -34,7 +34,7 @@
             <div class="collapse navbar-collapse" id="navbarToggler">
                 <ul class="navbar-nav mx-auto mt-lg-0">
                     @if ($user)
-                        @if ($user->user_type_id == 1 )
+                        @if ($user->user_type_id == 1 and $user->student()->first()->status)
                         <li class="nav-item">
                             <a class="nav-link text-white" href="/">Преподаватели</a>
                         </li>

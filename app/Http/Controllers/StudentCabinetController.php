@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Application;
 use App\File;
 use App\Helpers\Helper;
+use App\Http\Requests\UpdateStudentEmailRequest;
 use App\Http\Requests\UpdateStudentPasswordRequest;
 use App\Http\Requests\UpdateStudentLoginRequest;
 use App\Practice;

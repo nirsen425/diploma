@@ -62,6 +62,17 @@
                 </ul>
             </li>
             <li class="components-element">
+                <a href="#groupsSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Группы</a>
+                <ul class="collapse list-unstyled" id="groupsSubmenu">
+                    <li>
+                        <a href="{{ route('groups.index') }}">Просмотреть</a>
+                    </li>
+                    <li>
+                        <a href="{{ route('groups.create') }}">Добавить</a>
+                    </li>
+                </ul>
+            </li>
+            <li class="components-element">
                 <a href="#pagesSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Страницы</a>
                 <ul class="collapse list-unstyled" id="pagesSubmenu">
                     <li>

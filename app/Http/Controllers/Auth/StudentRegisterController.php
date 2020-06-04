@@ -84,7 +84,6 @@ class StudentRegisterController extends Controller
                 'password' => Hash::make($data['password']),
             ]);
 
-
             $user->student()->create([
                 'name' => $data['name'],
                 'patronymic' => $data['patronymic'],

@@ -39,13 +39,14 @@ Route::resource('admin/lecturers', 'Admin\Teachers\TeacherController', ['except'
 ]])->parameters(['lecturers' => 'teacher']);
 
 Route::resource('admin/groups', 'Admin\Groups\GroupController', ['only' => [
-    'index', 'create', 'store'
+    'index', 'create', 'store', 'show', 'edit', 'update'
 ]]);
 
 Route::resource('admin/pages', 'Admin\Pages\PageController');
 
-Route::post('verification/login/{user?}', 'HelpController@loginVerification')->middleware('admin');
-Route::post('verification/title/{page?}', 'HelpController@titleVerification')->middleware('admin');
+Route::post('verification/login/{user?}', 'HelpController@loginVerification')->middleware('auth');
+Route::post('verification/title/{page?}', 'HelpController@titleVerification')->middleware('auth')->middleware('admin');
+Route::post('verification/email', 'HelpController@emailVerification')->middleware('auth');
 Route::post('upload/image', 'HelpController@uploadImage')->middleware('auth');
 
 Route::get('page/{slug}', function($slug) {
@@ -74,8 +75,11 @@ Route::post('teacher/{teacher}/update/full-description', 'TeacherCabinetControll
 Route::post('student/{student}/update/login', 'StudentCabinetController@updateLogin')->name('student_login_update');
 Route::post('student/{student}/update/password', 'StudentCabinetController@updatePassword')->name('student_password_update');
 
+// Обновление email
+Route::post('user/update-login', 'UserController@updateEmail')->name('user_email_update');
+
 // Заявки студентов
-Route::get('admin/student-applications/{historyYear}/{groupStoryId?}', 'Admin\AdminApplicationsController@showStudentLastApplications')->name('student_applications');
+Route::get('admin/student-applications/{historyYear?}/{selectedGroupId?}', 'Admin\AdminApplicationsController@showStudentLastApplications')->name('student_applications');
 Route::post('admin/student-applications', 'Admin\AdminApplicationsController@changeOrCreateApplication');
 // Заявки руководителей
 Route::get('admin/teacher-applications/{selectedYear}/{teacherId?}', 'Admin\AdminApplicationsController@showTeacherApplications')->name('teacher_applications');
@@ -98,3 +102,7 @@ Route::post('admin/file/delete/{directionId}/{courseId}/{fileId}', 'Admin\AdminF
 
 Route::get('student/file/download/{fileId}', 'FilesController@studentDownload')->name('student_file_download');
 //Route::get('teacher/file/download/{fileId}', 'FilesController@teacherDownload')->name('teacher_file_download');
+
+// Перевод/Выпуск групп
+Route::get('admin/group-transfer', 'Admin\AdminGroupTransferController@showGroupTransferPage')->name('group_transfer');
+Route::post('admin/group-transfer', 'Admin\AdminGroupTransferController@transferGroup');
