@@ -3,14 +3,18 @@
 namespace App\Http\Controllers;
 
 use App\Application;
+use App\Course;
+use App\Direction;
 use App\File;
 use App\Helpers\Helper;
 use App\Http\Requests\UpdateTeacherFullDescriptionRequest;
 use App\Http\Requests\UpdateTeacherPhotoRequest;
 use App\Http\Requests\UpdateTeacherShortDescriptionRequest;
 use App\ImageService;
+use App\Practice;
 use App\Teacher;
 use Carbon\Carbon;
+use http\Url;
 use Illuminate\Http\Request;
 use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Support\Facades\Hash;
@@ -20,13 +24,21 @@ use App\Http\Requests\UpdateTeacherLoginRequest;
 class TeacherCabinetController extends Controller
 {
     protected $imageService;
+    protected $direction;
+    protected $course;
+    protected $practice;
+    protected $file;
 
-    public function __construct(ImageService $imageService)
+    public function __construct(ImageService $imageService, Direction $direction, Course $course, Practice $practice, File $file)
     {
         $this->middleware('auth');
         // Проверка пользователя на преподавателя
         $this->middleware('teacher');
         $this->imageService = $imageService;
+        $this->direction = $direction;
+        $this->course = $course;
+        $this->practice = $practice;
+        $this->file = $file;
     }
 
     /**
@@ -68,16 +80,26 @@ class TeacherCabinetController extends Controller
 //            $confirmDiplomaApplicationStudents[] = $confirmDiplomaApplication->student()->first();
 //        }
 
-
-
-        $files = File::orderByDesc('created_at')->get();
-
-
+        // Получение информации и файлов по умолчанию
+        $defaultDirection = $this->direction->where('id', '=', 1)->first();
+        $defaultCourse = $this->course->where('id', '=', 1)->first()->id;
+        $defaultPractice = $this->practice->where([
+            ['direction_id', '=', $defaultDirection->id],
+            ['course_id', '=', $defaultCourse],
+        ])->first();
+        $defaultFiles = $defaultDirection->files()->orderBy('created_at')->wherePivot('course_id', '=', $defaultCourse)->get();
 
         $data = [
             'teacher' => $teacher,
             'currentYear' => Helper::getSchoolYear(),
-            'files' => $files
+            'selectedDirectionIdPractice' => $defaultDirection->id,
+            'selectedCourseIdPractice' => $defaultCourse,
+            'selectedDirectionIdFiles' => $defaultDirection->id,
+            'selectedCourseIdFiles' => $defaultCourse,
+            'practice' => $defaultPractice,
+            'files' => $defaultFiles,
+            'directions' => $this->direction->get(),
+            'courses' => $this->course->get(),
         ];
 
         //<< Помещение заявок в массив для шаблона, если они есть
@@ -94,6 +116,82 @@ class TeacherCabinetController extends Controller
 //        }
         //>>
         return view('teacher-profile', $data);
+    }
+
+    /**
+     * Вывод информации при изменении направления-курса
+     *
+     * @param Request $request
+     * @return mixed
+     */
+    public function getPracticeByDirectionCourse(Request $request)
+    {
+        $practiceData = $request->practiceData;
+        $selectedDirectionId = $practiceData['directionId'];
+        $selectedCourseId = $practiceData['courseId'];
+
+        if (isset($selectedDirectionId))
+        {
+            if (isset($selectedCourseId))
+            {
+                $practice = $this->practice->where([
+                    ['direction_id', '=', $selectedDirectionId],
+                    ['course_id', '=', $selectedCourseId]
+                ])->first();
+                $dataPractice['application_start'] = $practice->application_start;
+                $dataPractice['application_end'] = $practice->application_end;
+                $dataPractice['practice_start'] = $practice->practice_start;
+                $dataPractice['practice_end'] = $practice->practice_end;
+                $dataPractice['practice_info'] = $practice->practice_info;
+            }
+        }
+
+        return $dataPractice;
+    }
+
+    /**
+     * Вывод файлов при изменении направления-курса
+     *
+     * @param Request $request
+     * @return mixed
+     */
+    public function getFilesByDirectionCourse(Request $request)
+    {
+        $filesData = $request->filesData;
+        $selectedDirectionId = $filesData['directionId'];
+        $selectedCourseId = $filesData['courseId'];
+
+        if (isset($selectedDirectionId))
+        {
+            $direction = $this->direction->where('id', '=', $selectedDirectionId)->first();
+            if (isset($selectedCourseId))
+            {
+                $directionCourseFiles = $direction->files()->orderByDesc('created_at')->wherePivot('course_id', '=', $selectedCourseId)->get();
+                if (!$directionCourseFiles->isEmpty())
+                {
+                    foreach ($directionCourseFiles as $directionCourseFile)
+                    {
+                        $dataFiles[] = [
+                            'fileId' => $directionCourseFile->id,
+                            'fileFullName' => $directionCourseFile->name . '.' . $directionCourseFile->extension,
+                            'created_at' => $directionCourseFile->created_at,
+                            'urlFile' => route(
+                                'teacher_file_download',
+                                [
+                                    'directionId' => $selectedDirectionId, 'courseId' => $selectedCourseId, 'fileId' => $directionCourseFile->id
+                                ])
+                        ];
+                    }
+                    $dataFiles['filesCount'] = count($dataFiles);
+
+                    return $dataFiles;
+                }
+                else
+                {
+                    return "false";
+                }
+            }
+        }
     }
 
     /**

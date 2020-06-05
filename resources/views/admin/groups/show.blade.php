@@ -5,7 +5,8 @@
     <div class="bg-white shell p-3 text-break">
         <div class="d-flex justify-content-between">
             <h3>{{ $group->name }}</h3>
-            <button class="button" id="change-limits">Сформировать отчет по логинам</button>
+            <a href="{{ route('report_login', ['groupStory' => $groupStory->id]) }}" class="button button-large"
+               id="generate-report">Сформировать отчет по логинам</a>
         </div>
         <div class="d-flex group-info">
             <div class="pt-3 pb-3 pr-3">
@@ -42,5 +43,6 @@
             </tbody>
         </table>
     </div>
+
     <script src="{{ asset('js/admin/groups/group-active-submenu.js') }}"></script>
 @endsection

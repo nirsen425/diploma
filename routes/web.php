@@ -88,6 +88,7 @@ Route::get('admin/teacher-applications/{selectedYear}/{teacherId?}', 'Admin\Admi
 Route::get('report/practice/group/{year?}/{groupStoryId?}', 'Admin\AdminReportController@getReportPracticeGroup')->name('report_practice_group');
 Route::get('report/practice/teacher/{year?}/{teacherId?}', 'Admin\AdminReportController@getReportPracticeTeacher')->name('report_practice_teacher');
 //Route::get('report/diploma', 'Admin\AdminReportController@getReportDiploma')->name('report_diploma');
+Route::get('report/login/{groupStory}', 'Admin\AdminReportController@getReportLogin')->name('report_login');
 
 // Информация и сроки
 Route::get('admin/practice-info/{directionId}/{courseId?}', 'Admin\AdminPracticeController@index')->name('practice_info');
@@ -101,7 +102,7 @@ Route::get('admin/file/download/{directionId}/{courseId}/{fileId}', 'Admin\Admin
 Route::post('admin/file/delete/{directionId}/{courseId}/{fileId}', 'Admin\AdminFilesController@destroy')->name('file_delete');
 
 Route::get('student/file/download/{fileId}', 'FilesController@studentDownload')->name('student_file_download');
-//Route::get('teacher/file/download/{fileId}', 'FilesController@teacherDownload')->name('teacher_file_download');
+Route::get('teacher/file/download/{directionId}/{courseId}/{fileId}', 'FilesController@teacherDownload')->name('teacher_file_download');
 
 // Перевод/Выпуск групп
 Route::get('admin/group-transfer', 'Admin\AdminGroupTransferController@showGroupTransferPage')->name('group_transfer');

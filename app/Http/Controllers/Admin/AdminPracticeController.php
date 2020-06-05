@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Course;
 use App\Direction;
@@ -33,7 +34,11 @@ class AdminPracticeController extends Controller
                     ['direction_id', '=', $selectedDirectionId],
                     ['course_id', '=', $selectedCourseId]
                 ])->first();
-                $data['practice'] = $practice;
+                $data['practice_info'] = $practice->practice_info;
+                $data['application_start'] = Carbon::parse($practice->application_start)->format('Y-m-d');
+                $data['application_end'] = Carbon::parse($practice->application_end)->format('Y-m-d');
+                $data['practice_start'] = Carbon::parse($practice->practice_start)->format('Y-m-d');
+                $data['practice_end'] = Carbon::parse($practice->practice_end)->format('Y-m-d');
             }
         }
 

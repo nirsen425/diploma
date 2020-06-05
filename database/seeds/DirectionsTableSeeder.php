@@ -17,8 +17,8 @@ class DirectionsTableSeeder extends Seeder
         ]);
 
         DB::table('directions')->insert([
-            'direction' => '15.03.04',
-            'direction_name' => 'Автоматизация технологических процессов и производств'
+            'direction' => '15.03.01',
+            'direction_name' => 'Машиностроение'
         ]);
     }
 }

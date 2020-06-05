@@ -47,41 +47,41 @@
                     @csrf
 
                     <div class="form-group row">
-                        <label class="col-lg-3 col-form-label font-weight-bold application-time">Сроки подачи заявок</label>
+                        <label class="col-lg-3 col-form-label font-weight-bold application-time">Сроки подачи заявок:</label>
                     </div>
                     <div class="form-group row">
-                        <label for="application_start" class="col-lg-2 col-form-label font-weight-bold">Начало</label>
+                        <label for="application_start" class="col-lg-2 col-form-label font-weight-bold">Начало:</label>
                         <div class="col-lg-10">
-                            <input class="form-control" type="date" value="{{ $practice->application_start }}" id="application_start" name="application_start" required>
+                            <input class="form-control" type="date" value="{{ $application_start }}" id="application_start" name="application_start" required>
                         </div>
                     </div>
                     <div class="form-group row">
-                        <label for="application_end" class="col-lg-2 col-form-label font-weight-bold">Конец</label>
+                        <label for="application_end" class="col-lg-2 col-form-label font-weight-bold">Конец:</label>
                         <div class="col-lg-10">
-                            <input class="form-control" type="date" value="{{ $practice->application_end }}" id="application_end" name="application_end" required>
-                        </div>
-                    </div>
-
-                    <div class="form-group row">
-                        <label class="col-lg-3 col-form-label font-weight-bold practice-time">Сроки практики</label>
-                    </div>
-                    <div class="form-group row">
-                        <label for="practice_start" class="col-lg-2 col-form-label font-weight-bold">Начало</label>
-                        <div class="col-lg-10">
-                            <input class="form-control" type="date" value="{{ $practice->practice_start }}" id="practice_start" name="practice_start" required>
-                        </div>
-                    </div>
-                    <div class="form-group row">
-                        <label for="practice_end" class="col-lg-2 col-form-label font-weight-bold">Конец</label>
-                        <div class="col-lg-10">
-                            <input class="form-control" type="date" value="{{ $practice->practice_end }}" id="practice_end" name="practice_end" required>
+                            <input class="form-control" type="date" value="{{ $application_end }}" id="application_end" name="application_end" required>
                         </div>
                     </div>
 
                     <div class="form-group row">
-                        <label for="practice_info" class="col-lg-2 col-form-label text-break font-weight-bold practice-info">Информация</label>
+                        <label class="col-lg-3 col-form-label font-weight-bold practice-time">Сроки практики:</label>
+                    </div>
+                    <div class="form-group row">
+                        <label for="practice_start" class="col-lg-2 col-form-label font-weight-bold">Начало:</label>
                         <div class="col-lg-10">
-                            <textarea class="form-control" id="practice_info" name="practice_info"> {{ $practice->practice_info }} </textarea>
+                            <input class="form-control" type="date" value="{{ $practice_start }}" id="practice_start" name="practice_start" required>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="practice_end" class="col-lg-2 col-form-label font-weight-bold">Конец:</label>
+                        <div class="col-lg-10">
+                            <input class="form-control" type="date" value="{{ $practice_end }}" id="practice_end" name="practice_end" required>
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label for="practice_info" class="col-lg-2 col-form-label text-break font-weight-bold practice-info">Информация:</label>
+                        <div class="col-lg-10">
+                            <textarea class="form-control" id="practice_info" name="practice_info"> {{ $practice_info }} </textarea>
                         </div>
                     </div>
 
