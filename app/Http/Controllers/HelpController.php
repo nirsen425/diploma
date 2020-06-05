@@ -122,6 +122,25 @@ class HelpController extends Controller
 
         return "true";
     }
+
+    public function adminEmailVerification(Request $request, $id = null)
+    {
+        if (!empty($id)) {
+            $validator = Validator::make($request->all(), [
+                'email' => Rule::unique('users')->ignore($id)
+            ]);
+        } else {
+            $validator = Validator::make($request->all(), [
+                'email' => Rule::unique('users')
+            ]);
+        }
+
+        if ($validator->fails()) {
+            return "false";
+        }
+
+        return "true";
+    }
     /**
      * Загрузка изображения
      *

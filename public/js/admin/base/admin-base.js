@@ -17,6 +17,10 @@ $(document).ready(function () {
         highlightLinkByPart('student-applications', '#student-applications');
         highlightLinkByPart('set-limits', '#set-limits');
         highlightLinkByPart('teacher-applications', '#teacher-applications');
+        highlightLinkByPart('group-transfer', '#group-transfer');
+        highlightLinkByPart('teacher-applications', '#teacher-applications');
+        highlightLinkByPart('practice-info', '#practice-info');
+        highlightLinkByPart('files', '#files');
     }
 
     /**

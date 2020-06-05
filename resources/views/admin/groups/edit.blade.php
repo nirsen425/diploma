@@ -43,6 +43,7 @@
         </form>
     </div>
 
+    <script src="{{ asset('js/admin/groups/group-active-submenu.js') }}"></script>
     <script src="{{ asset('js/admin/groups/group-update.js') }}"></script>
     <script src="{{ asset('js/additional-methods.js') }}"></script>
 @endsection

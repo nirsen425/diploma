@@ -221,6 +221,13 @@ $(document).ready(function () {
                     }
                     return false;
                 },
+            },
+            email: {
+                email: true,
+                remote: {
+                    url: "/admin/verification/email/" + $('#email').attr('user-id'),
+                    type: "post",
+                }
             }
         },
         messages: {
@@ -251,6 +258,10 @@ $(document).ready(function () {
                 minlength: "Полное описание должно состоять минимум из 50 символов",
                 maxlength: "Полное описание не должно превышать 15000 символов"
             },
+            email: {
+                email: "Некорректный email",
+                remote: "Этот email уже занят"
+            }
         },
         // Определение места вставки сообщения об ошибке
         errorPlacement: function(error, element) {

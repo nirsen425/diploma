@@ -71,7 +71,8 @@ class TeacherController extends Controller
             $userData = [
                 'user_type_id' => 2,
                 'rights_id' => $request['rights'],
-                'login' => $request['login']
+                'login' => $request['login'],
+                'email' => $request['email']
             ];
 
             $password = $request->password;

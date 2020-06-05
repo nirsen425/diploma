@@ -26,7 +26,7 @@
                     <input type="text" class="form-control" id="login" name="login" value="{{ old('login') }}">
                 </div>
                 <div class="form-group col-md-6">
-                    <label for="password">Временный пароль</label>
+                    <label for="password">Пароль</label>
                     <input type="password" class="form-control" id="password" name="password">
                 </div>
             </div>
@@ -43,6 +43,11 @@
                 <input type="text" class="form-control" id="surname" placeholder="Иванов" name="surname" value="{{ old('surname') }}">
             </div>
             <div class="form-group">
+                <label for="email">Email</label>
+                <input type="text" class="form-control" id="email"
+                       name="email" value="{{ old('email') }}">
+            </div>
+            <div class="form-group">
                 <label for="rights">Права</label>
                 <select class="custom-select" id="rights" name="rights">
                     <option value="1" {{ old('rights') == 1 ? 'selected' : '' }}>Пользователь</option>
@@ -54,7 +59,10 @@
                     <img id="teacherImage"/>
                 </div>
                 <label for="photo">Фотография</label>
-                <input type="file" accept="image/*" class="form-control-file" id="photo" name="photo">
+                <div class="custom-file">
+                    <input type="file" accept="image/*" class="custom-file-input" id="photo" name="photo" lang="ru" data-msg-accept="Файл должен иметь один из форматов jpg, jpeg или png">
+                    <label class="custom-file-label" for="photo" data-browse="Изменить фото">Выберите фото</label>
+                </div>
             </div>
             <div class="form-group">
                 <label for="short_description">Краткое описание преподавателя</label>
@@ -73,4 +81,5 @@
     </div>
     <script src="{{ asset('ckeditor/ckeditor.js') }}"></script>
     <script src="{{ asset('js/admin/teachers/teacher-create.js') }}"></script>
+    <script src="{{ asset('js/additional-methods.js') }}"></script>
 @endsection

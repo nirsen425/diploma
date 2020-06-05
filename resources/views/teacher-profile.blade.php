@@ -226,8 +226,12 @@
                             $countPlaces = explode(' ', $placesMessage)[0];
                             // Правильная форма слова(место|места|мест)
                             $messageNumberForm = explode(' ', $placesMessage)[1];
+                            $teacherLimits = $teacher->currentYearPracticeLimits();
                         @endphp
-                        <div class="p-2" id="count-practice-places">На практику {{ $currentYear }} у вас осталось <span id="free-practice-places">{{ $countPlaces }}</span> <span id="places-number-form">{{ $messageNumberForm }}</span> из {{ $teacher->currentYearPracticeLimits() }}</div>
+                        <div class="p-2" id="count-practice-places">На практику {{ $currentYear }} у вас осталось <span
+                                    id="free-practice-places">{{ $countPlaces }}</span> <span
+                                    id="places-number-form">{{ $messageNumberForm }}</span>
+                            из {{ $teacherLimits ? $teacherLimits: 0 }}</div>
                     </div>
 
 {{--                    <div class="tab-pane fade" id="diploma-student" role="tabpanel" aria-labelledby="profile-tab">--}}

@@ -4,7 +4,7 @@ namespace App\Http\Middleware;
 
 use Closure;
 
-class CheckStudentStatus
+class CheckGroupExist
 {
     /**
      * Handle an incoming request.
@@ -16,10 +16,10 @@ class CheckStudentStatus
     public function handle($request, Closure $next)
     {
         $user = $request->user();
-        if ($user->student()->first()->status) {
+        if ($user->student()->first()->group()->first()) {
             return $next($request);
         }
 
-        return redirect()->route('student_cabinet_index');
+        return redirect()->route('empty_group');
     }
 }

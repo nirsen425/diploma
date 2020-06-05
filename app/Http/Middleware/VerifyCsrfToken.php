@@ -24,6 +24,7 @@ class VerifyCsrfToken extends Middleware
         "verification/title/*",
         "verification/title",
         "verification/email",
+        "admin/verification/email/*",
         "upload/image"
     ];
 }

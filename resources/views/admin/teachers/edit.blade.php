@@ -55,6 +55,13 @@
                     <input type="text" class="form-control" id="surname" placeholder="Иванов" name="surname" value="{{ $teacher->surname }}">
                 </div>
             </div>
+            <div class="form-group row">
+                <label for="email" class="col-lg-2 col-form-label font-weight-bold">Email</label>
+                <div class="col-lg-10">
+                    <input type="text" class="form-control" user-id="{{ $teacher->user()->first()->id }}" id="email"
+                           name="email" value="{{ $teacher->user()->first()->email }}">
+                </div>
+            </div>
 {{--            <div class="form-group row">--}}
 {{--                <div class="col-lg-2"></div>--}}
 {{--                <div class="col-lg-10">--}}

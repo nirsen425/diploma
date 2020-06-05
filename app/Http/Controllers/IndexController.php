@@ -20,7 +20,7 @@ class IndexController extends Controller
         $this->middleware('auth');
         // Проверка пользователя на студента
         $this->middleware('student');
-        $this->middleware('studentStatus');
+        $this->middleware('groupExist');
         $this->teacher = $teacher;
     }
 

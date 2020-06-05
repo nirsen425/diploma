@@ -8,7 +8,7 @@
     <div class="footer__inner container d-flex justify-content-end">
         <ul class="footer__list list-unstyled d-flex align-items-center flex-wrap">
             @if ($user)
-                @if ($user->user_type_id == 1 and $user->student()->first()->status)
+                @if ($user->user_type_id == 1 and $user->student()->first()->group()->first())
                     <li class="footer__item">
                         <a class="footer__link p-2 text-white" href="/">Преподаватели</a>
                     </li>

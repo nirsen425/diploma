@@ -65,7 +65,7 @@ class GroupController extends Controller
     public function create()
     {
         return view('admin.groups.create',
-            ['courses' => $this->course->all(), 'directions' => $this->direction->all()]);
+            ['courses' => $this->course->where('id', '!=', 5)->get(), 'directions' => $this->direction->all()]);
     }
 
     /**

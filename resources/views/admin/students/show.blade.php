@@ -11,6 +11,8 @@
         <div class="font-weight-bold">Права</div>
         @php
             $rights = $student->user()->value("rights_id");
+            $groupName = $student->group()->value('name');
+            $groupId = $student->group()->value('id');
         @endphp
         @if ($rights == 1)
             Обычные
@@ -26,7 +28,13 @@
             Отчислен/Выпущен
         @endif
         <div class="font-weight-bold">Группа</div>
-        <div><a href="#">{{ $student->group()->value('name') }}</a></div>
+        <div>
+            @if ($groupName and $groupId)
+                <a href="{{ route('groups.show', ['group' => $groupId]) }}">{{ $groupName }}</a>
+            @else
+                Нет
+            @endif
+        </div>
     </div>
     <script src="{{ asset('js/admin/students/student-active-submenu.js') }}"></script>
 @endsection

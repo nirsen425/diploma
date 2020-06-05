@@ -65,7 +65,7 @@ class Kernel extends HttpKernel
         'teacher' => \App\Http\Middleware\CheckTeacher::class,
         'admin' => \App\Http\Middleware\CheckAdmin::class,
         'studentAccessForFullTeacherDescription' => \App\Http\Middleware\CheckStudentAccessForFullTeacherDescription::class,
-        'studentStatus' => \App\Http\Middleware\CheckStudentStatus::class
+        'groupExist' => \App\Http\Middleware\CheckGroupExist::class
     ];
 
     /**

@@ -24,6 +24,7 @@ class StudentCabinetController extends Controller
         $this->middleware('auth');
         // Проверка пользователя на студента
         $this->middleware('student');
+        $this->middleware('groupExist');
     }
 
     /**
