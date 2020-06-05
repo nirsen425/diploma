@@ -26,12 +26,22 @@ class GroupStory extends Model
     }
 
     /**
-     * Получение Students привязанного к GroupStory
+     * Получение Students привязанных к GroupStory
      *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
      */
     public function students()
     {
         return $this->belongsToMany('App\Student', 'student_group_stories');
+    }
+
+    /**
+     * Получение StudentGroupStory привязанного к GroupStory
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
+    public function studentGroupStory()
+    {
+        return $this->hasOne('App\StudentGroupStory');
     }
 }

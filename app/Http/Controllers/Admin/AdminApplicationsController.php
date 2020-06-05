@@ -100,71 +100,36 @@ class AdminApplicationsController extends Controller
         // Получаем уникальные года из истории групп для вывода в выпадающий список
         $yearsGroup = $this->groupStory->select('year_history')->distinct()
             ->orderBy('year_history')->get()->pluck('year_history')->toArray();
-        $group = $this->group->first();
 
-        if (!empty($group)) {
-            $groupYear = $group->year;
-            if (!empty($groupYear)) {
-                $yearsGroup[] = $groupYear;
-
-                if (!in_array($historyYear, $yearsGroup)) {
-                    return view('admin.student-applications');
-                }
-                if ($historyYear == $groupYear) {
-                    $isLastYear = true;
-                } else {
-                    $isLastYear = false;
-                }
-            }
-
-            if (isset($selectedGroupId)) {
-                if ($isLastYear) {
-                    $selectedGroup = $group->where([
-                        ['id', '=', $selectedGroupId],
-                        ['year', '=', $historyYear]
-                    ])->first();
-                } else {
-                    $selectedGroup = $this->groupStory->where([
-                        ['id', '=', $selectedGroupId],
-                        ['year_history', '=', $historyYear]
-                    ])->first();
-                }
-
-                if (!isset($selectedGroup)) {
-                    return view('admin.student-applications');
-                }
-
-                if ($isLastYear) {
-//                    $groupsBySelectedYear = $group->get();
-                    $students = $this->group->where('id', '=', $selectedGroupId)->first()->students()
-                        ->where('status', '=', 1)->orderBy('surname')->get();
-                    $parameters['students'] = $students;
-                } else {
-//                    $groupsBySelectedYear = $this->groupStory->where('year_history', '=', $historyYear)->orderBy('name')->get();
-                    $students = $this->groupStory->where('id', '=', $selectedGroupId)->first()->students()->get();
-                    $parameters['students'] = $students;
-                }
-
-                $parameters['selectedGroup'] = $selectedGroup;
-            }
-
-            if ($isLastYear) {
-                $groupsBySelectedYear = $group->get();
-            } else {
-                $groupsBySelectedYear = $this->groupStory->where('year_history', '=', $historyYear)->orderBy('name')->get();
-            }
-
-            $parameters['groupsBySelectedYear'] = $groupsBySelectedYear;
-            $parameters['historyYear'] = $historyYear;
-            $parameters['yearsGroup'] = $yearsGroup;
-            $parameters['teacherModel'] = $this->teacher;
-            $parameters['applicationStatuses'] = $this->applicationStatus->all();
-
-
-            return view('admin.student-applications', $parameters);
+        if (!in_array($historyYear, $yearsGroup)) {
+            return view('admin.student-applications');
         }
 
-        return view('admin.student-applications');
+        if (isset($selectedGroupId)) {
+            $selectedGroup = $this->groupStory->where([
+                ['id', '=', $selectedGroupId],
+                ['year_history', '=', $historyYear]
+            ])->first();
+
+            if (!isset($selectedGroup)) {
+                return view('admin.student-applications');
+            }
+
+            $students = $selectedGroup->students()->get();
+            $parameters['students'] = $students;
+            $parameters['selectedGroup'] = $selectedGroup;
+        }
+
+        $groupsBySelectedYear = $this->groupStory->where('year_history', '=', $historyYear)->orderBy('name')->get();
+
+        $parameters['groupsBySelectedYear'] = $groupsBySelectedYear;
+        $parameters['historyYear'] = $historyYear;
+        $parameters['yearsGroup'] = $yearsGroup;
+        $parameters['teacherModel'] = $this->teacher;
+        $parameters['applicationStatuses'] = $this->applicationStatus->all();
+
+
+        return view('admin.student-applications', $parameters);
     }
 
     /**
@@ -210,19 +175,10 @@ class AdminApplicationsController extends Controller
         } else {
             $yearsGroupStories = $this->groupStory->select('year_history')->distinct()->orderBy('year_history')->get();
 
-            if ($this->group->first()->year == $applictionDataArray['year']) {
-                $isLastYear = true;
-            } else {
-                $isLastYear = false;
-            }
-
             $yearsGroup = $this->groupStory->select('year_history')->distinct()
                 ->orderBy('year_history')->get()->pluck('year_history')->toArray();
-            $group = $this->group->first();
-            $yearsGroup[] = $group->year;
 
             // Проверка на существующий год
-
             $historyYear = $applictionDataArray['year'];
             if (!in_array($historyYear, $yearsGroup)) {
                 return "false";
@@ -230,17 +186,11 @@ class AdminApplicationsController extends Controller
 
             $groupId = $student->group()->first()->id;
 
-            if ($isLastYear) {
-                $selectedGroup = $group->where([
-                    ['id', '=', $groupId],
-                    ['year', '=', $historyYear]
-                ])->first();
-            } else {
-                $selectedGroup = $this->groupStory->where([
-                    ['id', '=', $groupId],
-                    ['year_history', '=', $historyYear]
-                ])->first();
-            }
+            $selectedGroup = $this->groupStory->where([
+                ['group_id', '=', $groupId],
+                ['year_history', '=', $historyYear]
+            ])->first();
+
 
             if (!isset($selectedGroup)) {
                 return "false";

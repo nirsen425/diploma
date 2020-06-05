@@ -83,6 +83,9 @@
                     </li>
                 </ul>
             </li>
+            <li id="group-transfer">
+                <a href="{{ route('group_transfer') }}">Перевод групп на новый курс</a>
+            </li>
             <li id="set-limits">
                 <a href="{{ route('teacher_limits', ['year' => Helper::getSchoolYear()]) }}">Лимиты преподавателей</a>
             </li>

@@ -8,6 +8,7 @@ use App\Group;
 use App\GroupStory;
 use App\Http\Requests\UpdateGroupRequest;
 use App\Student;
+use App\StudentGroupStory;
 use App\User;
 use DB;
 use Illuminate\Support\Str;
@@ -25,13 +26,15 @@ class GroupController extends Controller
     protected $groupStory;
     protected $user;
     protected $student;
+    protected $studentGroupStory;
 
     /**
      * GroupController constructor.
      */
     public function __construct(Course $course, Direction $direction,
                                 Group $group, GroupStory $groupStory,
-                                User $user, Student $student)
+                                User $user, Student $student,
+                                StudentGroupStory $studentGroupStory)
     {
         $this->middleware('auth');
         $this->middleware('admin');
@@ -41,6 +44,7 @@ class GroupController extends Controller
         $this->groupStory = $groupStory;
         $this->user = $user;
         $this->student = $student;
+        $this->studentGroupStory = $studentGroupStory;
     }
 
     /**
@@ -73,19 +77,27 @@ class GroupController extends Controller
     {
         try {
             DB::beginTransaction();
+            $currentYear = Helper::getSchoolYear();
 
             $group = $this->group->create([
                 'name' => $request->name,
-                'year' => Helper::getSchoolYear(),
+                'year' => $currentYear,
                 'direction_id' => $request->direction,
                 'course_id' => $request->course
+            ]);
+
+            $groupStory = $this->groupStory->create([
+                'name' => $request->name,
+                'group_id' => $group->id,
+                'course_id' => $request->course,
+                'year_history' => $currentYear
             ]);
 
             $filePath = $request->file("students")->getRealPath();
 
             if (($handle = fopen($filePath, "r")) !== false) {
-                while (($student = fgetcsv($handle, 1000, ";")) !== false) {
-                    $existStudent = $this->student->where('personal_number', '=', $student[1])->first();
+                while (($studentCsv = fgetcsv($handle, 1000, ";")) !== false) {
+                    $existStudent = $this->student->where('personal_number', '=', $studentCsv[1])->first();
 
                     if (!isset($existStudent)) {
                         do {
@@ -100,9 +112,9 @@ class GroupController extends Controller
                             'password' => Hash::make('password'),
                         ]);
 
-                        $studentPartFullName = explode(' ', $student[2]);
-                        $this->student->create([
-                            'personal_number' => $student[1],
+                        $studentPartFullName = explode(' ', $studentCsv[2]);
+                        $studentBd = $this->student->create([
+                            'personal_number' => $studentCsv[1],
                             'surname' => $studentPartFullName[0],
                             'patronymic' => $studentPartFullName[2],
                             'name' => $studentPartFullName[1],
@@ -110,10 +122,22 @@ class GroupController extends Controller
                             'user_id' => $user->id,
                             'status' => 1
                         ]);
+
+                        $this->studentGroupStory->create([
+                            'student_id' => $studentBd->id,
+                            'group_story_id' => $groupStory->id
+                        ]);
+
                     } else {
                         $existStudent->update([
                             'group_id' => $group->id,
-                            'status' => 1
+                        ]);
+
+                        $this->studentGroupStory->where('student_id', '=', $existStudent->id)->delete();
+
+                        $this->studentGroupStory->create([
+                            'student_id' => $existStudent->id,
+                            'group_story_id' => $groupStory->id
                         ]);
                     }
                 }
@@ -137,7 +161,11 @@ class GroupController extends Controller
      */
     public function show($id)
     {
-        //
+        $group = $this->group->where('id', '=', $id)->first();
+        $groupStory = $group->groupStories()->orderBy('id', 'desc')->first();
+        $students = $groupStory->students()->get();
+        return view('admin.groups.show', ['group' => $group, 'groupStory' => $groupStory,
+            'students' => $students]);
     }
 
     /**
@@ -166,23 +194,26 @@ class GroupController extends Controller
             DB::beginTransaction();
 
             $group = $this->group->where('id', '=', $id)->first();
-            $group->update([
-                'direction_id' => $request->direction
-            ]);
+            $groupStory = $group->groupStories('year_history', '=', $group->year)->first();
+//            $group->update([
+//                'direction_id' => $request->direction
+//            ]);
 
-            $groupStudents = $group->students()->get();
+            $groupStudents = $groupStory->students()->get();
+
             $csvFile = $request->file('students');
 
             if (isset($csvFile)) {
                 $filePath = $request->file("students")->getRealPath();
 
                 if (($handle = fopen($filePath, "r")) !== false) {
-                    while (($student = fgetcsv($handle, 1000, ";")) !== false) {
-                        $csvStudents[] = $student;
-                        $existStudent = $this->student->where('personal_number', '=', $student[1])->first();
+                    while (($studentCsv = fgetcsv($handle, 1000, ";")) !== false) {
+                        $csvStudents[] = $studentCsv;
+
+                        $existStudent = $this->student->where('personal_number', '=', $studentCsv[1])->first();
 
                         if (!isset($existStudent)) {
-                            $studentPartFullName = explode(' ', $student[2]);
+                            $studentPartFullName = explode(' ', $studentCsv[2]);
                             do {
                                 $login = Str::random(8);
                                 $user = $this->user->where('login', '=', $login)->first();
@@ -195,8 +226,8 @@ class GroupController extends Controller
                                 'password' => Hash::make('password'),
                             ]);
 
-                            $this->student->create([
-                                'personal_number' => $student[1],
+                            $studentBd = $this->student->create([
+                                'personal_number' => $studentCsv[1],
                                 'surname' => $studentPartFullName[0],
                                 'patronymic' => $studentPartFullName[2],
                                 'name' => $studentPartFullName[1],
@@ -204,10 +235,23 @@ class GroupController extends Controller
                                 'user_id' => $user->id,
                                 'status' => 1
                             ]);
+
+                            $this->studentGroupStory->create([
+                                'student_id' => $studentBd->id,
+                                'group_story_id' => $groupStory->id
+                            ]);
                         } else {
                             $existStudent->update([
                                 'group_id' => $group->id,
-                                'status' => 1
+                            ]);
+
+                            $existStudent->group()->first()->groupStories()
+                                ->where('year_history', '=', $group->year)->first()->studentGroupStory()
+                                ->where('student_id', '=', $existStudent->id)->delete();
+
+                            $this->studentGroupStory->create([
+                                'student_id' => $existStudent->id,
+                                'group_story_id' => $groupStory->id
                             ]);
                         }
                     }
@@ -224,8 +268,12 @@ class GroupController extends Controller
                 }
 
                 if (!$studentExistInCsv) {
+                    $groupStudent->group()->first()->groupStories()
+                        ->where('year_history', '=', $group->year)->first()->studentGroupStory()
+                        ->where('student_id', '=', $groupStudent->id)->delete();
+
                     $groupStudent->update([
-                        'status' => 0
+                        'group_id' => null
                     ]);
                 }
             }
@@ -236,7 +284,7 @@ class GroupController extends Controller
             throw $e;
         }
 
-        return back()->with('status', 'Группа успешно добавлена');
+        return back()->with('status', 'Группа успешно обновлена');
     }
 
     /**

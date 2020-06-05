@@ -41,35 +41,40 @@ class AdminGroupTransferController extends Controller
 
                 foreach ($request->groupsArray as $newGroup) {
                     $oldGroup = $this->group->where('id', '=', $newGroup['group_id'])->first();
-                    $groupStory = $this->groupStory->create([
-                        'group_id' => $oldGroup['id'],
-                        'course_id' => $oldGroup['course_id'],
-                        'name' => $oldGroup['name'],
-                        'year_history' => $oldGroup['year']
-                    ]);
 
                     $newCourseId = $oldGroup->course()->first()->id + 1;
                     $newYear = $oldGroup->year + 1;
 
-                    if ($newCourseId <= 5) {
-                        $oldGroup->update([
-                            'name' => $newGroup['new_name'],
+                    $studentsOldGroup = $oldGroup->groupStories()->where('year_history', '=', $oldGroup->year)
+                        ->first()->students()->get();
+
+                    if ($newCourseId < 5) {
+                        $groupStory = $this->groupStory->create([
+                            'group_id' => $oldGroup['id'],
                             'course_id' => $newCourseId,
-                            'year' => $newYear
+                            'name' => $newGroup['new_name'],
+                            'year_history' => $newYear
                         ]);
-                    }
 
-                    foreach ($oldGroup->students()->get() as $oldStudent) {
-                        if ($newCourseId == 5) {
-                            $oldStudent->update(['status' => 0]);
+                        foreach ($studentsOldGroup as $studentOldGroup) {
+                            $this->studentGroupStory->create([
+                                'student_id' => $studentOldGroup->id,
+                                'group_story_id' => $groupStory->id
+                            ]);
                         }
-
-                        $this->studentGroupStory->create([
-                            'student_id' => $oldStudent['id'],
-                            'group_story_id' => $groupStory['id']
-                        ]);
+                    } else {
+                        foreach ($studentsOldGroup as $studentOldGroup) {
+                            $studentOldGroup->update([
+                                'group_id' => null
+                            ]);
+                        }
                     }
 
+                    $oldGroup->update([
+                        'year' => $newYear,
+                        'course_id' => $newCourseId,
+                        'name' => $newGroup['new_name']
+                    ]);
                 }
             }
 
