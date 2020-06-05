@@ -399,12 +399,10 @@ class AdminReportController extends Controller
         $objWriter->save('php://output');
     }
 
-    public function getReportLogin(GroupStory $groupStory)
+    public function getReportLoginStudent(GroupStory $groupStory)
     {
         $students = $groupStory->students()->get();
         $groupStoryName = $groupStory->name;
-
-        $phpWord = new PhpWord();
 
         /**
          * Объект и его параметры
@@ -446,6 +444,9 @@ class AdminReportController extends Controller
             'size' => 16,
             'bold' => true
         );
+        $headerPasswordStyle = array(
+            'size' => 14,
+        );
 
         //  Массив стилей абзаца
         #   spacing - межстрочный интервал
@@ -466,6 +467,7 @@ class AdminReportController extends Controller
         //  Текст заголовка
         $headerDoc = "Список логинов студентов";
         $headerGroup = "группа " . $groupStoryName;
+        $headerPassword = '(для всех пароль по умолчанию: "password")';
 
         //  Добавление текста заголовка
         #   1 параметр - текст
@@ -476,6 +478,9 @@ class AdminReportController extends Controller
         );
         $section->addText(
             $headerGroup, $headerTextStyle, $headerGroupParagraphStyle
+        );
+        $section->addText(
+            $headerPassword, $headerPasswordStyle, $headerGroupParagraphStyle
         );
 
         /**
@@ -556,7 +561,164 @@ class AdminReportController extends Controller
         //  Формирование документа
         $objWriter = IOFactory::createWriter($phpWord, 'Word2007');
         $objWriter->save('php://output');
+    }
 
+    public function getReportLoginTeacher()
+    {
+        $teachers = $this->teacher->all();
 
+        /**
+         * Объект и его параметры
+         */
+        //  Создание объекта
+        $phpWord = new PhpWord();
+
+        //  Шрифт и его размер по умолчанию
+        $phpWord->setDefaultFontName('Times New Roman');
+        $phpWord->setDefaultFontSize(14);
+
+        //  Параметры документа
+        $properties = $phpWord->getDocInfo();
+        $properties->setCreator('Маянц Майя Львовна');
+        $properties->setCompany('Кафедра ИТиАП');
+        $properties->setSubject('Практика');
+
+        /**
+         * Создание секции
+         */
+        //  Массив стилей
+        $sectionStyle = array(
+            'marginLeft' => $this->m2t(25),
+            'marginRight' => $this->m2t(15),
+            'marginTop' => $this->m2t(20),
+            'marginBottom' => $this->m2t(20),
+            'colsNum' => 1,
+            'pageNumberingStart' => 1,
+        );
+
+        // Создание
+        $section = $phpWord->addSection($sectionStyle);
+
+        /**
+         * Создание заголовка
+         */
+        //  Массив стилей текста
+        $headerTextStyle = array(
+            'size' => 16,
+            'bold' => true
+        );
+        $headerPasswordStyle = array(
+            'size' => 14,
+        );
+
+        //  Массив стилей абзаца
+        #   spacing - межстрочный интервал
+        #   При одинарном -> spacing = 0 твип
+        #   За каждый 0,1 интервал -> spacing += 24 твип
+        #   Итого при 1,5 интервале -> spacing = 1 + 0,5 = (0 + 0.1*24) = 120 твип
+        $headerDocParagraphStyle = array(
+            'align' => 'center',
+            'spacing' => 120,
+            'spaceAfter' => $this->pt2t(0)
+        );
+        $headerPasswordParagraphStyle = array(
+            'align' => 'center',
+            'spacing' => 120,
+            'spaceAfter' => $this->pt2t(8)
+        );
+
+        //  Текст заголовка
+        $headerDoc = "Список логинов руководителей";
+        $headerPassword = '(для всех пароль по умолчанию: "password")';
+
+        //  Добавление текста заголовка
+        #   1 параметр - текст
+        #   2 параметр - массив стилей текста
+        #   3 параметр - массив настроек абзаца
+        $section->addText(
+            $headerDoc, $headerTextStyle, $headerDocParagraphStyle
+        );
+        $section->addText(
+            $headerPassword, $headerPasswordStyle, $headerPasswordParagraphStyle
+        );
+
+        /**
+         * Создание таблицы
+         */
+        //  Массив стилей таблицы
+        $tableStyle = array(
+            'borderColor' => '000000',
+            'borderSize' => $this->pt2t(0.5),
+            'align' => 'center',
+            'cellMarginRight' => $this->m2t(1.9),
+            'cellMarginLeft' => $this->m2t(1.9)
+        );
+
+        //  Создание таблицы
+        $table = $section->addTable($tableStyle);
+
+        // Массив стилей ячейки таблицы
+        $cellWidth = $this->m2t(90);
+        $cellStyle = array(
+            'valign' => 'center'
+        );
+
+        //  Массив стилей текста заголовка таблицы
+        $headerTableTextStyle = array(
+            'size' => 14,
+            'bold' => true
+        );
+
+        //  Массив стилей текста таблицы
+        $tableTextStyle = array(
+            'size' => 14
+        );
+
+        //  Массив стилей абзаца таблицы
+        $tableParagraphStyle = array(
+            'align' => 'center',
+            'spacing' => 36,
+            'spaceAfter' => $this->pt2t(0)
+        );
+
+        // Заголовок таблицы
+        $table->addRow();
+        $table->addCell($cellWidth, $cellStyle)->addText(
+            "ФИО руководителя", $headerTableTextStyle, $tableParagraphStyle
+        );
+        $table->addCell($cellWidth, $cellStyle)->addText(
+            "Логин", $headerTableTextStyle, $tableParagraphStyle
+        );
+
+        //  Контент таблицы
+        $teachersCount = $teachers->count();
+        for($i = 0; $i < $teachersCount; $i++)
+        {
+            $table->addRow();
+            $table->addCell($cellWidth, $cellStyle)->addText(
+                $teachers[$i]->getFullName(), $tableTextStyle, $tableParagraphStyle
+            );
+            $table->addCell($cellWidth, $cellStyle)->addText(
+                $teachers[$i]->user()->first()->login, $tableTextStyle, $tableParagraphStyle
+            );
+        }
+
+        /**
+         * Сохранение и передача файла пользователю на скачивание
+         */
+        //  Имя файла
+        $file = "Список логинов руководителей.docx";
+
+        //  Набор заголовков
+        header("Content-Description: File Transfer");
+        header('Content-Disposition: attachment; filename="' . $file . '"');
+        header('Content-Type: application/vnd.openxmlformats-officedocument.wordprocessingml.document');
+        header('Content-Transfer-Encoding: binary');
+        header('Cache-Control: must-revalidate, post-check=0, pre-check=0');
+        header('Expires: 0');
+
+        //  Формирование документа
+        $objWriter = IOFactory::createWriter($phpWord, 'Word2007');
+        $objWriter->save('php://output');
     }
 }

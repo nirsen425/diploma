@@ -3,7 +3,7 @@
 @section('content')
     <link href="{{ asset('css/admin/teacher-applications.css') }}" rel="stylesheet">
 
-    <div class="teacher-application-container drop-shadow rounded">
+    <div class="teacher-application-container p-3">
         <div class="container-fluid p-3">
             <div class="row">
                 <h3 class="col-12 col-lg-6 mt-2">Заявки руководителей</h3>

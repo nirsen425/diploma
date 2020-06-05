@@ -83,7 +83,7 @@
         </div>
     </div>
 
-    <div class="files-container">
+    <div class="files-container p-3">
         <div class="container-fluid p-3">
             <div class="row">
                 <h3 class="col-12 col-lg-6 mt-2">Файлы</h3>
@@ -157,7 +157,7 @@
                     </table>
                 </div>
             @else
-                <div class="pt-3 pl-2">Нет загруженных файлов</div>
+                <div class="files-empty pt-3">Нет загруженных файлов</div>
             @endif
         @endif
     </div>

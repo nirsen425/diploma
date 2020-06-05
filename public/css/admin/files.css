@@ -18,3 +18,7 @@ select[name="course"] {
     width: 40px;
     height: 29px;
 }
+
+.files-empty {
+    border-top: 1px solid #e7e8ec;
+}

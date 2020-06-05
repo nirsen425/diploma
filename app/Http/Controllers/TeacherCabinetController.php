@@ -99,7 +99,7 @@ class TeacherCabinetController extends Controller
             'practice' => $defaultPractice,
             'files' => $defaultFiles,
             'directions' => $this->direction->get(),
-            'courses' => $this->course->get(),
+            'courses' => $this->course->whereBetween('course', [1, 4])->get(),
         ];
 
         //<< Помещение заявок в массив для шаблона, если они есть
