@@ -142,12 +142,12 @@
                             <tr>
                                 <td class="d-none file-id">{{ $directionCourseFile->id }}</td>
                                 <td class="align-bottom p-8">{{ $directionCourseFile->name }}.{{ $directionCourseFile->extension }}</td>
-                                <td class="align-bottom p-8 date">{{ $directionCourseFile->created_at }}</td>
+                                <td class="align-bottom p-8">{{ $directionCourseFile->created_at }}</td>
                                 <td>
                                     <a href="{{ route('file_download', ['directionId' => $selectedDirectionId, 'courseId' => $selectedCourseId, 'fileId' => $directionCourseFile->id]) }}">
                                         <i class="fa fa-download"></i>
                                     </a>
-                                    <a href="#" class="delete" direction-id="{{ $selectedDirectionId }}" course-id="{{ $selectedDirectionId }}" file-id="{{ $directionCourseFile->id }}" data-toggle="modal" data-target="#confirmDelete">
+                                    <a href="#" class="delete" direction-id="{{ $selectedDirectionId }}" course-id="{{ $selectedCourseId }}" file-id="{{ $directionCourseFile->id }}" data-toggle="modal" data-target="#confirmDelete">
                                         <i class="fas fa-trash-alt"></i>
                                     </a>
                                 </td>
@@ -161,8 +161,6 @@
             @endif
         @endif
     </div>
-
-    <script src="{{ asset('js/local-time.js') }}"></script>
     <script src="{{ asset('js/admin/files.js') }}"></script>
     <script src="{{ asset('js/admin/files-browse.js') }}"></script>
     <script src="{{ asset('js/admin/files-upload.js') }}"></script>

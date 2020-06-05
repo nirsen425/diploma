@@ -49,14 +49,4 @@ class Direction extends Model
             'file_id'
         )->withPivot('course_id')->withTimestamps();
     }
-
-    /**
-     * Получение Courses, привязанных к Directions.
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
-     */
-    /*public function courses()
-    {
-        return $this->belongsToMany('App\Course', 'file_direction_course', 'direction_id', 'course_id')->withTimestamps();
-    }*/
 }

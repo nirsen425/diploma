@@ -1,7 +1,7 @@
 @extends('base.base')
 
 @section('content')
-    <link href="{{ asset('css/teacher-profile.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/teacher-profile.css') }}" rel="stylesheet" xmlns="http://www.w3.org/1999/html">
 
 {{--    Модальные окна для одобрения заявки--}}
     <div id="confirm-approve-application" class="modal fade" tabindex="-1">
@@ -249,60 +249,68 @@
 {{--                            @endif--}}
 {{--                        </div>--}}
 {{--                    </div>--}}
-
-
-
                     <div class="tab-pane fade" id="practice-info" role="tabpanel" aria-labelledby="profile-tab">
                         <div class="d-flex pl-3 pt-3">
                             <div class="d-flex flex-column">
-                                <label for="direction" class="font-weight-bold direction">Направление</label>
-                                <select class="mb-2 text-center" name="direction">
-                                    <option>09.03.02 Информационные системы и технологии</option>
+                                <label for="direction-practice" class="font-weight-bold direction">Направление</label>
+                                <select class="mb-2 text-center" name="direction-practice">
+                                    @foreach($directions as $direction)
+                                        <option value="{{ $direction->id }}" {{ $direction->id == $selectedDirectionIdPractice ? "selected" : "" }}> {{ $direction->direction . ' ' . $direction->direction_name }} </option>
+                                    @endforeach
                                 </select>
                             </div>
                             <div class="d-flex flex-column ml-2">
-                                <label for="course" class="font-weight-bold course">Курс</label>
-                                <select class="mb-2" name="course">
-                                    <option class="d-none" selected></option>
-                                    <option>4</option>
+                                <label for="course-practice" class="font-weight-bold course">Курс</label>
+                                <select class="mb-2" name="course-practice">
+                                    @foreach($courses as $course)
+                                        <option value="{{ $course->id }}" {{ $course->id == $selectedCourseIdPractice ? "selected" : "" }}>  {{ $course->course }}  </option>
+                                    @endforeach
                                 </select>
                             </div>
                         </div>
                         <div class="form-group row pl-3 pt-3 pr-3">
-                            <label class="col-lg-3 col-form-label font-weight-bold application-time">Сроки подачи заявок</label>
-                            <label class="col-lg-9 col-form-label application-time">c 20202022 по 02020202</label>
+                            <label class="col-lg-3 col-form-label font-weight-bold application-time">Сроки подачи заявок:</label>
+                            <label class="col-lg-9 col-form-label application-time">
+                                c <span id="application-start">  {{ $practice->application_start }} </span>
+                                по <span id="application-end">  {{ $practice->application_end }} </span>
+                            </label>
                         </div>
                         <div class="form-group row pl-3 pt-3 pr-3">
-                            <label class="col-lg-3 col-form-label font-weight-bold practice-time">Сроки практики</label>
-                            <label class="col-lg-9 col-form-label practice-time">c 20202022 по 02020202</label>
+                            <label class="col-lg-3 col-form-label font-weight-bold practice-time">Сроки практики:</label>
+                            <label class="col-lg-9 col-form-label practice-time">
+                                с <span id="practice-start"> {{ $practice->practice_start }} </span>
+                                по <span id="practice-end"> {{ $practice->practice_end }} </span>
+                            </label>
                         </div>
                         <div class="form-group row pl-3 pt-3 pr-3">
-                            <label class="col-lg-3 col-form-label font-weight-bold practice-info">Информация</label>
-                            <label class="col-lg-9 col-form-label practice-info">  </label>
+                            <label class="col-lg-3 col-form-label font-weight-bold practice-info"> Информация: </label>
+                            <label class="col-lg-9 col-form-label practice-info">
+                                <span id="practice-info-text"> {!! $practice->practice_info !!} </span>
+                            </label>
                         </div>
                     </div>
-
-
-
                     <div class="tab-pane fade" id="teacher-files" role="tabpanel" aria-labelledby="home-tab">
                         <div class="d-flex pl-3 pt-3">
                             <div class="d-flex flex-column">
-                                <label for="direction" class="font-weight-bold direction">Направление</label>
-                                <select class="mb-2 text-center" name="direction">
-                                    <option>09.03.02 Информационные системы и технологии</option>
+                                <label for="direction-files" class="font-weight-bold direction">Направление</label>
+                                <select class="mb-2 text-center" name="direction-files">
+                                    @foreach($directions as $direction)
+                                        <option value="{{ $direction->id }}" {{ $direction->id == $selectedDirectionIdFiles ? "selected" : "" }}> {{ $direction->direction . ' ' . $direction->direction_name }} </option>
+                                    @endforeach
                                 </select>
                             </div>
                             <div class="d-flex flex-column ml-2">
-                                <label for="course" class="font-weight-bold course">Курс</label>
-                                <select class="mb-2" name="course">
-                                    <option class="d-none" selected></option>
-                                    <option>4</option>
+                                <label for="course-files" class="font-weight-bold course">Курс</label>
+                                <select class="mb-2" name="course-files">
+                                    @foreach($courses as $course)
+                                        <option value="{{ $course->id }}" {{ $course->id == $selectedCourseIdFiles ? "selected" : "" }}>  {{ $course->course }}  </option>
+                                    @endforeach
                                 </select>
                             </div>
                         </div>
                         @if(!$files->isEmpty())
-                            <div class="pt-3 pb-3">
-                                <table class="table bg-light table-hover" id="files-table">
+                            <div class="pt-3 pb-3" id="files-table">
+                                <table class="table bg-light table-hover">
                                     <thead class="thead-dark">
                                     <tr>
                                         <th class="d-none">id</th>
@@ -311,14 +319,14 @@
                                         <th scope="col" class="pl-8">Действия</th>
                                     </tr>
                                     </thead>
-                                    <tbody>
+                                    <tbody id="files-place">
                                     @foreach($files as $file)
                                         <tr>
                                             <td class="d-none file-id">{{ $file->id }}</td>
                                             <td class="align-bottom p-8">{{ $file->name }}.{{ $file->extension }}</td>
-                                            <td class="align-bottom p-8 date">{{ $file->created_at }}</td>
+                                            <td class="align-bottom p-8">{{ $file->created_at }}</td>
                                             <td>
-                                                <a href="" class="download" file-id="{{ $file->id }}" >
+                                                <a href="{{ route('teacher_file_download', ['directionId' => $selectedDirectionIdFiles, 'courseId' => $selectedCourseIdFiles, 'fileId' => $file->id]) }}" class="download">
                                                     <i class="fa fa-download"></i>
                                                 </a>
                                             </td>
@@ -328,12 +336,9 @@
                                 </table>
                             </div>
                         @else
-                            <div class="pt-3 pl-2">Нет загруженных файлов</div>
+                            <div class="pt-3 pl-2" id="not-files">Нет загруженных файлов</div>
                         @endif
                     </div>
-
-
-
                     <div class="tab-pane fade" id="teacher-edit" role="tabpanel" aria-labelledby="home-tab">
 
                         <div class="p-2 mt-3 d-flex justify-content-between align-items-center change text-white">
@@ -447,6 +452,7 @@
         </div>
     </div>
     <script src="{{ asset('ckeditor/ckeditor.js') }}"></script>
+    <script src="{{ asset('js/local-time.js') }}"></script>
     <script src="{{ asset('js/teacher-profile.js') }}"></script>
     <script src="{{ asset('js/confirm-application.js') }}"></script>
     <script src="{{ asset('js/reject-application.js') }}"></script>
