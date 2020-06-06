@@ -1,12 +1,18 @@
 $(document).ready(function () {
-    $("#groupCreate").validate({
+    $("#groupUpdate").validate({
         rules: {
             direction: {
                 required: true
             },
             students: {
-                required: true,
                 extension: "csv"
+            },
+            name: {
+                required: true,
+                remote: {
+                    url: "/verification/group-name/" + $('#name').attr('group-id'),
+                    type: "post",
+                }
             }
         },
         messages: {
@@ -15,6 +21,10 @@ $(document).ready(function () {
             },
             students: {
                 extension: "Файл должен иметь формат csv"
+            },
+            name: {
+                required: true,
+                remote: "Группа с таким названием уже существует или существовала"
             }
         }
     });

@@ -17,7 +17,7 @@ $(function () {
             groupObject['new_name'] = $(this).find('.new_name').val();
             groupsArray.push(groupObject);
         });
-
+        console.log(new Date().getFullYear());
         $.ajax({
             type: 'post',
             headers: {
@@ -25,8 +25,12 @@ $(function () {
             },
             data: {groupsArray: groupsArray },
             url: "/admin/group-transfer",
-            success: function (status) {
-                if (status) {
+            success: function (year) {
+                if (year) {
+                    $date = new Date();
+                    if (year == ($date.getMonth() < 6 ? $date.getFullYear() - 1 : $date.getFullYear())) {
+                        $('#change-сourse').addClass('disabled');
+                    }
                     $('#change-success').modal('show');
                 }
             }

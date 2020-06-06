@@ -12,20 +12,24 @@
     @endif
     <div class="content">
         <h3>Создание группы</h3>
-        @if ($errors->any())
-            <div class="alert alert-danger">
-                @foreach($errors->all() as $error)
-                    {{ $error }}
-                    <br>
-                @endforeach
-            </div>
-        @endif
+{{--        @if ($errors->any())--}}
+{{--            <div class="alert alert-danger">--}}
+{{--                @foreach($errors->all() as $error)--}}
+{{--                    {{ $error }}--}}
+{{--                    <br>--}}
+{{--                @endforeach--}}
+{{--            </div>--}}
+{{--        @endif--}}
         <form action="{{ route('groups.store') }}" method="POST" enctype="multipart/form-data" id="groupCreate">
             @csrf
 
             <div class="form-group">
                 <label for="name">Название</label>
                 <input type="text" class="form-control" id="name" name="name" value="{{ old('name') }}">
+            </div>
+            <div class="form-group">
+                <label class="disabled-text">Год</label>
+                <input type="text" class="form-control disabled-text" value="{{ $currentYear }}" disabled>
             </div>
             <div class="form-group">
                 <label for="direction">Направление</label>

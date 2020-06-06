@@ -62,19 +62,24 @@ class AdminGroupTransferController extends Controller
                                 'group_story_id' => $groupStory->id
                             ]);
                         }
+
+                        $oldGroup->update([
+                            'year' => $newYear,
+                            'course_id' => $newCourseId,
+                            'name' => $newGroup['new_name']
+                        ]);
                     } else {
                         foreach ($studentsOldGroup as $studentOldGroup) {
                             $studentOldGroup->update([
                                 'group_id' => null
                             ]);
                         }
-                    }
 
-                    $oldGroup->update([
-                        'year' => $newYear,
-                        'course_id' => $newCourseId,
-                        'name' => $newGroup['new_name']
-                    ]);
+                        $oldGroup->update([
+                            'year' => $newYear,
+                            'course_id' => $newCourseId,
+                        ]);
+                    }
                 }
             }
 
@@ -84,6 +89,6 @@ class AdminGroupTransferController extends Controller
             throw $e;
         }
 
-        return "true";
+        return $newYear;
     }
 }

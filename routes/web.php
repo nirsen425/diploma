@@ -49,6 +49,7 @@ Route::post('verification/title/{page?}', 'HelpController@titleVerification')->m
 Route::post('verification/email', 'HelpController@emailVerification')->middleware('auth');
 Route::post('admin/verification/email/{user?}', 'HelpController@adminEmailVerification')->middleware('auth')->middleware('admin');
 Route::post('upload/image', 'HelpController@uploadImage')->middleware('auth');
+Route::post('/verification/group-name/{group?}', 'HelpController@adminGroupNameVerification')->middleware('auth')->middleware('admin');
 
 Route::get('page/{slug}', function($slug) {
     $page = Page::whereSlug($slug)->firstOrFail();

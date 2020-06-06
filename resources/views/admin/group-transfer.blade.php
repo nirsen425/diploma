@@ -30,6 +30,12 @@
     </div>
 
     <div class="bg-white shell p-3" >
+        @if (!$groups->isEmpty())
+        <div class="alert alert-danger">
+            Внимание! Проверьте корректность данных о группах, которые собираетесь перевести на новый курс!
+            При переводе групп на новый курс, на странице обновления группы нельзя будет изменить направление и курс,
+            а также нельзя будет поменять старые названия переведенных групп.
+        </div>
         <table class="table bg-light" id="group-transfer-table">
             <thead class="thead-dark">
                 <tr>
@@ -67,6 +73,9 @@
             </tbody>
         </table>
         <button class="button button-large mt-1 {{ $groups->first()->year == $currentStudyYear ? 'disabled' : '' }}" id="change-сourse">Перевести</button>
+        @else
+            <h5>Нет групп 1-4 курса</h5>
+        @endif
     </div>
 
     <script src="{{ asset('js/admin/group-transfer.js') }}"></script>

@@ -24,9 +24,9 @@ class UpdatePage extends FormRequest
      */
     public function rules()
     {
-        $pageTitle= $this->route('page')->value('title');
+        $pageId= $this->route('page')->value('id');
         return [
-            'title' => ['required', 'string', 'min:3', 'max:20', Rule::unique('pages')->ignore($pageTitle)],
+            'title' => ['required', 'string', 'min:3', 'max:20', Rule::unique('pages')->ignore($pageId)],
             'show' => ['boolean'],
             'content' => ['required', 'string', 'min:50', 'max:65530'],
             'meta_headline' => ['required', 'string', 'max:255'],
