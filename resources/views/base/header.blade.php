@@ -14,7 +14,9 @@
                     @if($user->rights_id == 2)
                         <a href="{{ route('admin') }}" class="mr-2">Панель администратора</a>
                     @endif
-                    <a href="{{ route('student_cabinet_index') }}">Личный кабинет</a>
+                    @if ($user->student()->first()->group()->first())
+                        <a href="{{ route('student_cabinet_index') }}">Личный кабинет</a>
+                    @endif
                 @elseif ($user->user_type_id == 2)
                     @if($user->rights_id == 2)
                         <a href="{{ route('admin') }}" class="mr-2">Панель администратора</a>
@@ -34,7 +36,7 @@
             <div class="collapse navbar-collapse" id="navbarToggler">
                 <ul class="navbar-nav mx-auto mt-lg-0">
                     @if ($user)
-                        @if ($user->user_type_id == 1 and $user->student()->first()->status)
+                        @if ($user->user_type_id == 1 and $user->student()->first()->group()->first())
                         <li class="nav-item">
                             <a class="nav-link text-white" href="/">Преподаватели</a>
                         </li>

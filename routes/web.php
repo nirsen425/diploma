@@ -25,8 +25,8 @@ Route::post('/login', 'Auth\LoginController@login');
 Route::post('/logout', 'Auth\LoginController@logout')->name('logout');
 //Route::get('admin/students/register', 'Auth\StudentRegisterController@showRegistrationForm')->name('student_register');
 //Route::post('admin/students/register', 'Auth\StudentRegisterController@register');
-//Route::get('admin/lecturers/register', 'Auth\TeacherRegisterController@showRegistrationForm')->name('teacher_register');
-//Route::post('admin/lecturers/register', 'Auth\TeacherRegisterController@register');
+Route::get('admin/lecturers/register', 'Auth\TeacherRegisterController@showRegistrationForm')->name('teacher_register');
+Route::post('admin/lecturers/register', 'Auth\TeacherRegisterController@register');
 
 Route::get('/admin', function () {
     return view('admin.base.base');
@@ -49,7 +49,9 @@ Route::resource('admin/pages', 'Admin\Pages\PageController');
 Route::post('verification/login/{user?}', 'HelpController@loginVerification')->middleware('auth');
 Route::post('verification/title/{page?}', 'HelpController@titleVerification')->middleware('auth')->middleware('admin');
 Route::post('verification/email', 'HelpController@emailVerification')->middleware('auth');
+Route::post('admin/verification/email/{user?}', 'HelpController@adminEmailVerification')->middleware('auth')->middleware('admin');
 Route::post('upload/image', 'HelpController@uploadImage')->middleware('auth');
+Route::post('/verification/group-name/{group?}', 'HelpController@adminGroupNameVerification')->middleware('auth')->middleware('admin');
 
 Route::get('page/{slug}', function($slug) {
     $page = Page::whereSlug($slug)->firstOrFail();
@@ -109,3 +111,6 @@ Route::get('teacher/file/download/{directionId}/{courseId}/{fileId}', 'FilesCont
 // Перевод/Выпуск групп
 Route::get('admin/group-transfer', 'Admin\AdminGroupTransferController@showGroupTransferPage')->name('group_transfer');
 Route::post('admin/group-transfer', 'Admin\AdminGroupTransferController@transferGroup');
+// Нет группы
+Route::get('empty-group', 'EmptyGroupController@showEmptyGroupPage')->name('empty_group');
+

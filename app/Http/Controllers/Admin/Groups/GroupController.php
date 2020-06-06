@@ -54,7 +54,7 @@ class GroupController extends Controller
      */
     public function index()
     {
-        return view('admin.groups.index', ['groups' => $this->group->all()]);
+        return view('admin.groups.index', ['groups' => $this->group->where('course_id', '!=', 5)->get()]);
     }
 
     /**
@@ -65,7 +65,9 @@ class GroupController extends Controller
     public function create()
     {
         return view('admin.groups.create',
-            ['courses' => $this->course->all(), 'directions' => $this->direction->all()]);
+            ['courses' => $this->course->where('id', '!=', 5)->get(),
+                'directions' => $this->direction->all(),
+                'currentYear' => Helper::getSchoolYear()]);
     }
 
     /**
@@ -162,6 +164,11 @@ class GroupController extends Controller
     public function show($id)
     {
         $group = $this->group->where('id', '=', $id)->first();
+
+        if (!isset($group) or $group->course()->first()->id == 5) {
+            abort(404);
+        }
+
         $groupStory = $group->groupStories()->orderBy('id', 'desc')->first();
         $students = $groupStory->students()->get();
         return view('admin.groups.show', ['group' => $group, 'groupStory' => $groupStory,
@@ -176,9 +183,16 @@ class GroupController extends Controller
      */
     public function edit($id)
     {
+        $group = $this->group->where('id', '=', $id)->first();
+        if (!isset($group) or $group->course()->first()->id == 5) {
+            abort(404);
+        }
+        $countGroupStoryForGroup = $group->groupStories()->count();
         return view('admin.groups.edit',
             ['group' => $this->group->where('id', '=', $id)->first(),
                 'directions' => $this->direction->all(),
+                'courses' => $this->course->where('id', '!=', 5)->get(),
+                'countGroupStoryForGroup' => $countGroupStoryForGroup
                 ]);
     }
 
@@ -194,10 +208,25 @@ class GroupController extends Controller
             DB::beginTransaction();
 
             $group = $this->group->where('id', '=', $id)->first();
-            $groupStory = $group->groupStories('year_history', '=', $group->year)->first();
-//            $group->update([
-//                'direction_id' => $request->direction
-//            ]);
+            $groupStory = $group->groupStories()->where('year_history', '=', $group->year)->first();
+            $countGroupStoryForGroup = $group->groupStories()->count();
+
+            $data = [
+                'name' => $request->name
+            ];
+
+            if ($countGroupStoryForGroup == 1) {
+                $data['direction_id'] = $request->direction;
+                $data['course_id'] = $request->course;
+            }
+
+            $group->update($data);
+
+            if ($countGroupStoryForGroup != 1) {
+                unset($data['direction_id']);
+            }
+
+            $groupStory->update($data);
 
             $groupStudents = $groupStory->students()->get();
 
@@ -257,24 +286,27 @@ class GroupController extends Controller
                     }
                     fclose($handle);
                 }
-            }
 
-            foreach($groupStudents as $groupStudent) {
-                $studentExistInCsv = false;
-                foreach ($csvStudents as $csvStudent) {
-                    if ($groupStudent->personal_number == $csvStudent[1]) {
-                        $studentExistInCsv = true;
+                foreach($groupStudents as $groupStudent) {
+                    $studentExistInCsv = false;
+                    foreach ($csvStudents as $csvStudent) {
+                        if ($groupStudent->personal_number == $csvStudent[1]) {
+                            $studentExistInCsv = true;
+                        }
                     }
-                }
 
-                if (!$studentExistInCsv) {
-                    $groupStudent->group()->first()->groupStories()
-                        ->where('year_history', '=', $group->year)->first()->studentGroupStory()
-                        ->where('student_id', '=', $groupStudent->id)->delete();
+                    if (!$studentExistInCsv) {
+                        $groupStudent->group()->first()->groupStories()
+                            ->where('year_history', '=', $group->year)->first()->studentGroupStory()
+                            ->where('student_id', '=', $groupStudent->id)->delete();
 
-                    $groupStudent->update([
-                        'group_id' => null
-                    ]);
+                        $groupStudent->applications()->where('year', '=', Helper::getSchoolYear())
+                            ->whereIn('status_id', [1, 2])->delete();
+
+                        $groupStudent->update([
+                            'group_id' => null
+                        ]);
+                    }
                 }
             }
 

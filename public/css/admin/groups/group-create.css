@@ -1,3 +1,7 @@
 .error {
     color: #e06149;
 }
+
+.disabled-text {
+    color: grey;
+}

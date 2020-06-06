@@ -40,7 +40,8 @@ class UpdateTeacher extends FormRequest
             'photo' => ['sometimes', 'image', 'max:512', 'dimensions:min_width=200,min_height=200', 'min_resolve', 'crop_image_square'],
             'login' => ['required', 'string', 'max:255', Rule::unique('users')->ignore($userId)],
             'password' => ['sometimes', 'nullable', 'string', 'min:8', 'regex:/^[a-zA-Z0-9]+$/',
-                'regex:/[a-z]+/', 'regex:/[0-9]+/', 'regex:/[A-Z]+/']
+                'regex:/[a-z]+/', 'regex:/[0-9]+/', 'regex:/[A-Z]+/'],
+            'email' => ['sometimes', 'nullable', 'email', Rule::unique('users')->ignore($userId)]
         ];
     }
 }

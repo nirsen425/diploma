@@ -15,6 +15,7 @@ use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\Rule;
 
 class TeacherRegisterController extends Controller
 {
@@ -58,6 +59,7 @@ class TeacherRegisterController extends Controller
      */
     protected function validator(array $data)
     {
+        $userId = $this->route('teacher')->user()->value('id');
         return Validator::make($data, [
             'name' => ['required', 'string', 'max:255'],
             'patronymic' => ['required', 'string', 'max:255'],
@@ -70,9 +72,10 @@ class TeacherRegisterController extends Controller
             'photo_y' => ['bail', 'nullable', 'required_with:photo', 'integer'],
             'photo_width' => ['bail', 'nullable', 'required_with:photo', 'integer'],
             'photo_height' => ['bail', 'nullable', 'required_with:photo', 'integer'],
-            'photo' => ['sometimes', 'image', 'dimensions:min_width=200,min_height=200', 'min_resolve', 'crop_image_square'],
+            'photo' => ['sometimes', 'image', 'max:512', 'dimensions:min_width=200,min_height=200', 'min_resolve', 'crop_image_square'],
             'login' => ['required', 'string', 'max:255', 'unique:users'],
             'password' => ['required', 'string', 'min:8', 'regex:/^[a-zA-Z0-9]+$/'],
+            'email' => ['sometimes', 'nullable', 'email', Rule::unique('users')->ignore($userId)]
         ]);
     }
 
@@ -93,6 +96,7 @@ class TeacherRegisterController extends Controller
                 'rights_id' => $data['rights'],
                 'login' => $data['login'],
                 'password' => Hash::make($data['password']),
+                'email' => $data['email']
             ]);
 
             $cropPhotoName = 'empty.png';

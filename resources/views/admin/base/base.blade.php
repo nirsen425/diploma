@@ -34,20 +34,19 @@
             <i class="fas fa-arrow-left"></i>
         </div>
         <div class="sidebar-header">
-            <h3>Админ-панель</h3>
+            <h3>ИТиАП</h3>
         </div>
 
         <ul class="list-unstyled components">
-            <p>Навигация</p>
             <li class="components-element">
                 <a href="#teachersSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Преподаватели</a>
                 <ul class="collapse list-unstyled" id="teachersSubmenu">
                     <li>
                         <a href="{{ route('lecturers.index') }}">Просмотреть</a>
                     </li>
-{{--                    <li>--}}
-{{--                        <a href="{{ route('teacher_register') }}">Добавить</a>--}}
-{{--                    </li>--}}
+                    <li>
+                        <a href="{{ route('teacher_register') }}">Добавить</a>
+                    </li>
                 </ul>
             </li>
             <li class="components-element">
@@ -95,10 +94,10 @@
             <li id="teacher-applications">
                 <a href="{{ route('teacher_applications', ['selectedYear' => Helper::getSchoolYear()]) }}">Заявки руководителей</a>
             </li>
-            <li>
+            <li id="practice-info">
                 <a href="{{ route('practice_info', ['directionId' => '1']) }}">Информация и сроки</a>
             </li>
-            <li>
+            <li id="files">
                 <a href="{{ route('files', ['directionId' => '1']) }}">Файлы</a>
             </li>
         </ul>

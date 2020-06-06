@@ -24,7 +24,7 @@ class CreateGroupRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => ['required'],
+            'name' => ['required', 'unique:groups', 'unique:group_stories'],
             'direction' => ['required', 'digits_between:1,2'],
             'course' => ['required', 'digits_between:1,4'],
             'students' => ['required', 'mimes:csv,txt']

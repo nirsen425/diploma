@@ -2,7 +2,11 @@ $(document).ready(function () {
     $("#groupCreate").validate({
         rules: {
             name: {
-                required: true
+                required: true,
+                remote: {
+                    url: "/verification/group-name",
+                    type: "post",
+                }
             },
             direction: {
                 required: true
@@ -18,6 +22,7 @@ $(document).ready(function () {
         messages: {
             name: {
                 required: "Это поле обязательно для заполнения",
+                remote: "Группа с таким названием уже существует или существовала"
             },
             direction: {
                 required: "Это поле обязательно для заполнения",

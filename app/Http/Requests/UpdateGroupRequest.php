@@ -2,7 +2,9 @@
 
 namespace App\Http\Requests;
 
+use App\Group;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class UpdateGroupRequest extends FormRequest
 {
@@ -23,9 +25,15 @@ class UpdateGroupRequest extends FormRequest
      */
     public function rules()
     {
+        $groupId= $this->route('group');
+        $group = Group::where('id', '=', $groupId)->first();
+        $groupStoryId = $group->groupStories()->where('year_history', '=', $group->year)->first()->id;
         return [
-            'direction' => ['required', 'digits_between:1,2'],
-            'students' => ['mimes:csv,txt']
+            'direction' => ['sometimes', 'nullable', 'digits_between:1,2'],
+            'students' => ['sometimes','nullable', 'mimes:csv,txt'],
+            'name' => ['required', Rule::unique('groups')->ignore($groupId),
+                Rule::unique('group_stories')->ignore($groupStoryId)],
+            'course' => ['sometimes', 'nullable', 'digits_between:1,4']
         ];
     }
 }

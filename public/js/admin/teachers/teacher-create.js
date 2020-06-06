@@ -1,10 +1,27 @@
 $(document).ready(function () {
     var loadFile = function(event) {
-        var teacherImage = document.getElementById('teacherImage');
-        teacherImage.src = URL.createObjectURL(event.target.files[0]);
 
         var $image = $('#teacherImage');
         $image.cropper('destroy');
+
+        $(this).valid();
+
+        if (typeof event.target.files[0] == 'undefined') {
+            $image.removeAttr('src');
+            $('.custom-file-label').text("Выберите фото");
+            $(this).valid();
+            return;
+        } else {
+            $('.custom-file-label[for="photo"]').text(event.target.files[0].name);
+        }
+
+        if (!event.target.files[0].name.match(new RegExp("(.jpg|.JPG|.jpeg|.JPEG|.png|.PNG)$"))) {
+            $image.removeAttr('src');
+            $(this).valid();
+            return;
+        }
+
+        $image.attr('src', URL.createObjectURL(event.target.files[0]));
 
         $image.cropper({
             aspectRatio: 1 / 1,
@@ -24,6 +41,14 @@ $(document).ready(function () {
             $('#photo_y').val($cropData['y']);
             $('#photo_width').val($cropData['width']);
             $('#photo_height').val($cropData['height']);
+        });
+
+        $image.bind('ready', function () {
+            $('#photo').valid();
+        });
+
+        $image.bind('cropend', function () {
+            $('#photo').valid();
         });
     };
 
@@ -82,12 +107,34 @@ $(document).ready(function () {
     $.validator.addMethod("imageResolution", function (value, element) {
         var $image = $('#teacherImage');
         var cropper = $image.data('cropper');
+        if (typeof cropper == 'undefined') {
+            return true;
+        }
         var $cropData = cropper.getData(true);
         if ($cropData['width'] >= 200 || $cropData['height'] >= 200) {
             return true;
         }
         return  false;
     }, "Изображение должно быть минимум 200x200");
+
+    jQuery.validator.addMethod("filesizeMax", function(value, element, param) {
+        var isOptional = this.optional(element),
+            file;
+
+        if(isOptional) {
+            return isOptional;
+        }
+
+        if ($(element).attr("type") === "file") {
+
+            if (element.files && element.files.length) {
+
+                file = element.files[0];
+                return ( file.size && file.size <= param );
+            }
+        }
+        return false;
+    }, "Вес изображения должен быть меньше 512 Кб");
 
     $("#teacherRegistration").validate({
         rules: {
@@ -120,15 +167,37 @@ $(document).ready(function () {
                 required: true,
                 rangelength: [10, 100]
             },
+            email: {
+                email: true,
+                remote: {
+                    url: "/admin/verification/email/" + $('#email').attr('user-id'),
+                    type: "post",
+                }
+            },
             full_description: {
                 required: true,
                 minlength: 50,
                 maxlength: 15000
             },
             photo: {
+                extension: function (element) {
+                    if (element.files[0] !== undefined) {
+                        return "jpg|jpeg|png";
+                    }
+                    return false;
+                },
+                filesizeMax: function (element) {
+                    if (element.files[0] !== undefined) {
+                        return 524288;
+                    }
+                    return false;
+                },
                 imageResolution: function (element) {
-                    return element.files[0] !== undefined;
-                }
+                    if (element.files[0] !== undefined) {
+                        return true;
+                    }
+                    return false;
+                },
             }
         },
         messages: {
@@ -161,6 +230,10 @@ $(document).ready(function () {
             },
             photo: {
                 required: "Выберите фото",
+            },
+            email: {
+                email: "Некорректный email",
+                remote: "Этот email уже занят"
             }
         },
         // Определение места вставки сообщения об ошибке

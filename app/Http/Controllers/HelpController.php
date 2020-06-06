@@ -6,6 +6,7 @@ use App\Http\Requests\VerificationEmailRequest;
 use App\ImageService;
 use App\User;
 use App\Page;
+use App\Group;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
@@ -122,6 +123,53 @@ class HelpController extends Controller
 
         return "true";
     }
+
+    public function adminEmailVerification(Request $request, $id = null)
+    {
+        if (!empty($id)) {
+            $validator = Validator::make($request->all(), [
+                'email' => Rule::unique('users')->ignore($id)
+            ]);
+        } else {
+            $validator = Validator::make($request->all(), [
+                'email' => Rule::unique('users')
+            ]);
+        }
+
+        if ($validator->fails()) {
+            return "false";
+        }
+
+        return "true";
+    }
+
+    public function adminGroupNameVerification(Request $request, $id = null)
+    {
+        if (!empty($id)) {
+            $group = Group::where('id', '=', $id)->first();
+            $groupStoryId = $group->groupStories()->where('year_history', '=', $group->year)->first()->id;
+            $validator = Validator::make($request->all(), [
+                'name' => [
+                    Rule::unique('groups')->ignore($id),
+                    Rule::unique('group_stories')->ignore($groupStoryId)
+                ]
+            ]);
+        } else {
+            $validator = Validator::make($request->all(), [
+                'name' => [
+                    Rule::unique('groups'),
+                    Rule::unique('group_stories')
+                ]
+            ]);
+        }
+
+        if ($validator->fails()) {
+            return "false";
+        }
+
+        return "true";
+    }
+
     /**
      * Загрузка изображения
      *
