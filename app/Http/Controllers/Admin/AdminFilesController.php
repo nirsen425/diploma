@@ -44,7 +44,7 @@ class AdminFilesController extends Controller
         $data['selectedDirectionId'] = $directionId;
         $data['selectedCourseId'] = $courseId;
         $data['directions'] = $this->direction->get();
-        $data['courses'] = $this->course->get();
+        $data['courses'] = $this->course->whereBetween('course', [1, 4])->get();
         return view('admin.files', $data);
     }
 

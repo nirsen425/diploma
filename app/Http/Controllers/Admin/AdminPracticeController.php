@@ -45,7 +45,7 @@ class AdminPracticeController extends Controller
         $data['selectedDirectionId'] = $selectedDirectionId;
         $data['selectedCourseId'] = $selectedCourseId;
         $data['directions'] = $this->direction->get();
-        $data['courses'] = $this->course->get();
+        $data['courses'] = $this->course->whereBetween('course', [1, 4])->get();
 
         return view('admin.practice-info', $data);
     }

@@ -50,6 +50,13 @@
             </div>
         </div>
     </div>
+    <div class="bg-white shell p-3 text-break">
+        <div class="d-flex justify-content-between">
+            <h3>Список преподавателей</h3>
+            <a href="{{ route('report_login_teacher')}}" class="button button-large"
+               id="generate-report">Сформировать отчет по логинам</a>
+        </div>
+    </div>
     <table class="table teacher-table">
         <thead class="thead-dark">
         <tr>

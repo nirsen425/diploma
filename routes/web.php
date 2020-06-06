@@ -17,6 +17,8 @@ Route::get('/', 'IndexController@index')->name('index');
 Route::get('lecturer/show/{teacher}', 'IndexController@showTeacher')->name('teacher_show')->middleware('studentAccessForFullTeacherDescription');
 Route::get('student/cabinet', 'StudentCabinetController@index')->name('student_cabinet_index');
 Route::get('lecturer/cabinet', 'TeacherCabinetController@index')->name('teacher_cabinet_index');
+Route::post('lecturer/cabinet/practice', 'TeacherCabinetController@getPracticeByDirectionCourse');
+Route::post('lecturer/cabinet/files', 'TeacherCabinetController@getFilesByDirectionCourse');
 
 Route::get('/login', 'Auth\LoginController@showLoginForm')->name('login');
 Route::post('/login', 'Auth\LoginController@login');
@@ -89,8 +91,8 @@ Route::get('admin/teacher-applications/{selectedYear}/{teacherId?}', 'Admin\Admi
 // Получение отчета
 Route::get('report/practice/group/{year?}/{groupStoryId?}', 'Admin\AdminReportController@getReportPracticeGroup')->name('report_practice_group');
 Route::get('report/practice/teacher/{year?}/{teacherId?}', 'Admin\AdminReportController@getReportPracticeTeacher')->name('report_practice_teacher');
-//Route::get('report/diploma', 'Admin\AdminReportController@getReportDiploma')->name('report_diploma');
-Route::get('report/login/{groupStory}', 'Admin\AdminReportController@getReportLogin')->name('report_login');
+Route::get('report/login/student/{groupStory}', 'Admin\AdminReportController@getReportLoginStudent')->name('report_login_student');
+Route::get('report/login/teacher', 'Admin\AdminReportController@getReportLoginTeacher')->name('report_login_teacher');
 
 // Информация и сроки
 Route::get('admin/practice-info/{directionId}/{courseId?}', 'Admin\AdminPracticeController@index')->name('practice_info');
@@ -109,6 +111,6 @@ Route::get('teacher/file/download/{directionId}/{courseId}/{fileId}', 'FilesCont
 // Перевод/Выпуск групп
 Route::get('admin/group-transfer', 'Admin\AdminGroupTransferController@showGroupTransferPage')->name('group_transfer');
 Route::post('admin/group-transfer', 'Admin\AdminGroupTransferController@transferGroup');
-
 // Нет группы
 Route::get('empty-group', 'EmptyGroupController@showEmptyGroupPage')->name('empty_group');
+
