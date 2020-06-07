@@ -30,7 +30,7 @@ class UpdateGroupRequest extends FormRequest
         $groupStoryId = $group->groupStories()->where('year_history', '=', $group->year)->first()->id;
         return [
             'direction' => ['sometimes', 'nullable', 'digits_between:1,2'],
-            'students' => ['sometimes','nullable', 'mimes:csv,txt'],
+            'students' => ['sometimes','nullable', 'mimes:csv,txt', 'encoding:utf-8'],
             'name' => ['required', Rule::unique('groups')->ignore($groupId),
                 Rule::unique('group_stories')->ignore($groupStoryId)],
             'course' => ['sometimes', 'nullable', 'digits_between:1,4']

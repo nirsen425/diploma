@@ -59,7 +59,6 @@ class TeacherRegisterController extends Controller
      */
     protected function validator(array $data)
     {
-        $userId = $this->route('teacher')->user()->value('id');
         return Validator::make($data, [
             'name' => ['required', 'string', 'max:255'],
             'patronymic' => ['required', 'string', 'max:255'],
@@ -75,7 +74,7 @@ class TeacherRegisterController extends Controller
             'photo' => ['sometimes', 'image', 'max:512', 'dimensions:min_width=200,min_height=200', 'min_resolve', 'crop_image_square'],
             'login' => ['required', 'string', 'max:255', 'unique:users'],
             'password' => ['required', 'string', 'min:8', 'regex:/^[a-zA-Z0-9]+$/'],
-            'email' => ['sometimes', 'nullable', 'email', Rule::unique('users')->ignore($userId)]
+            'email' => ['sometimes', 'nullable', 'email', Rule::unique('users')]
         ]);
     }
 

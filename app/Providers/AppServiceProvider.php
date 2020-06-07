@@ -50,5 +50,20 @@ class AppServiceProvider extends ServiceProvider
 
             return abs($cropWidth === $cropHeight) <= 1;
         });
+
+        Validator::extend('encoding', function ($attribute, $value, $parameters, $validator) {
+            $filePath = $value->getRealPath();
+
+            $fileContent = file_get_contents($filePath);
+            $result = mb_detect_encoding($fileContent, $parameters, true);
+
+            if ($result != false) {
+                return true;
+            }
+
+            return false;
+        });
+
+
     }
 }

@@ -399,10 +399,10 @@ class AdminReportController extends Controller
         $objWriter->save('php://output');
     }
 
-    public function getReportLoginStudent(GroupStory $groupStory)
+    public function getReportLoginStudent(Group $group)
     {
-        $students = $groupStory->students()->get();
-        $groupStoryName = $groupStory->name;
+        $students = $group->students()->get();
+        $groupStoryName = $group->name;
 
         /**
          * Объект и его параметры

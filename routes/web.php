@@ -91,7 +91,7 @@ Route::get('admin/teacher-applications/{selectedYear}/{teacherId?}', 'Admin\Admi
 // Получение отчета
 Route::get('report/practice/group/{year?}/{groupStoryId?}', 'Admin\AdminReportController@getReportPracticeGroup')->name('report_practice_group');
 Route::get('report/practice/teacher/{year?}/{teacherId?}', 'Admin\AdminReportController@getReportPracticeTeacher')->name('report_practice_teacher');
-Route::get('report/login/student/{groupStory}', 'Admin\AdminReportController@getReportLoginStudent')->name('report_login_student');
+Route::get('report/login/student/{group}', 'Admin\AdminReportController@getReportLoginStudent')->name('report_login_student');
 Route::get('report/login/teacher', 'Admin\AdminReportController@getReportLoginTeacher')->name('report_login_teacher');
 
 // Информация и сроки

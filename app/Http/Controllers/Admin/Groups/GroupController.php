@@ -169,9 +169,8 @@ class GroupController extends Controller
             abort(404);
         }
 
-        $groupStory = $group->groupStories()->orderBy('id', 'desc')->first();
-        $students = $groupStory->students()->get();
-        return view('admin.groups.show', ['group' => $group, 'groupStory' => $groupStory,
+        $students = $group->students()->get();
+        return view('admin.groups.show', ['group' => $group,
             'students' => $students]);
     }
 

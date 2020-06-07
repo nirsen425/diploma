@@ -27,7 +27,7 @@ class CreateGroupRequest extends FormRequest
             'name' => ['required', 'unique:groups', 'unique:group_stories'],
             'direction' => ['required', 'digits_between:1,2'],
             'course' => ['required', 'digits_between:1,4'],
-            'students' => ['required', 'mimes:csv,txt']
+            'students' => ['required', 'mimes:csv,txt', 'encoding:utf-8']
         ];
     }
 }

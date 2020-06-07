@@ -5,7 +5,7 @@
     <div class="bg-white shell p-3 text-break">
         <div class="d-flex justify-content-between">
             <h3>{{ $group->name }}</h3>
-            <a href="{{ route('report_login_student', ['groupStory' => $groupStory->id]) }}" class="button button-large"
+            <a href="{{ route('report_login_student', ['group' => $group->id]) }}" class="button button-large"
                id="generate-report">Сформировать отчет по логинам</a>
         </div>
         <div class="d-flex group-info">
