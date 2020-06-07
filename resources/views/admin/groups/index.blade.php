@@ -6,21 +6,21 @@
     <table class="table group-table">
         <thead class="thead-dark">
         <tr>
-            <th scope="col">Название</th>
-            <th scope="col">Год</th>
-            <th scope="col">Направление</th>
-            <th scope="col">Курс</th>
-            <th scope="col">Действия</th>
+            <th scope="col" class="pl-4">Название</th>
+            <th scope="col" class="pl-4">Год</th>
+            <th scope="col" class="pl-4">Направление</th>
+            <th scope="col" class="pl-4">Курс</th>
+            <th scope="col" class="pl-4">Действия</th>
         </tr>
         </thead>
         <tbody>
         @foreach($groups as $group)
             <tr>
-                <td>{{ $group->name }}</td>
-                <td>{{ $group->year}}</td>
-                <td>{{ $group->direction()->first()->direction }}</td>
-                <td>{{ $group->course()->first()->course }}</td>
-                <td>
+                <td class="p-4">{{ $group->name }}</td>
+                <td class="p-4">{{ $group->year}}</td>
+                <td class="p-4">{{ $group->direction()->first()->direction }}</td>
+                <td class="p-4">{{ $group->course()->first()->course }}</td>
+                <td class="p-4">
                     <a href="{{ route('groups.show', ['group' => $group->id]) }}">
                         <i class="far fa-eye"></i>
                     </a>

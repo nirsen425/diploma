@@ -3,6 +3,15 @@
 
     $pages = Page::all();
     $user = Auth::user();
+    if (isset($user)) {
+        if ($user->user_type_id == 1 and $user->student()->first()->group()->first()) {
+            $pages = Page::where('show', '=', 1)->get();
+        }
+
+        if ($user->user_type_id == 2 ) {
+            $pages = Page::where('show', '=', 1)->get();
+        }
+    }
 @endphp
 <footer class="footer p-4 mt-3">
     <div class="footer__inner container d-flex justify-content-end">

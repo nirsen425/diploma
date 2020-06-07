@@ -81,9 +81,9 @@
                     <a href="{{ route('lecturers.edit', ['teacher' => $teacher->id]) }}">
                         <i class="far fa-edit"></i>
                     </a>
-                    <a href="#" class="delete" teacher-id="{{ $teacher->id }}" data-toggle="modal" data-target="#confirmDelete">
-                        <i class="fas fa-trash-alt"></i>
-                    </a>
+{{--                    <a href="#" class="delete" teacher-id="{{ $teacher->id }}" data-toggle="modal" data-target="#confirmDelete">--}}
+{{--                        <i class="fas fa-trash-alt"></i>--}}
+{{--                    </a>--}}
                 </td>
             </tr>
         @endforeach

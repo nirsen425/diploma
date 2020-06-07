@@ -75,7 +75,8 @@ class StudentController extends Controller
 
             $userData = [
                 'rights_id' => $request['rights'],
-                'login' => $request['login']
+                'login' => $request['login'],
+                'email' => $request['email']
             ];
 
             $password = $request->password;

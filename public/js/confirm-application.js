@@ -25,6 +25,7 @@ $(function () {
                     let confirmedApplication = $('.application-approve-button[type-id="' + typeId + '"]' +
                         '[student-id="' + studentId + '"]').closest(".request");
                     var requestName = confirmedApplication.find('.request-name').text();
+                    var requestGroupName = confirmedApplication.find('.request-group-name').text();
                     confirmedApplication.remove();
 
                     var practiceStudentRequestContainer = $('#practice-student .request-container');
@@ -40,6 +41,7 @@ $(function () {
                         if (practiceStudentRequestContainer.find('.no-request').length) {
                             practiceStudentRequestContainer.html('<div class="request font-weight-bolder">' +
                                 '<div class="request-name">'+ requestName + '</div>' +
+                                '<div class="request-group-name mb-2">' + requestGroupName + '</div>' +
                                 '   <button class="button application-reject-button"' +
                                 '       student-id="'+ studentId + '"' +
                                 '       type-id="1" data-toggle="modal"' +
@@ -50,6 +52,7 @@ $(function () {
                         } else {
                             practiceStudentRequestContainer.append('<div class="request font-weight-bolder">' +
                                 '<div class="request-name">'+ requestName + '</div>' +
+                                '<div class="request-group-name mb-2">' + requestGroupName + '</div>' +
                                 '   <button class="button application-reject-button"' +
                                 '       student-id="'+ studentId + '"' +
                                 '       type-id="1" data-toggle="modal"' +
@@ -93,6 +96,7 @@ $(function () {
                         if (diplomaStudentRequestContainer.find('.no-request').length) {
                             diplomaStudentRequestContainer.html('<div class="request font-weight-bolder">' +
                                 '<div class="request-name">'+ requestName + '</div>' +
+                                '<div class="request-group-name mb-2">' + requestGroupName + '</div>' +
                                 '   <button class="button application-reject-button"' +
                                 '       student-id="'+ studentId + '"' +
                                 '       type-id="2" data-toggle="modal"' +
@@ -103,6 +107,7 @@ $(function () {
                         } else {
                             diplomaStudentRequestContainer.append('<div class="request font-weight-bolder">' +
                                 '<div class="request-name">'+ requestName + '</div>' +
+                                '<div class="request-group-name mb-2">' + requestGroupName + '</div>' +
                                 '   <button class="button application-reject-button"' +
                                 '       student-id="'+ studentId + '"' +
                                 '       type-id="2" data-toggle="modal"' +

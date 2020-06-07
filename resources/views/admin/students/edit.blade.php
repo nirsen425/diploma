@@ -20,7 +20,7 @@
                 @endforeach
             </div>
         @endif
-        <form action="{{ route('students.update', ['student' => $student->id]) }}" method="POST" id="studentRegistration">
+        <form action="{{ route('students.update', ['student' => $student->id]) }}" method="POST" id="studentEdit">
             @csrf
             <input type="hidden" name="_method" value="PUT">
 
@@ -53,6 +53,13 @@
                 <label for="surname" class="col-lg-2 col-form-label font-weight-bold">Фамилия</label>
                 <div class="col-lg-10">
                     <input type="text" class="form-control" id="surname" placeholder="Иванов" name="surname" value="{{ $student->surname }}">
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="email" class="col-lg-2 col-form-label font-weight-bold">Email</label>
+                <div class="col-lg-10">
+                    <input type="text" class="form-control" id="email" name="email"
+                           user-id="{{ $student->user()->value('id') }}" value="{{ $student->user()->first()->email }}">
                 </div>
             </div>
 {{--            <div class="form-group row">--}}
