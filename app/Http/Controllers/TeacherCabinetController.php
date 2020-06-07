@@ -143,10 +143,13 @@ class TeacherCabinetController extends Controller
                 $dataPractice['practice_start'] = $practice->practice_start;
                 $dataPractice['practice_end'] = $practice->practice_end;
                 $dataPractice['practice_info'] = $practice->practice_info;
+                return $dataPractice;
+            }
+            else
+            {
+                return "false";
             }
         }
-
-        return $dataPractice;
     }
 
     /**
@@ -183,7 +186,6 @@ class TeacherCabinetController extends Controller
                         ];
                     }
                     $dataFiles['filesCount'] = count($dataFiles);
-
                     return $dataFiles;
                 }
                 else

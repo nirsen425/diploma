@@ -22,7 +22,7 @@
         <div class="font-weight-bold">E-mail</div>
         <div>{{ $student->email }}</div>
         <div class="font-weight-bold">Статус</div>
-        @if ($student->status)
+        @if ($student->group_id)
             Учится
         @else
             Отчислен/Выпущен

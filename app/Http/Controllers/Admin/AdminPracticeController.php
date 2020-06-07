@@ -24,6 +24,12 @@ class AdminPracticeController extends Controller
         $this->practice = $practice;
     }
 
+    /**
+     * Вывод информации и сроков по направлению-курсу
+     * @param $selectedDirectionId
+     * @param null $selectedCourseId
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
     public function index($selectedDirectionId, $selectedCourseId = null)
     {
         if (isset($selectedDirectionId))
@@ -50,6 +56,13 @@ class AdminPracticeController extends Controller
         return view('admin.practice-info', $data);
     }
 
+    /**
+     * Изменение информации и сроков по направлению-курсу
+     * @param Request $request
+     * @param $directionId
+     * @param $courseId
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function edit(Request $request, $directionId, $courseId)
     {
         $practiceData = [

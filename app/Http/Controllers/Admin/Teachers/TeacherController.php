@@ -15,22 +15,25 @@ use Illuminate\Validation\Rule;
 class TeacherController extends Controller
 {
     protected $imageService;
+    protected $teacher;
 
-    public function __construct(ImageService $imageService)
+    public function __construct(ImageService $imageService, Teacher $teacher)
     {
         $this->middleware('auth');
         $this->middleware('admin');
         $this->imageService = $imageService;
+        $this->teacher = $teacher;
     }
 
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function index()
     {
-        return view('admin.teachers.index', ['teachers' => Teacher::all()]);
+        $teachers = $this->teacher->orderBy('surname')->get();
+        return view('admin.teachers.index', ['teachers' => $teachers]);
     }
 
     /**

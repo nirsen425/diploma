@@ -9,6 +9,55 @@ $(document).ready(function () {
             + '/' + $(this).find('option:selected').val();
     });
 
+    $.validator.setDefaults({
+        ignore: [],
+    });
+
+    $("#practiceInfoEdit").validate({
+        rules: {
+            application_start: {
+                required: true,
+                maxlength: 10
+            },
+            application_end: {
+                required: true,
+                maxlength: 10
+            },
+            practice_start: {
+                required: true,
+                maxlength: 10
+            },
+            practice_end: {
+                required: true,
+                maxlength: 10
+            },
+            practice_info: {
+                required: true,
+            },
+        },
+        messages: {
+            application_start: {
+                required: "Это поле обязательно для заполнения",
+                maxlength: "Год должен состоять из 4 цифр",
+            },
+            application_end: {
+                required: "Это поле обязательно для заполнения",
+                maxlength: "Год должен состоять из 4 цифр",
+            },
+            practice_start: {
+                required: "Это поле обязательно для заполнения",
+                maxlength: "Год должен состоять из 4 цифр",
+            },
+            practice_end: {
+                required: "Это поле обязательно для заполнения",
+                maxlength: "Год должен состоять из 4 цифр",
+            },
+            practice_info: {
+                required: "Это поле обязательно для заполнения",
+            },
+        },
+    });
+
     // Текстовый редактор
     CKEDITOR.replace("practice_info", {
         filebrowserUploadUrl: "/upload/image",
