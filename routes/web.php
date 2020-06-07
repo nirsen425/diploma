@@ -100,17 +100,15 @@ Route::post('admin/practice-info/{directionId?}/{courseId?}/edit', 'Admin\AdminP
 
 //Файлы
 Route::get('admin/files/{directionId?}/{courseId?}', 'Admin\AdminFilesController@index')->name('files');
-
 Route::post('admin/file/upload/{directionId}/{courseId}', 'Admin\AdminFilesController@upload')->name('file_upload');
 Route::get('admin/file/download/{directionId}/{courseId}/{fileId}', 'Admin\AdminFilesController@download')->name('file_download');
 Route::post('admin/file/delete/{directionId}/{courseId}/{fileId}', 'Admin\AdminFilesController@destroy')->name('file_delete');
-
 Route::get('student/file/download/{fileId}', 'FilesController@studentDownload')->name('student_file_download');
 Route::get('teacher/file/download/{directionId}/{courseId}/{fileId}', 'FilesController@teacherDownload')->name('teacher_file_download');
 
 // Перевод/Выпуск групп
 Route::get('admin/group-transfer', 'Admin\AdminGroupTransferController@showGroupTransferPage')->name('group_transfer');
 Route::post('admin/group-transfer', 'Admin\AdminGroupTransferController@transferGroup');
+
 // Нет группы
 Route::get('empty-group', 'EmptyGroupController@showEmptyGroupPage')->name('empty_group');
-

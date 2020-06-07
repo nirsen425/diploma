@@ -118,7 +118,7 @@
                 @csrf
                 <div class="input-group pl-3 pb-3 pr-3">
                     <div class="custom-file">
-                        <input class="custom-file-input" type="file" multiple id="files" name="files[]">
+                        <input class="custom-file-input" type="file" multiple id="files-upload" name="files[]">
                         <label class="custom-file-label" for="files" id="file-label" data-browse="Добавить файл">Файлы не выбраны</label>
                     </div>
                     <div class="input-group-append">
@@ -157,7 +157,7 @@
                     </table>
                 </div>
             @else
-                <div class="files-empty pt-3">Нет загруженных файлов</div>
+                <div class="files-empty p-3">Нет загруженных файлов</div>
             @endif
         @endif
     </div>

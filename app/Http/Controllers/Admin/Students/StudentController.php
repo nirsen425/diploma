@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin\Students;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\UpdateStudent;
 use App\Student;
+use App\StudentGroupStory;
 use App\User;
 use DB;
 use Illuminate\Http\Request;
@@ -12,23 +13,29 @@ use Illuminate\Support\Facades\Hash;
 
 class StudentController extends Controller
 {
+    protected $student;
+    protected $studentGroupStory;
+
     /**
      * StudentController constructor.
      */
-    public function __construct()
+    public function __construct(Student $student, StudentGroupStory $studentGroupStory)
     {
         $this->middleware('auth');
         $this->middleware('admin');
+        $this->student = $student;
+        $this->studentGroupStory = $studentGroupStory;
     }
 
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function index()
     {
-        return view('admin.students.index', ['students' => Student::all()]);
+        $students = $this->student->orderBy('surname')->get();
+        return view('admin.students.index', ['students' => $students]);
     }
 
     /**
@@ -105,10 +112,14 @@ class StudentController extends Controller
         try {
             DB::beginTransaction();
 
-            // Удаление преподавателя и связанного с ним пользователя
+            // Удаление студента и связанного с ним пользователя
             $user = $student->user()->first();
+            $this->studentGroupStory->where([
+                'student_id' => $student->id,
+            ])->delete();
             $student->delete();
             $user->delete();
+
 
 
             DB::commit();

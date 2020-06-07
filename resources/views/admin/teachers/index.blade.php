@@ -61,9 +61,9 @@
         <thead class="thead-dark">
         <tr>
             <th scope="col">Фото</th>
+            <th scope="col">Фамилия</th>
             <th scope="col">Имя</th>
             <th scope="col">Отчество</th>
-            <th scope="col">Фамилия</th>
             <th scope="col">Действия</th>
         </tr>
         </thead>
@@ -71,9 +71,9 @@
         @foreach($teachers as $teacher)
             <tr>
                 <td><img src="{{ asset("storage/images/" . $teacher->photo) }}" class="teacherPhoto" alt="Преподаватель"></td>
+                <td>{{ $teacher->surname }}</td>
                 <td>{{ $teacher->name }}</td>
                 <td>{{ $teacher->patronymic }}</td>
-                <td>{{ $teacher->surname }}</td>
                 <td>
                     <a href="{{ route('lecturers.show', ['teacher' => $teacher->id]) }}">
                         <i class="far fa-eye"></i>

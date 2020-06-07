@@ -50,7 +50,7 @@
                     <div class="teacher-application">
                         @if (!$practiceApplications->isEmpty())
                             <table class="table">
-                                <tr >
+                                <tr>
                                     <td class="student-practice text-white pl-3 pr-3 pt-1 pb-1">
                                         ФИО студента
                                     </td>
