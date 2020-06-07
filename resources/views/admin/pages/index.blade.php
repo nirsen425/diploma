@@ -54,17 +54,17 @@
     <table class="table page-table">
         <thead class="thead-dark">
         <tr>
-            <th scope="col">Заголовок</th>
-            <th scope="col">Показана на сайте</th>
-            <th scope="col">Действия</th>
+            <th scope="col" class="pl-4">Заголовок</th>
+            <th scope="col" class="pl-4">Показана на сайте</th>
+            <th scope="col" class="pl-4">Действия</th>
         </tr>
         </thead>
         <tbody>
         @foreach($pages as $page)
             <tr>
-                <td>{{ $page->title }}</td>
-                <td>{{ $page->show ? "Да" : "Нет" }}</td>
-                <td>
+                <td class="p-4">{{ $page->title }}</td>
+                <td class="p-4">{{ $page->show ? "Да" : "Нет" }}</td>
+                <td class="p-4">
                     <a href="{{ route('pages.show', ['page' => $page->id]) }}">
                         <i class="far fa-eye"></i>
                     </a>

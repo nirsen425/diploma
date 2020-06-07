@@ -1,12 +1,18 @@
 @php
     use App\Page;
 
-    $pages = Page::all();
+    $user = Auth::user();
+    if (isset($user)) {
+        if ($user->user_type_id == 1 and $user->student()->first()->group()->first()) {
+            $pages = Page::where('show', '=', 1)->get();
+        }
+
+        if ($user->user_type_id == 2 ) {
+            $pages = Page::where('show', '=', 1)->get();
+        }
+    }
 @endphp
 <header class="mb-3">
-    @php
-        $user = Auth::user();
-    @endphp
     @if ($user)
         <div class="sub-menu  p-1 text-white">
             <div class="container text-right">
@@ -42,11 +48,13 @@
                         </li>
                         @endif
                     @endif
-                    @foreach($pages as $page)
-                        <li class="nav-item">
-                            <a class="nav-link text-white" href="{{ route('page', ['slug' => $page->slug]) }}">{{ $page->title }}</a>
-                        </li>
-                    @endforeach
+                    @if (isset($pages))
+                        @foreach($pages as $page)
+                            <li class="nav-item">
+                                <a class="nav-link text-white" href="{{ route('page', ['slug' => $page->slug]) }}">{{ $page->title }}</a>
+                            </li>
+                        @endforeach
+                    @endif
                 </ul>
                 @if($user)
                     <a href="{{ route('logout') }}" class="button"

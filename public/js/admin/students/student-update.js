@@ -21,7 +21,7 @@ $(document).ready(function () {
     }, "Пароль некорректен");
 
 
-    $("#studentRegistration").validate({
+    $("#studentEdit").validate({
         rules: {
             login: {
                 required: true,
@@ -80,6 +80,13 @@ $(document).ready(function () {
             },
             student_ticket: {
                 required: true
+            },
+            email: {
+                email: true,
+                remote: {
+                    url: "/admin/verification/email/" + $('#email').attr('user-id'),
+                    type: "post",
+                }
             }
         },
         messages: {
@@ -103,6 +110,10 @@ $(document).ready(function () {
             },
             student_ticket: {
                 required: "Это поле обязательно для заполнения"
+            },
+            email: {
+                email: "Некорректный email",
+                remote: "Этот email уже занят"
             }
         },
     });

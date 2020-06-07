@@ -22,9 +22,6 @@ class ApplicationController extends Controller
     public function __construct(Application $application)
     {
         $this->middleware('auth');
-        // Проверка пользователя на студента
-        $this->middleware('student');
-        $this->middleware('studentStatus');
         $this->application = $application;
     }
 
