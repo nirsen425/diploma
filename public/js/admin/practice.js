@@ -9,6 +9,30 @@ $(document).ready(function () {
             + '/' + $(this).find('option:selected').val();
     });
 
+    if($('select[name="course"]').val()!="") {
+        // Текстовый редактор
+        CKEDITOR.replace("practice_info", {
+            filebrowserUploadUrl: "/upload/image",
+            extraPlugins: 'uploadimage',
+            uploadUrl: '/upload/image'
+        });
+
+        var practiceInfo =  CKEDITOR.instances["practice_info"];
+
+        practiceInfo.on('change', function () {
+            CKEDITOR.instances["practice_info"].updateElement();
+        });
+
+        practiceInfo.on('blur', function () {
+            CKEDITOR.instances["practice_info"].updateElement();
+            $('#practice_info').blur();
+        });
+
+        $('#practiceInfoEdit').submit(function () {
+            CKEDITOR.instances["practice_info"].updateElement();
+        });
+    }
+
     $.validator.setDefaults({
         ignore: [],
     });
@@ -57,27 +81,4 @@ $(document).ready(function () {
             },
         },
     });
-
-    // Текстовый редактор
-    CKEDITOR.replace("practice_info", {
-        filebrowserUploadUrl: "/upload/image",
-        extraPlugins: 'uploadimage',
-        uploadUrl: '/upload/image'
-    });
-
-    var practiceInfo =  CKEDITOR.instances["practice_info"];
-
-    practiceInfo.on('change', function () {
-        CKEDITOR.instances["practice_info"].updateElement();
-    });
-
-    practiceInfo.on('blur', function () {
-        CKEDITOR.instances["practice_info"].updateElement();
-        $('#full_description').blur();
-    });
-
-    $('#practiceInfoEdit').submit(function () {
-        CKEDITOR.instances["practice_info"].updateElement();
-    });
-
 });

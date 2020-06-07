@@ -2,17 +2,33 @@
 
 @section('content')
     <link href="{{ asset('css/admin/files.css') }}" rel="stylesheet">
-    @if (session('notify_success'))
-        <div class="alert alert-success alert-dismissible fade show">
-            {{ session('notify_success') }}
+    @if (session('exExtNot'))
+        <div class="alert alert-warning alert-dismissible fade show">
+            {{ session('exExtNot') }}
             <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
             </button>
         </div>
     @endif
-    @if (session('notify_failure'))
+    @if (session('exFilesNames'))
         <div class="alert alert-warning alert-dismissible fade show">
-            {{ session('notify_failure') }}
+            {{ session('exFilesNames') }}
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+    @endif
+    @if (session('failure'))
+        <div class="alert alert-warning alert-dismissible fade show">
+            {{ session('failure') }}
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+    @endif
+    @if (session('success'))
+        <div class="alert alert-success alert-dismissible fade show">
+            {{ session('success') }}
             <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
             </button>
