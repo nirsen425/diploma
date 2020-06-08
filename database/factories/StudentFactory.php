@@ -22,7 +22,6 @@ $factory->define(Student::class, function (Faker $faker) {
         'patronymic' => 'Allan',
         'surname' => $faker->lastName,
 //        'student_ticket' => '12345678',
-        'personal_number' => Str::random(8),
-        'status' => rand(0, 1)
+        'personal_number' => Str::random(8)
     ];
 });

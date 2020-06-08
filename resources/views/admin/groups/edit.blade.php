@@ -45,7 +45,7 @@
                     <label for="course">Курс</label>
                     <select class="custom-select" id="course" name="course">
                         @foreach($courses as $course)
-                            <option value="{{ $course->id }}" {{ old('course') == $course->id ? 'selected' : '' }}>{{ $course->course }}</option>
+                            <option value="{{ $course->id }}" {{ $group->course()->first()->id == $course->id ? 'selected' : '' }}>{{ $course->course }}</option>
                         @endforeach
                     </select>
                 </div>
