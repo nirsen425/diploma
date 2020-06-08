@@ -84,25 +84,10 @@ $(document).ready(function () {
         ignore: [],
     });
 
-    $.validator.addMethod("smallLetters", function (value, element) {
-        var regexp = new RegExp("[a-z]");
-        return value.match(regexp);
-    }, "Пароль должен содержать минимум одну маленькую английскую букву");
-
-    $.validator.addMethod("bigLetters", function (value, element) {
-        var regexp = new RegExp("[A-Z]");
-        return value.match(regexp);
-    }, "Пароль должен содержать минимум одну большую английскую букву");
-
-    $.validator.addMethod("hasNumber", function (value, element) {
-        var regexp = new RegExp("[0-9]");
-        return value.match(regexp);
-    }, "Пароль должен содержать минимум одну цифру");
-
     $.validator.addMethod("password", function (value, element) {
         var regexp = new RegExp("^[a-zA-Z0-9]+$");
         return value.match(regexp);
-    }, "Пароль некорректен");
+    }, "Пароль может содержать латинские строчные и прописные буквы и цифры");
 
     $.validator.addMethod("imageResolution", function (value, element) {
         var $image = $('#teacherImage');
@@ -149,9 +134,6 @@ $(document).ready(function () {
             password: {
                 required: true,
                 minlength: 8,
-                smallLetters: true,
-                bigLetters: true,
-                hasNumber: true,
                 password: true
             },
             name: {
@@ -165,7 +147,7 @@ $(document).ready(function () {
             },
             short_description: {
                 required: true,
-                rangelength: [10, 100]
+                rangelength: [10, 138]
             },
             email: {
                 email: true,
@@ -221,7 +203,7 @@ $(document).ready(function () {
             },
             short_description: {
                 required: "Это поле обязательно для заполнения",
-                rangelength: "Краткое описание должно состояить минимум из 10 символов и максимум из 100"
+                rangelength: "Краткое описание должно состоять минимум из 10 символов и максимум из 138"
             },
             full_description: {
                 required: "Это поле обязательно для заполнения",
