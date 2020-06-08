@@ -121,8 +121,7 @@ class GroupController extends Controller
                             'patronymic' => $studentPartFullName[2],
                             'name' => $studentPartFullName[1],
                             'group_id' => $group->id,
-                            'user_id' => $user->id,
-                            'status' => 1
+                            'user_id' => $user->id
                         ]);
 
                         $this->studentGroupStory->create([
