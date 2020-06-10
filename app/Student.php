@@ -47,6 +47,16 @@ class Student extends Model
     }
 
     /**
+     * Получение GroupStory, привязанных к Student
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
+    public function groupStories()
+    {
+        return $this->belongsToMany('App\GroupStory', 'student_group_stories', 'student_id', 'group_story_id');
+    }
+
+    /**
      * Возвращает ФИО
      *
      * @return string
