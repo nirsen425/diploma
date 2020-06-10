@@ -78,7 +78,7 @@ select[name="teacher-select"] {
 }
 
 .shell {
-    min-width: 520px;
+    min-width: min-content;
 }
 
 .table td {

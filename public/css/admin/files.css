@@ -20,5 +20,5 @@ select[name="course"] {
 }
 
 .shell {
-    min-width: 520px;
+    min-width: min-content;
 }
