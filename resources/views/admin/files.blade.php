@@ -99,7 +99,7 @@
         </div>
     </div>
 
-    <div class="files-container p-3">
+    <div class="bg-white shell p-3">
         <div class="container-fluid p-3">
             <div class="row">
                 <h3 class="col-12 col-lg-6 mt-2">Файлы</h3>
@@ -143,35 +143,33 @@
                 </div>
             </form>
             @if(!$directionCourseFiles->isEmpty())
-                <div class="p-3">
-                    <table class="table bg-light table-hover" id="files-table">
-                        <thead class="thead-dark">
+                <table class="table bg-light table-hover" id="files-table">
+                    <thead class="thead-dark">
+                    <tr>
+                        <th class="d-none">id</th>
+                        <th scope="col" class="pl-8">Название файла</th>
+                        <th scope="col" class="pl-8">Дата загрузки</th>
+                        <th scope="col" class="pl-8">Действия</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    @foreach($directionCourseFiles as $directionCourseFile)
                         <tr>
-                            <th class="d-none">id</th>
-                            <th scope="col" class="pl-8">Название файла</th>
-                            <th scope="col" class="pl-8">Дата загрузки</th>
-                            <th scope="col" class="pl-8">Действия</th>
+                            <td class="d-none file-id">{{ $directionCourseFile->id }}</td>
+                            <td class="align-bottom p-8">{{ $directionCourseFile->name }}.{{ $directionCourseFile->extension }}</td>
+                            <td class="align-bottom p-8">{{ $directionCourseFile->created_at }}</td>
+                            <td>
+                                <a href="{{ route('file_download', ['directionId' => $selectedDirectionId, 'courseId' => $selectedCourseId, 'fileId' => $directionCourseFile->id]) }}">
+                                    <i class="fa fa-download"></i>
+                                </a>
+                                <a href="#" class="delete" direction-id="{{ $selectedDirectionId }}" course-id="{{ $selectedCourseId }}" file-id="{{ $directionCourseFile->id }}" data-toggle="modal" data-target="#confirmDelete">
+                                    <i class="fas fa-trash-alt"></i>
+                                </a>
+                            </td>
                         </tr>
-                        </thead>
-                        <tbody>
-                        @foreach($directionCourseFiles as $directionCourseFile)
-                            <tr>
-                                <td class="d-none file-id">{{ $directionCourseFile->id }}</td>
-                                <td class="align-bottom p-8">{{ $directionCourseFile->name }}.{{ $directionCourseFile->extension }}</td>
-                                <td class="align-bottom p-8">{{ $directionCourseFile->created_at }}</td>
-                                <td>
-                                    <a href="{{ route('file_download', ['directionId' => $selectedDirectionId, 'courseId' => $selectedCourseId, 'fileId' => $directionCourseFile->id]) }}">
-                                        <i class="fa fa-download"></i>
-                                    </a>
-                                    <a href="#" class="delete" direction-id="{{ $selectedDirectionId }}" course-id="{{ $selectedCourseId }}" file-id="{{ $directionCourseFile->id }}" data-toggle="modal" data-target="#confirmDelete">
-                                        <i class="fas fa-trash-alt"></i>
-                                    </a>
-                                </td>
-                            </tr>
-                        @endforeach
-                        </tbody>
-                    </table>
-                </div>
+                    @endforeach
+                    </tbody>
+                </table>
             @else
                 <div class="files-empty p-3">Нет загруженных файлов</div>
             @endif
