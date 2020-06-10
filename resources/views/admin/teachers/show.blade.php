@@ -21,7 +21,7 @@
                     Администратор
                 @endif
                 <div class="font-weight-bold">E-mail</div>
-                <div>{{ $teacher->email ? $teacher->email : "Нет" }}</div>
+                <div>{{ $teacher->user()->first()->email ? $teacher->user()->first()->email : "Нет" }}</div>
                 <div class="font-weight-bold">Краткое описание</div>
                 <div>{{ $teacher->short_description }}</div>
                 <div class="font-weight-bold">Полное описание</div>

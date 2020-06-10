@@ -20,7 +20,7 @@
             Администратор
         @endif
         <div class="font-weight-bold">E-mail</div>
-        <div>{{ $student->email ? $student->email : "Нет" }}</div>
+        <div>{{ $student->user()->first()->email ? $student->user()->first()->email : "Нет" }}</div>
         <div class="font-weight-bold">Статус</div>
         @if ($student->group_id)
             Учится
