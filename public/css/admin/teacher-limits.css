@@ -36,5 +36,5 @@ input[name="new-year"] {
 }
 
 .shell {
-    min-width: 401px;
+    min-width: max-content;
 }

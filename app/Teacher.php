@@ -99,7 +99,7 @@ class Teacher extends Model
      * @param $course
      * @return array
      */
-    public function getTeachersByCourseForCurrentYear($course)
+    public function getTeachersByCourseForYear($course, $year)
     {
         if ($course == 1) {
             $сolumnName = 'first_course';
@@ -120,7 +120,7 @@ class Teacher extends Model
         $teacherLimits = TeacherLimit::where([
             [$сolumnName, '=', true],
             ['limit', '>', 0],
-            ['year', '=', Helper::getSchoolYear()]
+            ['year', '=', $year]
         ])->get();
 
         foreach($teacherLimits as $teacherLimit) {

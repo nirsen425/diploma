@@ -16,7 +16,7 @@
                 </div>
             </div>
         </div>
-        <div class="d-flex pl-3 pb-3 pr-3">
+        <div class="d-flex pb-3 pr-3 ml-3">
             <div class="d-flex flex-column">
                 <label for="year" class="font-weight-bold year">Год</label>
                 <select class="mb-2 text-center" name="year">
@@ -67,10 +67,6 @@
                             <td class="d-none student-id">{{ $student->id }}</td>
                             <td class="align-bottom p-4">{{ $student->getFullName() }}</td>
                             <td class="align-bottom p-4">
-                                @php
-                                    // Получение преподавателей которые берут курс этого студента
-                                    $teachers = $teacherModel->getTeachersByCourseForCurrentYear($student->group()->value('course_id'));
-                                @endphp
                                 <select name="teacher">
                                     <option class="d-none"></option>
                                     @if(!empty($teachers))

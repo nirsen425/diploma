@@ -83,6 +83,8 @@
     </div>
 
     <div class="bg-white shell p-3 text-break">
+        <h3 class="mb-3">Лимиты преподавателей</h3>
+        @if (!$teachers->isEmpty())
         <div class="d-flex flex-column flex-lg-row ">
             <div class="d-flex">
                 <div class="d-flex flex-column">
@@ -159,6 +161,9 @@
             </tbody>
         </table>
         <button class="button button-large mt-1" id="change-limits">Изменить</button>
+        @else
+            <h4 class="bg-info p-2 text-white mt-3">Нет преподавателей</h4>
+        @endif
     </div>
 
     <script src="{{ asset('js/admin/teacher-limits.js') }}"></script>
