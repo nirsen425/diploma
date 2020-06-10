@@ -69,7 +69,7 @@ class AdminReportController extends Controller
         $group = $groupStory->group()->first();
         $students = $group->students()->orderBy('surname')->get();
         foreach ($students as $student) {
-            $applications[] = $student->applications()->first();
+            $applications[] = $student->applications()->where('year', '=', $year)->first();
         }
         foreach ($applications as $application) {
             $teachers[] = $application->teacher()->first();

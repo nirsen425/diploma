@@ -1,7 +1,3 @@
-.files-container {
-    background-color: #fff;
-}
-
 .direction {
     font-size: 1rem;
 }
@@ -21,4 +17,8 @@ select[name="course"] {
 
 .files-empty {
     border-top: 1px solid #e7e8ec;
+}
+
+.shell {
+    min-width: 520px;
 }
