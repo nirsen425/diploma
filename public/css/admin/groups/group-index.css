@@ -4,3 +4,7 @@
 .group-table {
     background-color: #fff;
 }
+
+.shell {
+    min-width: max-content;
+}

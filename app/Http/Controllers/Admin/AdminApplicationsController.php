@@ -116,7 +116,9 @@ class AdminApplicationsController extends Controller
             }
 
             $students = $selectedGroup->students()->get();
+            $teachers = $this->teacher->getTeachersByCourseForYear($selectedGroup->course_id, $historyYear);
             $parameters['students'] = $students;
+            $parameters['teachers'] = $teachers;
             $parameters['selectedGroup'] = $selectedGroup;
         }
 
@@ -125,7 +127,6 @@ class AdminApplicationsController extends Controller
         $parameters['groupsBySelectedYear'] = $groupsBySelectedYear;
         $parameters['historyYear'] = $historyYear;
         $parameters['yearsGroup'] = $yearsGroup;
-        $parameters['teacherModel'] = $this->teacher;
         $parameters['applicationStatuses'] = $this->applicationStatus->all();
 
 
@@ -148,9 +149,19 @@ class AdminApplicationsController extends Controller
             return "false";
         }
 
-        $student = $this->student->where('id', '=', $applictionDataArray['studentId'])->first();
-        $teacher = $this->teacher->where('id', '=', $applictionDataArray['teacherId'])->first();
-        if (!$student->hasAccessForSendApplicationForTeacher($teacher)) {
+        $studentGroup = $this->groupStory->where([
+            ['id', '=', $applictionDataArray['groupId']],
+            ['year_history', '=', $applictionDataArray['year']]
+        ])->first();
+
+        $teachers = $this->teacher
+            ->getTeachersByCourseForYear($studentGroup->course_id, $applictionDataArray['year']);
+
+        foreach ($teachers as $teacher) {
+            $teachersId[] = $teacher->id;
+        }
+
+        if (!in_array($applictionDataArray['teacherId'], $teachersId)) {
             return "false";
         }
 
@@ -173,8 +184,6 @@ class AdminApplicationsController extends Controller
 
             $lastApplication->update($parameters);
         } else {
-            $yearsGroupStories = $this->groupStory->select('year_history')->distinct()->orderBy('year_history')->get();
-
             $yearsGroup = $this->groupStory->select('year_history')->distinct()
                 ->orderBy('year_history')->get()->pluck('year_history')->toArray();
 
@@ -184,10 +193,8 @@ class AdminApplicationsController extends Controller
                 return "false";
             }
 
-            $groupId = $student->group()->first()->id;
-
             $selectedGroup = $this->groupStory->where([
-                ['group_id', '=', $groupId],
+                ['id', '=', $applictionDataArray['groupId']],
                 ['year_history', '=', $historyYear]
             ])->first();
 

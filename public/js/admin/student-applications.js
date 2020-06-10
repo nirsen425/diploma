@@ -27,10 +27,12 @@ $('select[name="status"]').change(function () {
     let studentId = $(this).closest('tr').find('.student-id').text();
     let statusId = $(this).find('option:selected').val();
     let year = $('select[name="year"]').find('option:selected').text();
+    let groupId = $('select[name="group"]').find('option:selected').val();
     let applictionDataObject = {
         teacherId: teacherId,
         studentId: studentId,
         statusId: statusId,
+        groupId: groupId,
         year: year
     };
 

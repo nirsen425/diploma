@@ -3,5 +3,5 @@
 }
 
 .shell {
-    min-width: 670px;
+    min-width: min-content;
 }

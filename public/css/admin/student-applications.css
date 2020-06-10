@@ -28,10 +28,10 @@ select[name="status"] {
     min-width: 122px;
 }
 
-.shell {
-    min-width: 520px;
-}
-
 .student-empty {
     border-top: 1px solid #e7e8ec;
+}
+
+.shell {
+    min-width: min-content;
 }

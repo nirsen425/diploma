@@ -30,6 +30,7 @@
     </div>
 
     <div class="bg-white shell p-3" >
+        <h3>Перевод групп на новый курс</h3>
         @if (!$groups->isEmpty())
         <div class="alert alert-danger">
             Внимание! Проверьте корректность данных о группах, которые собираетесь перевести на новый курс!
@@ -74,7 +75,7 @@
         </table>
         <button class="button button-large mt-1 {{ $groups->first()->year == $currentStudyYear ? 'disabled' : '' }}" id="change-сourse">Перевести</button>
         @else
-            <h5>Нет групп 1-4 курса</h5>
+            <h4 class="bg-info p-2 text-white">Нет групп 1-4 курса</h4>
         @endif
     </div>
 

@@ -50,44 +50,49 @@
             </div>
         </div>
     </div>
-    <div class="bg-white shell p-3 text-break">
+    <div class="bg-white bg-light shell p-3 text-break">
         <div class="d-flex justify-content-between">
             <h3>Список преподавателей</h3>
-            <a href="{{ route('report_login_teacher')}}" class="button button-large"
+            <a href="{{ route('report_login_teacher')}}" class="button button-large ml-3"
                id="generate-report">Сформировать отчет по логинам</a>
         </div>
+        @if (!$teachers->isEmpty())
+            <table class="table bg-light teacher-table mt-3">
+                <thead class="thead-dark">
+                <tr>
+                    <th scope="col">Фото</th>
+                    <th scope="col">Фамилия</th>
+                    <th scope="col">Имя</th>
+                    <th scope="col">Отчество</th>
+                    <th scope="col">Действия</th>
+                </tr>
+                </thead>
+                <tbody>
+                @foreach($teachers as $teacher)
+                    <tr>
+                        <td><img src="{{ asset("storage/images/" . $teacher->photo) }}" class="teacherPhoto" alt="Преподаватель"></td>
+                        <td>{{ $teacher->surname }}</td>
+                        <td>{{ $teacher->name }}</td>
+                        <td>{{ $teacher->patronymic }}</td>
+                        <td>
+                            <a href="{{ route('lecturers.show', ['teacher' => $teacher->id]) }}">
+                                <i class="far fa-eye"></i>
+                            </a>
+                            <a href="{{ route('lecturers.edit', ['teacher' => $teacher->id]) }}">
+                                <i class="far fa-edit"></i>
+                            </a>
+                            {{--                    <a href="#" class="delete" teacher-id="{{ $teacher->id }}" data-toggle="modal" data-target="#confirmDelete">--}}
+                            {{--                        <i class="fas fa-trash-alt"></i>--}}
+                            {{--                    </a>--}}
+                        </td>
+                    </tr>
+                @endforeach
+                </tbody>
+            </table>
+        @else
+            <h4 class="bg-info p-2 text-white mt-3">Нет преподавателей</h4>
+        @endif
     </div>
-    <table class="table teacher-table">
-        <thead class="thead-dark">
-        <tr>
-            <th scope="col">Фото</th>
-            <th scope="col">Фамилия</th>
-            <th scope="col">Имя</th>
-            <th scope="col">Отчество</th>
-            <th scope="col">Действия</th>
-        </tr>
-        </thead>
-        <tbody>
-        @foreach($teachers as $teacher)
-            <tr>
-                <td><img src="{{ asset("storage/images/" . $teacher->photo) }}" class="teacherPhoto" alt="Преподаватель"></td>
-                <td>{{ $teacher->surname }}</td>
-                <td>{{ $teacher->name }}</td>
-                <td>{{ $teacher->patronymic }}</td>
-                <td>
-                    <a href="{{ route('lecturers.show', ['teacher' => $teacher->id]) }}">
-                        <i class="far fa-eye"></i>
-                    </a>
-                    <a href="{{ route('lecturers.edit', ['teacher' => $teacher->id]) }}">
-                        <i class="far fa-edit"></i>
-                    </a>
-{{--                    <a href="#" class="delete" teacher-id="{{ $teacher->id }}" data-toggle="modal" data-target="#confirmDelete">--}}
-{{--                        <i class="fas fa-trash-alt"></i>--}}
-{{--                    </a>--}}
-                </td>
-            </tr>
-        @endforeach
-        </tbody>
-    </table>
+
     <script src="{{ asset('js/admin/teachers/teacher-delete.js') }}"></script>
 @endsection
