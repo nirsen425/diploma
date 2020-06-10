@@ -57,7 +57,7 @@
                             <tr>
                                 <td class="d-none student-id">{{ $student->id }}</td>
                                 <td class="align-bottom p-4">{{ $student->getFullName() }}</td>
-                                <td class="align-bottom p-4">{{ $student->group()->first()->groupStories()->where('year_history', '=', $selectedYear)->first()->name }}</td>
+                                <td class="align-bottom p-4">{{ $student->groupStories()->where('year_history', '=', $selectedYear)->first()->name }}</td>
                             </tr>
                         @endforeach
                         </tbody>
