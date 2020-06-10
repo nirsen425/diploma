@@ -76,9 +76,9 @@ select[name="teacher-select"] {
 .button::-moz-focus-inner {
     border: 0;
 }
-.teacher-application-container {
-    background-color: #fff;
-    padding-bottom: 0px;
+
+.shell {
+    min-width: min-content;
 }
 
 .table td {

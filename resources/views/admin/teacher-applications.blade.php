@@ -3,7 +3,7 @@
 @section('content')
     <link href="{{ asset('css/admin/teacher-applications.css') }}" rel="stylesheet">
 
-    <div class="teacher-application-container p-3">
+    <div class="bg-white shell p-3">
         <div class="container-fluid p-3">
             <div class="row">
                 <h3 class="col-12 col-lg-6 mt-2">Заявки руководителей</h3>
@@ -43,59 +43,28 @@
 
         @if (isset($yearsApplication))
             @if (isset($selectedTeacher))
-                <div class="teacher text-white">
-                    <a href="{{ route('lecturers.show', ['teacher' => $selectedTeacher->id]) }}" class="student-link d-block pl-3 pt-2 pb-2 mt-2">{{ $selectedTeacher->getFullName() }}</a>
-                </div>
-                <div class="p-3">
-                    <div class="teacher-application">
-                        @if (!$practiceApplications->isEmpty())
-                            <table class="table">
-                                <tr>
-                                    <td class="student-practice text-white pl-3 pr-3 pt-1 pb-1">
-                                        ФИО студента
-                                    </td>
-                                    <td class="student-practice text-white pr-3 pt-1 pb-1">
-                                        Номер группы
-                                    </td>
-                                </tr>
-                                @foreach($students as $student)
-                                    <tr class="student-container bg-white">
-                                        <td class="student">
-                                            <a href="{{ route('students.show', ['student' => $student->id]) }}" class="student-link d-block p-3">{{ $student->getFullName() }}</a>
-                                        </td>
-                                        <td class="student">
-                                            {{ $student->group()->first()->groupStories()->where('year_history', '=', $selectedYear)->first()->name }}
-                                        </td>
-                                    </tr>
-                                @endforeach
-                            </table>
-                        @else
-                            <div class="student p-3">Нет студентов</div>
-                        @endif
-                    </div>
-
-
-<!--
-                    <div class="student-diploma text-white pl-3 pt-1 pb-1">Студенты проходящие дипломную работу</div>
-                        @php
-                            // Получение одобренных преподавателем заявок на диплом
-                            $diplomaApplications = $selectedTeacher->applications()->where([['year', '=', $selectedYear], ['status_id', '=', 2], ['type_id', '=', 2]])->get()
-                        @endphp
-                    <div class="student-container bg-white">
-                        @if (!$practiceApplications->isEmpty())
-                            @foreach($diplomaApplications as $diplomaApplication)
-                                <div class="student">
-                                    <a href="{{ route('students.show', ['student' => $diplomaApplication->student()->value('id')]) }}" class="student-link d-block p-3">{{ $diplomaApplication->student()->first()->getFullName() }}</a>
-                                </div>
-                            @endforeach
-                        @else
-                            <div class="student p-3">Нет студентов</div>
-                        @endif
-                    </div>
--->
-
-
-                </div>
+                @if (!$practiceApplications->isEmpty())
+                    <table class="table bg-light">
+                        <thead class="thead-dark">
+                        <tr>
+                            <th class="d-none">id</th>
+                            <th scope="col" class="pl-4">ФИО студента</th>
+                            <th scope="col" class="pl-4">Номер группы</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        @foreach($students as $student)
+                            <tr>
+                                <td class="d-none student-id">{{ $student->id }}</td>
+                                <td class="align-bottom p-4">{{ $student->getFullName() }}</td>
+                                <td class="align-bottom p-4">{{ $student->group()->first()->groupStories()->where('year_history', '=', $selectedYear)->first()->name }}</td>
+                            </tr>
+                        @endforeach
+                        </tbody>
+                    </table>
+                @else
+                    <div class="student p-3">Нет студентов</div>
+                @endif
             @endif
         @else
             <div class="student p-3">Нет существующих заявок</div>

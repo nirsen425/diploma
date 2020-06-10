@@ -11,7 +11,7 @@
         </div>
     @endif
 
-    <div class="practice-info-container p-3">
+    <div class="bg-white shell p-3">
         <div class="container-fluid p-3">
             <div class="row">
                 <h3 class="col-12 col-lg-6 mt-2">Информация и сроки</h3>

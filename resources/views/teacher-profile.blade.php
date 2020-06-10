@@ -342,7 +342,7 @@
                                 </table>
                             </div>
                         @else
-                            <div class="pt-3 pl-2" id="not-files">Нет загруженных файлов</div>
+                            <div class="p-3" id="not-files">Нет загруженных файлов</div>
                         @endif
                     </div>
                     <div class="tab-pane fade" id="teacher-edit" role="tabpanel" aria-labelledby="home-tab">
