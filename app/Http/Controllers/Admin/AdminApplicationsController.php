@@ -229,7 +229,7 @@ class AdminApplicationsController extends Controller
      * @param null $teacherId
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function showTeacherApplications($selectedYear, $teacherId = null)
+    public function showTeacherApplications($selectedYear = null, $teacherId = null)
     {
         $data['selectedYear'] = $selectedYear;
 

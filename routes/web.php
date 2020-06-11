@@ -86,7 +86,7 @@ Route::post('user/update-login', 'UserController@updateEmail')->name('user_email
 Route::get('admin/student-applications/{historyYear?}/{selectedGroupId?}', 'Admin\AdminApplicationsController@showStudentLastApplications')->name('student_applications');
 Route::post('admin/student-applications', 'Admin\AdminApplicationsController@changeOrCreateApplication');
 // Заявки руководителей
-Route::get('admin/teacher-applications/{selectedYear}/{teacherId?}', 'Admin\AdminApplicationsController@showTeacherApplications')->name('teacher_applications');
+Route::get('admin/teacher-applications/{selectedYear?}/{teacherId?}', 'Admin\AdminApplicationsController@showTeacherApplications')->name('teacher_applications');
 
 // Получение отчета
 Route::get('report/practice/group/{year?}/{groupStoryId?}', 'Admin\AdminReportController@getReportPracticeGroup')->name('report_practice_group');

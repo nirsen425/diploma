@@ -91,11 +91,12 @@
             <li id="student-applications">
                 @php
                     $historyYear = \App\GroupStory::orderBy('year_history')->value('year_history');
+                    $historyApplicationYear =\App\Application::orderBy('year')->value('year');
                 @endphp
                 <a href="{{ route('student_applications', ['historyYear' => $historyYear]) }}">Заявки студентов</a>
             </li>
             <li id="teacher-applications">
-                <a href="{{ route('teacher_applications', ['selectedYear' => $historyYear]) }}">Заявки руководителей</a>
+                <a href="{{ route('teacher_applications', ['selectedYear' => $historyApplicationYear]) }}">Заявки руководителей</a>
             </li>
             <li id="practice-info">
                 <a href="{{ route('practice_info', ['directionId' => '1']) }}">Информация и сроки</a>
