@@ -7,6 +7,7 @@ use App\ImageService;
 use App\User;
 use App\Page;
 use App\Group;
+use App\Teacher;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
@@ -166,6 +167,15 @@ class HelpController extends Controller
         if ($validator->fails()) {
             return "false";
         }
+
+        return "true";
+    }
+
+    public function adminDeletePhoto(Teacher $teacher)
+    {
+        $teacher->update([
+            'photo' => 'empty.png'
+        ]);
 
         return "true";
     }

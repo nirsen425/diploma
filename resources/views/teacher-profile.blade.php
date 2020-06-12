@@ -136,8 +136,11 @@
                 <div class="vocation">Преподаватель</div>
                 <hr>
                 <div class="photo-container">
-                    <img src="{{ asset("storage/images/" . $teacher->photo) }}" class="img-fluid rounded-circle profile-photo" alt="Преподаватель">
+                    <img src="{{ asset("storage/images/" . $teacher->photo) }}"
+                         id="profile-photo"
+                         class="img-fluid rounded-circle profile-photo" alt="Преподаватель">
                 </div>
+                <a type="button" class="button mt-2" id="deletePhoto">Удалить фото</a>
                 <div class="profile-name">{{ $teacher->getFullName() }}</div>
                 <div class="right">
                     @switch($teacher->user()->first()->rights_id)

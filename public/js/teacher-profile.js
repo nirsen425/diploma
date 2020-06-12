@@ -481,4 +481,21 @@ $(function () {
     };
 
     $('#photo').on('change', loadFile);
+
+    let profilePhoto = $("#profile-photo");
+    $('#deletePhoto').click(function () {
+
+        $.ajax({
+            type: 'post',
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            },
+            url: "/teacher/delete-photo",
+            success: function(status) {
+                if (status) {
+                    profilePhoto.attr('src', 'http://' + location.hostname + '/storage/images/empty.png');
+                }
+            }
+        });
+    });
 });

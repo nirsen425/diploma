@@ -58,8 +58,10 @@
                             unset($applicationTeacherId);
                             unset($currentApplicationStatusId);
                             $application = $student->applications()->where('year', '=', $historyYear)->get()->last();
+                            $teacherExistInLimit = false;
                             if (isset($application)) {
-                                $applicationTeacherId = $application->teacher()->value('id');
+                                $teacherApplication = $application->teacher()->first();
+                                $applicationTeacherId = $teacherApplication->id;
                                 $currentApplicationStatusId = $application->status_id;
                             }
                         @endphp
@@ -71,8 +73,16 @@
                                     <option class="d-none"></option>
                                     @if(!empty($teachers))
                                         @foreach($teachers as $teacher)
+                                            @php
+                                                if (isset($applicationTeacherId) and $applicationTeacherId == $teacher->id) {
+                                                    $teacherExistInLimit = true;
+                                                }
+                                            @endphp
                                             <option {{ (isset($applicationTeacherId) and $applicationTeacherId == $teacher->id) ? 'selected' : ''}} value="{{ $teacher->id }}">{{ $teacher->getFullName() }}</option>
                                         @endforeach
+                                    @endif
+                                    @if (isset($application) and !$teacherExistInLimit)
+                                        <option disabled selected value="{{ $applicationTeacherId }}">{{ $teacherApplication->getFullName() }}</option>
                                     @endif
                                 </select>
                             </td>
@@ -82,7 +92,8 @@
                                     @if (isset($application))
                                         <option class="d-none"></option>
                                         @foreach($applicationStatuses as $applicationStatus)
-                                            <option {{ (isset($currentApplicationStatusId) and $currentApplicationStatusId == $applicationStatus->id) ? 'selected' : ''}} value="{{ $applicationStatus->id }}">{{ $applicationStatus->title }}</option>
+                                            <option {{ (isset($currentApplicationStatusId) and $currentApplicationStatusId == $applicationStatus->id) ? 'selected' : ''}}
+                                                    {{ (isset($application) and !$teacherExistInLimit) ? 'disabled' : '' }} value="{{ $applicationStatus->id }}">{{ $applicationStatus->title }}</option>
                                         @endforeach
                                     @endif
                                 </select>
