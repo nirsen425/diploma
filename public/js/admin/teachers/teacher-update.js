@@ -272,4 +272,25 @@ $(document).ready(function () {
             }
         }
     });
+
+    let inputPhoto = $("#photo");
+    $('#deletePhoto').click(function () {
+
+        $.ajax({
+            type: 'post',
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            },
+            url: "/admin/delete-photo/" + $("#deletePhoto").attr(('teacher-id')),
+            success: function(status) {
+                if (status) {
+                    var $image = $('#teacherImage');
+                    $image.cropper('destroy');
+                    $image.attr('src', 'http://' + location.hostname + '/storage/images/empty.png');
+                    inputPhoto.replaceWith(inputPhoto = inputPhoto.val('').clone(true));
+                    $('.custom-file-label').text("Выберите фото");
+                }
+            }
+        });
+    });
 });

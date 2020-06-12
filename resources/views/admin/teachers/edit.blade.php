@@ -90,6 +90,9 @@
                     <div class="teacher-image-container mt-3">
                         <img id="teacherImage" src="{{ asset("storage/images/" . $teacher->photo) }}"/>
                     </div>
+                    <button type="button" class="btn btn-secondary mt-3" teacher-id="{{ $teacher->id }}"
+                            id="deletePhoto">Удалить старое фото
+                    </button>
                 </div>
             </div>
             <div class="form-group row">

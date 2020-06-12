@@ -40,6 +40,8 @@ Route::resource('admin/lecturers', 'Admin\Teachers\TeacherController', ['except'
     'create', 'store'
 ]])->parameters(['lecturers' => 'teacher']);
 
+Route::post('/admin/delete-photo/{teacher}', 'HelpController@adminDeletePhoto');
+
 Route::resource('admin/groups', 'Admin\Groups\GroupController', ['only' => [
     'index', 'create', 'store', 'show', 'edit', 'update'
 ]]);
@@ -74,6 +76,7 @@ Route::post('teacher/{teacher}/update/password', 'TeacherCabinetController@updat
 Route::post('teacher/{teacher}/update/photo', 'TeacherCabinetController@updatePhoto')->name('teacher_photo_update');
 Route::post('teacher/{teacher}/update/short-description', 'TeacherCabinetController@updateShortDescription')->name('teacher_short_description_update');
 Route::post('teacher/{teacher}/update/full-description', 'TeacherCabinetController@updateFullDescription')->name('teacher_full_description_update');
+Route::post('teacher/delete-photo', 'TeacherCabinetController@deletePhoto');
 
 // Профиль студента
 Route::post('student/{student}/update/login', 'StudentCabinetController@updateLogin')->name('student_login_update');

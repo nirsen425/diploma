@@ -276,4 +276,15 @@ class TeacherCabinetController extends Controller
 
         return back()->with('result',  ['status' => 'success', 'message' => 'Полное описание успешно изменено']);
     }
+
+    public function deletePhoto(Authenticatable $user)
+    {
+        $teacher = $user->teacher()->first();
+
+        $teacher->update([
+            'photo' => 'empty.png'
+        ]);
+
+        return "true";
+    }
 }
