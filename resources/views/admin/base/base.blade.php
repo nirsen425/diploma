@@ -7,7 +7,6 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>Document</title>
-
     <script src="{{ asset('js/app.js') }}"></script>
     <script src="{{ asset('js/admin/base/admin-base.js') }}"></script>
 

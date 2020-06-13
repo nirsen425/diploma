@@ -227,4 +227,23 @@ $(document).ready(function () {
             }
         }
     });
+
+    function randomString()
+    {
+        var text = "";
+        var possible = "0123456789qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM";
+
+        for( var i=0; i < 8; i++ )
+            text += possible.charAt(Math.floor(Math.random() * possible.length));
+
+        return text;
+    }
+
+    $("#generateLogin").click(function () {
+        $("#login").val(randomString());
+    });
+
+    $("#insertPassword").click(function () {
+        $("#password").val("password");
+    });
 });

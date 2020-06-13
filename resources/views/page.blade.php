@@ -4,8 +4,8 @@
     <link href="{{ asset('css/page.css') }}" rel="stylesheet">
     <div class="bg-white p-3 rounded page-container text-break">
         <h3>{{ $page->title }}</h3>
-        <p>
+        <div class="page-content">
             {!! $page->content  !!}
-        </p>
+        </div>
     </div>
 @endsection

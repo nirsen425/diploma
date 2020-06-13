@@ -40,6 +40,8 @@ CKEDITOR.editorConfig = function( config ) {
 	config.removePlugins = 'link,magicline,a11yhelp,about,pastetext,pastetools,tableselection,' +
 		'pastefromgdocs,pastefromword,specialchar,table,tabletools';
 
+	config.contentsCss = '/css/ckeditor-styles.css';
+
 	CKEDITOR.on('instanceReady', function (e) {
 		var instance = e.editor;
 		instance.on("change", function (evt) {

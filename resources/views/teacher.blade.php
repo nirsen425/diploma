@@ -54,9 +54,9 @@
     <div class="bg-white p-3 rounded teacher-description-container">
         <div class="media">
             <img src="{{ asset("storage/images/" . $teacher->photo) }}" class="mr-3 teacher-photo-description" alt="Преподаватель">
-            <div class="media-body text-break">
+            <div class="media-body full-description text-break">
                 {!! $teacher->full_description !!}
-                <div class="teacher-limit">
+                <div class="teacher-limit font-weight-bold">
                     На практику {{ $currentYear }} осталось {{ $teacher->countFreePracticePlaces() }} из {{ $teacher->currentYearPracticeLimits() }} мест
                 </div>
                 @php

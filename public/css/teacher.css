@@ -9,6 +9,7 @@
 
 .hint {
     color: #a0a6ab;
+    font-size: 0.9rem;
 }
 
 img {
@@ -25,4 +26,8 @@ img {
 
 pre {
     white-space: normal !important;
+}
+
+.full-description {
+    font-size: 1.05rem;
 }
