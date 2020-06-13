@@ -66,8 +66,7 @@ class AdminReportController extends Controller
          */
         $groupStory = $this->groupStory->where('id', '=', $groupStoryId)->first();
         $groupName = $groupStory->name;
-        $group = $groupStory->group()->first();
-        $students = $group->students()->orderBy('surname')->get();
+        $students = $groupStory->where('year_history', '=', $year)->first()->students()->orderBy('surname')->get();
         foreach ($students as $student) {
             $applications[] = $student->applications()->where('year', '=', $year)->first();
         }
@@ -376,7 +375,7 @@ class AdminReportController extends Controller
                 $students[$i]->getFullName(), $tableTextStyle, $tableParagraphStyle
             );
             $table->addCell($cellWidth, $cellStyle)->addText(
-                $students[$i]->group()->first()->name, $tableTextStyle, $tableParagraphStyle
+                $students[$i]->groupStories()->where('year_history', '=', $year)->first()->name, $tableTextStyle, $tableParagraphStyle
             );
         }
 
