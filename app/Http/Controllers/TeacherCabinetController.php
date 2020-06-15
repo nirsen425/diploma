@@ -87,7 +87,7 @@ class TeacherCabinetController extends Controller
             ['direction_id', '=', $defaultDirection->id],
             ['course_id', '=', $defaultCourse],
         ])->first();
-        $defaultFiles = $defaultDirection->files()->orderBy('created_at')->wherePivot('course_id', '=', $defaultCourse)->get();
+        $defaultFiles = $defaultDirection->files()->orderByDesc('created_at')->wherePivot('course_id', '=', $defaultCourse)->get();
 
         $data = [
             'teacher' => $teacher,
