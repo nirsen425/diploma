@@ -102,6 +102,8 @@
             <h4 class="bg-info p-2 text-white">Нет студентов</h4>
         @endif
     </div>
+
+    <script src="{{ asset('js/admin/ie-edge-min-width-shell.js') }}"></script>
     <script src="{{ asset('js/admin/students/student-active-submenu.js') }}"></script>
     <script src="{{ asset('js/admin/students/student-delete.js') }}"></script>
 @endsection

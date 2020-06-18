@@ -86,6 +86,8 @@
             <h4 class="bg-info p-2 text-white">Нет страниц</h4>
         @endif
     </div>
+
+    <script src="{{ asset('js/admin/ie-edge-min-width-shell.js') }}"></script>
     <script src="{{ asset('js/admin/pages/page-active-submenu.js') }}"></script>
     <script src="{{ asset('js/admin/pages/page-delete.js') }}"></script>
 @endsection

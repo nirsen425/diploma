@@ -57,7 +57,7 @@
                     @endif
                 </ul>
                 @if($user)
-                    <a href="{{ route('logout') }}" class="button"
+                    <a href="{{ route('logout') }}" class="button" id="logout"
                        onclick="event.preventDefault();
                        document.getElementById('logout-form').submit();">
                         Выход

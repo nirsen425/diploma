@@ -369,6 +369,7 @@
             </div>
         </div>
     </div>
+
     <script src="{{ asset('js/student-profile.js') }}"></script>
     <script src="{{ asset('js/cancel-application.js') }}"></script>
 @endsection

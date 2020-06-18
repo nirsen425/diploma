@@ -2,7 +2,7 @@
 
 @section('content')
     <link href="{{ asset('css/admin/groups/group-show.css') }}" rel="stylesheet">
-    <div class="bg-white shell p-3 text-break">
+    <div class="bg-white shell p-3">
         <div class="d-flex justify-content-between">
             <h3>{{ $group->name }}</h3>
             <a href="{{ route('report_login_student', ['group' => $group->id]) }}" class="button button-large"
@@ -44,5 +44,6 @@
         </table>
     </div>
 
+    <script src="{{ asset('js/admin/ie-edge-min-width-shell.js') }}"></script>
     <script src="{{ asset('js/admin/groups/group-active-submenu.js') }}"></script>
 @endsection
