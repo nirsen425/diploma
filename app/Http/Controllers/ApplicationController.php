@@ -76,8 +76,7 @@ class ApplicationController extends Controller
                 \"message\": \"$succesMessage\"
             }";
         } else {
-            // Получение имени преподаваетля в зависимости от типа заявки, практика(1) или диплом(2)
-            $teacherFullName = $student->getTeacherByTypeActivity($applicationTypeId)->getFullName();
+            $teacherFullName = $waitOrConfirmApplicationExistByCurrentYear->teacher()->first()->getFullName();
 
             $failureMessage = "Вы уже записаны на практику";
             if ($applicationTypeId == 1) {

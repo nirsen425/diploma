@@ -23,9 +23,9 @@
         <div>{{ $student->user()->first()->email ? $student->user()->first()->email : "Нет" }}</div>
         <div class="font-weight-bold">Статус</div>
         @if ($student->group_id)
-            Учится
+            Активный
         @else
-            Отчислен/Выпущен
+            Отчислен/Закончил с дипломом
         @endif
         <div class="font-weight-bold">Группа</div>
         <div>

@@ -67,16 +67,16 @@ class Student extends Model
         return $this->surname . " " . $this->name . " " . $this->patronymic;
     }
 
-    /**
-     * Возвращает преподавателя по типу заявки, например заявка на практику($typeActivity == 1)
-     *
-     * @param $typeActivity
-     * @return mixed
-     */
-    public function getTeacherByTypeActivity($typeActivity)
-    {
-        return $this->applications()->where('type_id', '=', $typeActivity)->first()->teacher()->first();
-    }
+//    /**
+//     * Возвращает преподавателя по типу заявки, например заявка на практику($typeActivity == 1)
+//     *
+//     * @param $typeActivity
+//     * @return mixed
+//     */
+//    public function getTeacherByTypeActivity($typeActivity)
+//    {
+//        return $this->applications()->where('type_id', '=', $typeActivity)->first()->teacher()->first();
+//    }
 
     public function hasAccessForSendApplicationForTeacher($teacher)
     {

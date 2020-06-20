@@ -77,9 +77,9 @@
                             <td class="p-4">Нет</td>
                         @endif
                         @if ($student->group_id)
-                            <td class="p-4">Учится</td>
+                            <td class="p-4">Активный</td>
                         @else
-                            <td class="p-4">Отчислен/Выпущен</td>
+                            <td class="p-4">Отчислен/Закончил с дипломом</td>
                         @endif
                         <td class="p-4">
                             <a href="{{ route('students.show', ['student' => $student->id]) }}">

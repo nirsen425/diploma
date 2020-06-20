@@ -267,7 +267,18 @@ class GroupController extends Controller
                                 'group_story_id' => $groupStory->id
                             ]);
                         } else {
-                            if ($existStudent->group()->first()->id != $group->id) {
+                            $groupExistStudent = $existStudent->group()->first();
+
+                            if (!$groupExistStudent) {
+                                $existStudent->update([
+                                    'group_id' => $group->id,
+                                ]);
+
+                                $this->studentGroupStory->create([
+                                    'student_id' => $existStudent->id,
+                                    'group_story_id' => $groupStory->id
+                                ]);
+                            } elseif ($groupExistStudent->id != $group->id) {
                                 $existStudent->group()->first()->groupStories()
                                     ->where('year_history', '=', $group->year)->first()->studentGroupStory()
                                     ->where('student_id', '=', $existStudent->id)->delete();
