@@ -115,7 +115,7 @@ class AdminApplicationsController extends Controller
                 return view('admin.student-applications');
             }
 
-            $students = $selectedGroup->students()->get();
+            $students = $selectedGroup->students()->orderBy('surname')->get();
             $teachers = $this->teacher->getTeachersByCourseForYear($selectedGroup->course_id, $historyYear);
             $parameters['students'] = $students;
             $parameters['teachers'] = $teachers;

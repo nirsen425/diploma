@@ -6,9 +6,7 @@ use App\Course;
 use App\Direction;
 use App\Http\Controllers\Controller;
 use App\File;
-use App\Group;
 use Illuminate\Http\Request;
-use App\Http\Requests\UploadFiles;
 use Illuminate\Support\Facades\Storage;
 use Validator;
 
