@@ -2,7 +2,7 @@
 
 @section('content')
     <link href="{{ asset('css/admin/teachers/teacher-show.css') }}" rel="stylesheet">
-    <div class="content">
+    <div class="content shell">
         <h3 class="mb-3">Просмотр преподавателя</h3>
         <div class="media">
             <img src="{{ asset("storage/images/" . $teacher->photo) }}" class="mr-3" alt="Преподаватель" style="width: 200px; height: 200px">

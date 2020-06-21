@@ -2,7 +2,7 @@
 
 @section('content')
     <link href="{{ asset('css/admin/pages/page-show.css') }}" rel="stylesheet">
-    <div class="content text-break">
+    <div class="content shell text-break">
         <h3 class="mb-3">Просмотр страницы</h3>
         <div class="font-weight-bold">Заголовок</div>
         <h5 class="mt-0">{{ $page->title }}</h5>
