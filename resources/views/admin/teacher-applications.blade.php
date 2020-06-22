@@ -71,5 +71,6 @@
         @endif
     </div>
 
+    <script src="{{ asset('js/admin/ie-edge-min-width-shell.js') }}"></script>
     <script src="{{ asset('js/admin/teacher-applications.js') }}"></script>
 @endsection

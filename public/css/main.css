@@ -62,3 +62,9 @@ a {
     background-color: #a0a6ab;
     pointer-events: none;
 }
+
+.text-break {
+    word-break: break-all !important;
+    word-break: break-word !important;
+    overflow-wrap: break-word !important;
+}

@@ -10,7 +10,7 @@
             </button>
         </div>
     @endif
-    <div class="content">
+    <div class="content shell">
         <h3>Обновление группы</h3>
 {{--        @if ($errors->any())--}}
 {{--            <div class="alert alert-danger">--}}
@@ -74,7 +74,7 @@
                     <label class="custom-file-label" for="students" data-browse="Загрузите csv с актуальным списком студентов группы">Выберите файл</label>
                 </div>
             </div>
-            <button type="submit" class="btn">Изменить</button>
+            <button type="submit" class="button button-large">Изменить</button>
         </form>
     </div>
 

@@ -26,6 +26,7 @@ $(function () {
                         '[student-id="' + studentId + '"]').closest(".request");
                     var requestName = confirmedApplication.find('.request-name').text();
                     var requestGroupName = confirmedApplication.find('.request-group-name').text();
+                    var requestEmail = confirmedApplication.find('.request-email').text();
                     confirmedApplication.remove();
 
                     var practiceStudentRequestContainer = $('#practice-student .request-container');
@@ -42,6 +43,7 @@ $(function () {
                             practiceStudentRequestContainer.html('<div class="request font-weight-bolder">' +
                                 '<div class="request-name">'+ requestName + '</div>' +
                                 '<div class="request-group-name mb-2">' + requestGroupName + '</div>' +
+                                '<div class="request-email mb-2">' + requestEmail + '</div>' +
                                 '   <button class="button application-reject-button"' +
                                 '       student-id="'+ studentId + '"' +
                                 '       type-id="1" data-toggle="modal"' +
@@ -53,6 +55,7 @@ $(function () {
                             practiceStudentRequestContainer.append('<div class="request font-weight-bolder">' +
                                 '<div class="request-name">'+ requestName + '</div>' +
                                 '<div class="request-group-name mb-2">' + requestGroupName + '</div>' +
+                                '<div class="request-email mb-2">' + requestEmail + '</div>' +
                                 '   <button class="button application-reject-button"' +
                                 '       student-id="'+ studentId + '"' +
                                 '       type-id="1" data-toggle="modal"' +

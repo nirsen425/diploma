@@ -210,7 +210,6 @@ ul ul a {
     vertical-align: middle;
     user-select: none;
     border: 1px solid transparent;
-    font-size: 0.9rem;
     line-height: 1.6;
     transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
 }
@@ -234,3 +233,16 @@ ul ul a {
     background-color: #a0a6ab;
     pointer-events: none;
 }
+
+.text-break {
+    word-break: break-all !important;
+    word-break: break-word !important;
+    overflow-wrap: break-word !important;
+}
+
+.shell, .form-control, .custom-select, .alert {
+    font-size: 0.95rem;
+}
+
+
+

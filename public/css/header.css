@@ -16,6 +16,10 @@
     background-color: #202730;
 }
 
+header {
+    min-width: 520px;
+}
+
 @media screen and (min-width: 992px) {
     .navbar {
         padding: 0 !important;
@@ -30,6 +34,10 @@
     }
 }
 
-header {
-    min-width: 490px;
+
+
+@media screen and (max-width: 576px) {
+    #logout {
+        margin-top: 10px;
+    }
 }

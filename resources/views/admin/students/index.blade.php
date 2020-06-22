@@ -77,9 +77,9 @@
                             <td class="p-4">Нет</td>
                         @endif
                         @if ($student->group_id)
-                            <td class="p-4">Учится</td>
+                            <td class="p-4">Активный</td>
                         @else
-                            <td class="p-4">Отчислен/Выпущен</td>
+                            <td class="p-4">Отчислен/Закончил с дипломом</td>
                         @endif
                         <td class="p-4">
                             <a href="{{ route('students.show', ['student' => $student->id]) }}">
@@ -102,6 +102,8 @@
             <h4 class="bg-info p-2 text-white">Нет студентов</h4>
         @endif
     </div>
+
+    <script src="{{ asset('js/admin/ie-edge-min-width-shell.js') }}"></script>
     <script src="{{ asset('js/admin/students/student-active-submenu.js') }}"></script>
     <script src="{{ asset('js/admin/students/student-delete.js') }}"></script>
 @endsection

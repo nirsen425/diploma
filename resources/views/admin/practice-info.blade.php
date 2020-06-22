@@ -92,6 +92,7 @@
         @endif
     </div>
 
+
     <script src="{{ asset('ckeditor/ckeditor.js') }}"></script>
     <script src="{{ asset('js/admin/practice.js') }}"></script>
 @endsection

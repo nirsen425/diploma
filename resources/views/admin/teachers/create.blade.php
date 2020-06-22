@@ -7,7 +7,7 @@
             {{ session('status') }}
         </div>
     @endif
-    <div class="content">
+    <div class="content shell">
         <h3>Регистрация преподавателя</h3>
         @if ($errors->any())
             <div class="alert alert-danger">
@@ -24,12 +24,12 @@
                 <div class="form-group col-md-6">
                     <label for="login">Логин</label>
                     <input type="text" class="form-control" id="login" name="login" value="{{ old('login') }}">
-                    <button type="button" class="btn btn-secondary mt-2" id="generateLogin">Сгенерировать случайный логин</button>
+                    <button type="button" class="button button-large mt-2" id="generateLogin">Сгенерировать случайный логин</button>
                 </div>
                 <div class="form-group col-md-6">
                     <label for="password">Пароль</label>
                     <input type="password" class="form-control" id="password" name="password">
-                    <button type="button" class="btn btn-secondary mt-2" id="insertPassword">Вставить стандартный пароль password</button>
+                    <button type="button" class="button button-large mt-2" id="insertPassword">Вставить стандартный пароль password</button>
                 </div>
             </div>
             <div class="form-group">
@@ -78,7 +78,7 @@
             <input type="hidden" name="photo_y" id="photo_y">
             <input type="hidden" name="photo_width" id="photo_width">
             <input type="hidden" name="photo_height" id="photo_height">
-            <button type="submit" class="btn">Зарегистрировать</button>
+            <button type="submit" class="button button-large">Зарегистрировать</button>
         </form>
     </div>
     <script src="{{ asset('ckeditor/ckeditor.js') }}"></script>

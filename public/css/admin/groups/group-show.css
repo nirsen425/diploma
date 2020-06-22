@@ -7,5 +7,5 @@
 }
 
 .shell {
-    min-width: 649px;
+    min-width: min-content;
 }

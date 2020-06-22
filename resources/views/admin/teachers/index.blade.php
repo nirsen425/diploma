@@ -50,7 +50,7 @@
             </div>
         </div>
     </div>
-    <div class="bg-white bg-light shell p-3 text-break">
+    <div class="bg-white bg-light shell p-3">
         <div class="d-flex justify-content-between">
             <h3>Список преподавателей</h3>
             <a href="{{ route('report_login_teacher')}}" class="button button-large ml-3"
@@ -94,5 +94,6 @@
         @endif
     </div>
 
+    <script src="{{ asset('js/admin/ie-edge-min-width-shell.js') }}"></script>
     <script src="{{ asset('js/admin/teachers/teacher-delete.js') }}"></script>
 @endsection

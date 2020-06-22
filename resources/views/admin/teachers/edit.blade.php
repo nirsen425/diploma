@@ -10,7 +10,7 @@
             </button>
         </div>
     @endif
-    <div class="content">
+    <div class="content shell">
         <h3 class="mb-4">Редактирование преподавателя</h3>
 {{--        @if ($errors->any())--}}
 {{--            <div class="alert alert-danger">--}}
@@ -33,7 +33,7 @@
             <div class="form-group row">
                 <label for="password" class="col-lg-2 col-form-label font-weight-bold">Пароль</label>
                 <div class="col-lg-10">
-                    <button type="button" class="btn btn-secondary" id="changePassword">Сменить пароль</button>
+                    <button type="button" class="button button-large" id="changePassword">Сменить пароль</button>
                     <input type="password" class="form-control d-none mt-2" id="password" name="password">
                 </div>
             </div>
@@ -90,7 +90,7 @@
                     <div class="teacher-image-container mt-3">
                         <img id="teacherImage" src="{{ asset("storage/images/" . $teacher->photo) }}"/>
                     </div>
-                    <button type="button" class="btn btn-secondary mt-3" teacher-id="{{ $teacher->id }}"
+                    <button type="button" class="button button-large mt-3" teacher-id="{{ $teacher->id }}"
                             id="deletePhoto">Удалить старое фото
                     </button>
                 </div>
@@ -111,7 +111,7 @@
             <input type="hidden" name="photo_y" id="photo_y">
             <input type="hidden" name="photo_width" id="photo_width">
             <input type="hidden" name="photo_height" id="photo_height">
-            <button type="submit" class="btn">Изменить</button>
+            <button type="submit" class="button button-large">Изменить</button>
         </form>
     </div>
     <script src="{{ asset('ckeditor/ckeditor.js') }}"></script>

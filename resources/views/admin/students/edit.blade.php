@@ -10,7 +10,7 @@
             </button>
         </div>
     @endif
-    <div class="content text-break">
+    <div class="content shell text-break">
         <h3 class="mb-4">Редактирование студента</h3>
         @if ($errors->any())
             <div class="alert alert-danger">
@@ -33,7 +33,7 @@
             <div class="form-group row">
                 <label for="password" class="col-lg-2 col-form-label font-weight-bold">Пароль</label>
                 <div class="col-lg-10">
-                    <button type="button" class="btn btn-secondary" id="changePassword">Сменить пароль</button>
+                    <button type="button" class="button button-large" id="changePassword">Сменить пароль</button>
                     <input type="password" class="form-control d-none mt-2" id="password" name="password">
                 </div>
             </div>
@@ -77,7 +77,7 @@
                     </select>
                 </div>
             </div>
-            <button type="submit" class="btn">Изменить</button>
+            <button type="submit" class="button button-large">Изменить</button>
         </form>
     </div>
     <script src="{{ asset('js/admin/students/student-update.js') }}"></script>

@@ -7,7 +7,7 @@
             {{ session('status') }}
         </div>
     @endif
-    <div class="content text-break">
+    <div class="content shell text-break">
         <h3 class="mb-4">Редактирование страницы</h3>
         @if ($errors->any())
             <div class="alert alert-danger">
@@ -62,7 +62,7 @@
                     <input type="text" class="form-control" id="meta_words" name="meta_words" value="{{ $page->meta_words }}">
                 </div>
             </div>
-            <button type="submit" class="btn">Изменить</button>
+            <button type="submit" class="button button-large">Изменить</button>
         </form>
     </div>
     <script src="{{ asset('js/admin/pages/page-active-submenu.js') }}"></script>

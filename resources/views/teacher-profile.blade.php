@@ -187,6 +187,7 @@
                                     <div class="request font-weight-bolder">
                                         <div class="request-name">{{ $teacherWaitApplication->student()->first()->getFullName() }}</div>
                                         <div class="request-group-name mb-2">{{ $teacherWaitApplication->student()->first()->group()->first()->name }}</div>
+                                        <div class="request-email mb-2">{{ $teacherWaitApplication->student()->first()->user()->first()->email }}</div>
                                         <button class="button application-approve-button"
                                                 student-id="{{ $teacherWaitApplication->student()->value('id') }}"
                                                 type-id="{{ $teacherWaitApplication->type_id }}" data-toggle="modal"
@@ -214,6 +215,7 @@
                                     <div class="request font-weight-bolder">
                                         <div class="request-name">{{ $confirmPracticeApplicationStudent->getFullName() }}</div>
                                         <div class="request-group-name mb-2">{{ $confirmPracticeApplicationStudent->group()->first()->name }}</div>
+                                        <div class="request-email mb-2">{{ $confirmPracticeApplicationStudent->user()->first()->email }}</div>
                                         <button class="button application-reject-button"
                                                 student-id="{{ $confirmPracticeApplicationStudent->id }}"
                                                 type-id="1" data-toggle="modal"
