@@ -2,7 +2,7 @@
 
 @section('content')
     <link href="{{ asset('css/admin/groups/group-index.css') }}" rel="stylesheet">
-    <div class="bg-white bg-light shell p-3 text-break">
+    <div class="bg-white bg-light shell p-3">
         <h3>Список групп</h3>
         @if (!$groups->isEmpty())
             <table class="table group-table bg-light mt-3">
@@ -38,7 +38,6 @@
             <h4 class="bg-info p-2 text-white">Нет групп</h4>
         @endif
     </div>
-
-    <script src="{{ asset('js/admin/ie-edge-min-width-shell.js') }}"></script>
+    
     <script src="{{ asset('js/admin/groups/group-active-submenu.js') }}"></script>
 @endsection

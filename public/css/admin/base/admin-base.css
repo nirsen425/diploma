@@ -244,5 +244,10 @@ ul ul a {
     font-size: 0.95rem;
 }
 
+.shell {
+    width: 100%;
+    display: table;
+}
+
 
 

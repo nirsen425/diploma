@@ -8,3 +8,7 @@
     width: 150px;
     /*border: 1px solid #00C4CC;*/
 }
+
+.teacher-description {
+    flex-basis: 100%;
+}

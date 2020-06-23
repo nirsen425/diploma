@@ -10,7 +10,7 @@
                     <div class="p-2">
                         <img src="{{ asset("storage/images/" . $teacher->photo) }}" class="teacher-photo rounded" alt="Преподаватель">
                     </div>
-                    <div class="p-2 d-flex flex-column flex-grow-1">
+                    <div class="teacher-description p-2 d-flex flex-column flex-grow-1">
                         <div class="teacher-name font-weight-bold">{{ $teacher->getFullName() }}</div>
                         <div class="teacher-short-description flex-grow-1">
                             {{ $teacher->short_description }}

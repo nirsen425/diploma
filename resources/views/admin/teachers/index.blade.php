@@ -94,6 +94,5 @@
         @endif
     </div>
 
-    <script src="{{ asset('js/admin/ie-edge-min-width-shell.js') }}"></script>
     <script src="{{ asset('js/admin/teachers/teacher-delete.js') }}"></script>
 @endsection

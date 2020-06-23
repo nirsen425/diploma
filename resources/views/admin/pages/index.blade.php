@@ -51,7 +51,7 @@
             </div>
         </div>
     </div>
-    <div class="bg-white bg-light shell p-3 text-break">
+    <div class="bg-white bg-light shell p-3">
         <h3>Список страниц</h3>
         @if (!$pages->isEmpty())
             <table class="table page-table bg-light mt-3">
@@ -87,7 +87,6 @@
         @endif
     </div>
 
-    <script src="{{ asset('js/admin/ie-edge-min-width-shell.js') }}"></script>
     <script src="{{ asset('js/admin/pages/page-active-submenu.js') }}"></script>
     <script src="{{ asset('js/admin/pages/page-delete.js') }}"></script>
 @endsection

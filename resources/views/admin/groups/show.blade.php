@@ -44,6 +44,5 @@
         </table>
     </div>
 
-    <script src="{{ asset('js/admin/ie-edge-min-width-shell.js') }}"></script>
     <script src="{{ asset('js/admin/groups/group-active-submenu.js') }}"></script>
 @endsection

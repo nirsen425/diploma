@@ -51,7 +51,7 @@
             </div>
         </div>
     </div>
-    <div class="bg-white bg-light shell p-3 text-break">
+    <div class="bg-white bg-light shell p-3">
         <h3>Список студентов</h3>
         @if (!$students->isEmpty())
             <table class="table bg-light student-table mt-3">
@@ -103,7 +103,6 @@
         @endif
     </div>
 
-    <script src="{{ asset('js/admin/ie-edge-min-width-shell.js') }}"></script>
     <script src="{{ asset('js/admin/students/student-active-submenu.js') }}"></script>
     <script src="{{ asset('js/admin/students/student-delete.js') }}"></script>
 @endsection
