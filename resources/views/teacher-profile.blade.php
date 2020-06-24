@@ -184,7 +184,7 @@
                         <div class="request-container">
                             @if (!$teacherWaitApplications->isEmpty())
                                 @foreach($teacherWaitApplications as $teacherWaitApplication)
-                                    <div class="request font-weight-bolder">
+                                    <div class="request font-weight-bold">
                                         <div class="request-name">{{ $teacherWaitApplication->student()->first()->getFullName() }}</div>
                                         <div class="request-group-name mb-2">{{ $teacherWaitApplication->student()->first()->group()->first()->name }}</div>
                                         <div class="request-email mb-2">{{ $teacherWaitApplication->student()->first()->user()->first()->email }}</div>

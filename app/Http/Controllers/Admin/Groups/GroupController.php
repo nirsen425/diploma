@@ -130,11 +130,13 @@ class GroupController extends Controller
                         ]);
 
                     } else {
+                        $existStudent->group()->first()->groupStories()
+                            ->where('year_history', '=', Helper::getSchoolYear())->first()->studentGroupStory()
+                            ->where('student_id', '=', $existStudent->id)->delete();
+
                         $existStudent->update([
                             'group_id' => $group->id,
                         ]);
-
-                        $this->studentGroupStory->where('student_id', '=', $existStudent->id)->delete();
 
                         $this->studentGroupStory->create([
                             'student_id' => $existStudent->id,
