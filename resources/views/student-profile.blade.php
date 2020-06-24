@@ -80,7 +80,7 @@
 
     <div class="row no-gutters">
         <div class="col-12 text-dark">
-            <div class="bg-white p-3 rounded drop-shadow shell">
+            <div class="bg-white p-3 rounded drop-shadow">
                 <div class="profile-title">Профиль студента</div>
                 <hr>
                 <div class="bg-white mr-lg-3 p-3 rounded">
@@ -267,7 +267,7 @@
                     </div>
                     <div class="tab-pane fade" id="student-files" role="tabpanel" aria-labelledby="profile-tab">
                         @if(!$files->isEmpty())
-                            <div class="pt-3 pb-3">
+                            <div class="pt-3 pb-3" id="files-table-container">
                                 <table class="table bg-light table-hover" id="files-table">
                                     <thead class="thead-dark">
                                     <tr>

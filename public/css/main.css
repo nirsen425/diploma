@@ -1,5 +1,6 @@
 body {
     background-color: #edeef0;
+    min-width: 520px;
 }
 
 .wrapper {

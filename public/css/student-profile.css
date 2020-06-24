@@ -71,7 +71,6 @@
     }
 }
 
-.shell {
-    min-width: 500px;
-    min-width: min-content;
+#files-table-container {
+    overflow-x: auto;
 }

@@ -30,7 +30,3 @@ select[name="course"] {
 .error {
     color: red;
 }
-
-.shell {
-    min-width: min-content;
-}

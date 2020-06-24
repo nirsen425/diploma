@@ -34,7 +34,3 @@ select[name="year"] {
 input[name="new-year"] {
     width: 110px;
 }
-
-.shell {
-    min-width: max-content;
-}

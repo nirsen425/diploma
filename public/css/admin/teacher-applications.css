@@ -77,10 +77,6 @@ select[name="teacher-select"] {
     border: 0;
 }
 
-.shell {
-    min-width: min-content;
-}
-
 .table td {
     vertical-align: middle;
     padding: 0;
