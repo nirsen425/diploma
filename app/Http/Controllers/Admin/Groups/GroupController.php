@@ -64,10 +64,14 @@ class GroupController extends Controller
      */
     public function create()
     {
+        $currentYear = Helper::getSchoolYear();
+        $untranslatedGroup = $this->group->where('year', '<', $currentYear)->first();
+
         return view('admin.groups.create',
             ['courses' => $this->course->where('id', '!=', 5)->get(),
                 'directions' => $this->direction->all(),
-                'currentYear' => Helper::getSchoolYear()]);
+                'currentYear' => Helper::getSchoolYear(),
+                'untranslatedGroup' => $untranslatedGroup]);
     }
 
     /**
@@ -80,6 +84,12 @@ class GroupController extends Controller
         try {
             DB::beginTransaction();
             $currentYear = Helper::getSchoolYear();
+
+            $untranslatedGroup = $this->group->where('year', '<', $currentYear)->first();
+
+            if (isset($untranslatedGroup)) {
+                abort(500);
+            }
 
             $group = $this->group->create([
                 'name' => $request->name,
@@ -130,9 +140,12 @@ class GroupController extends Controller
                         ]);
 
                     } else {
-                        $existStudent->group()->first()->groupStories()
-                            ->where('year_history', '=', Helper::getSchoolYear())->first()->studentGroupStory()
-                            ->where('student_id', '=', $existStudent->id)->delete();
+                        $existStudentGroup = $existStudent->group()->first();
+                        if ($existStudentGroup) {
+                            $existStudentGroup->groupStories()
+                                ->where('year_history', '=', Helper::getSchoolYear())->first()->studentGroupStory()
+                                ->where('student_id', '=', $existStudent->id)->delete();
+                        }
 
                         $existStudent->update([
                             'group_id' => $group->id,
@@ -312,7 +325,7 @@ class GroupController extends Controller
                             ->where('year_history', '=', $group->year)->first()->studentGroupStory()
                             ->where('student_id', '=', $groupStudent->id)->delete();
 
-                        $groupStudent->applications()->where('year', '=', Helper::getSchoolYear())
+                        $groupStudent->applications()->where('year', '=', $group->year)
                             ->whereIn('status_id', [1, 2])->delete();
 
                         $groupStudent->update([

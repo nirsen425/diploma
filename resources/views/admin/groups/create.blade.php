@@ -54,7 +54,12 @@
                     <label class="custom-file-label" for="students" data-browse="Загрузите csv со студентами группы">Выберите файл</label>
                 </div>
             </div>
-            <button type="submit" class="button button-large">Создать</button>
+            @if (isset($untranslatedGroup))
+                <button type="submit" class="button button-large disabled">Создать</button>
+                <div class="hint mt-1"><a href="{{ route('group_transfer') }}">Есть непереведенные группы</a></div>
+            @else
+                <button type="submit" class="button button-large">Создать</button>
+            @endif
         </form>
     </div>
 
