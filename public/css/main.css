@@ -70,3 +70,7 @@ a {
     word-break: break-word !important;
     overflow-wrap: break-word !important;
 }
+
+.col {
+    flex-basis: auto;
+}
