@@ -64,9 +64,9 @@ class AdminReportController extends Controller
         /**
          * Связь и получение списка студентов и преподавателей для списка отчета
          */
-        $groupStory = $this->groupStory->where('id', '=', $groupStoryId)->first();
+        $groupStory = $this->groupStory->where(['id' => $groupStoryId], ['year_history' => $year])->first();
         $groupName = $groupStory->name;
-        $students = $groupStory->where('year_history', '=', $year)->first()->students()->orderBy('surname')->get();
+        $students = $groupStory->students()->orderBy('surname')->get();
         foreach ($students as $student) {
             $applications[] = $student->applications()->where('year', '=', $year)->first();
         }
@@ -215,7 +215,7 @@ class AdminReportController extends Controller
 
         //  Набор заголовков
         header("Content-Description: File Transfer");
-        header('Content-Disposition: attachment; filename="' . $file . '"');
+        header('Content-Disposition: attachment; filename="' . iconv("utf-8", "cp1251", $file) . '"');
         header('Content-Type: application/vnd.openxmlformats-officedocument.wordprocessingml.document');
         header('Content-Transfer-Encoding: binary');
         header('Cache-Control: must-revalidate, post-check=0, pre-check=0');
@@ -387,7 +387,7 @@ class AdminReportController extends Controller
 
         //  Набор заголовков
         header("Content-Description: File Transfer");
-        header('Content-Disposition: attachment; filename="' . $file . '"');
+        header('Content-Disposition: attachment; filename="' . iconv("utf-8", "cp1251", $file) . '"');
         header('Content-Type: application/vnd.openxmlformats-officedocument.wordprocessingml.document');
         header('Content-Transfer-Encoding: binary');
         header('Cache-Control: must-revalidate, post-check=0, pre-check=0');
@@ -398,9 +398,12 @@ class AdminReportController extends Controller
         $objWriter->save('php://output');
     }
 
+    /**
+     * Создание отчета по логинам (студенты группы)
+     */
     public function getReportLoginStudent(Group $group)
     {
-        $students = $group->students()->get();
+        $students = $group->students()->orderBy('surname')->get();
         $groupStoryName = $group->name;
 
         /**
@@ -551,7 +554,7 @@ class AdminReportController extends Controller
 
         //  Набор заголовков
         header("Content-Description: File Transfer");
-        header('Content-Disposition: attachment; filename="' . $file . '"');
+        header('Content-Disposition: attachment; filename="' . iconv("utf-8", "cp1251", $file) . '"');
         header('Content-Type: application/vnd.openxmlformats-officedocument.wordprocessingml.document');
         header('Content-Transfer-Encoding: binary');
         header('Cache-Control: must-revalidate, post-check=0, pre-check=0');
@@ -562,9 +565,12 @@ class AdminReportController extends Controller
         $objWriter->save('php://output');
     }
 
+    /**
+     * Создание отчета по логинам (руководители)
+     */
     public function getReportLoginTeacher()
     {
-        $teachers = $this->teacher->all();
+        $teachers = $this->teacher->orderBy('surname')->get();
 
         /**
          * Объект и его параметры
@@ -710,7 +716,7 @@ class AdminReportController extends Controller
 
         //  Набор заголовков
         header("Content-Description: File Transfer");
-        header('Content-Disposition: attachment; filename="' . $file . '"');
+        header('Content-Disposition: attachment; filename="' . iconv("utf-8", "cp1251", $file) . '"');
         header('Content-Type: application/vnd.openxmlformats-officedocument.wordprocessingml.document');
         header('Content-Transfer-Encoding: binary');
         header('Cache-Control: must-revalidate, post-check=0, pre-check=0');
