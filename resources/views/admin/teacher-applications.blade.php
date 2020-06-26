@@ -30,10 +30,10 @@
                 <label for="teacher-select" class="teacher-select font-weight-bold group">Руководитель</label>
                 <select class="mb-2" name="teacher-select">
                     @if(isset($teachersBySelectedYear))
+                        @if(!isset($selectedTeacher))
+                            <option class="d-none" selected></option>
+                        @endif
                         @foreach($teachersBySelectedYear as $teacherBySelectedYear)
-                            @if(!isset($selectedTeacher))
-                                <option class="d-none" selected></option>
-                            @endif
                             <option value="{{ $teacherBySelectedYear->id }}" {{ (isset($selectedTeacher) and $teacherBySelectedYear->id == $selectedTeacher->id) ? "selected" : "" }}> {{ $teacherBySelectedYear->getFullName() }} </option>
                         @endforeach
                     @endif

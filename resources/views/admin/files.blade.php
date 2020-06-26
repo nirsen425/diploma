@@ -118,10 +118,10 @@
                 <label for="course" class="course font-weight-bold group">Курс</label>
                 <select class="mb-2 text-center" name="course">
                     @if(isset($courses))
+                        @if(!isset($selectedCourseId))
+                            <option class="d-none" selected></option>
+                        @endif
                         @foreach($courses as $course)
-                            @if(!isset($selectedCourseId))
-                                <option class="d-none" selected></option>
-                            @endif
                             <option value="{{ $course->id }}" {{ (isset($selectedCourseId) and $course->id == $selectedCourseId) ? "selected" : "" }}> {{ $course->course }} </option>
                         @endforeach
                     @endif

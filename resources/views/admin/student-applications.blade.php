@@ -31,10 +31,10 @@
                 <label for="group" class="font-weight-bold group">Группа</label>
                 <select class="mb-2" name="group">
                     @if (isset($groupsBySelectedYear))
+                        @if (!isset($selectedGroup))
+                            <option class="d-none" selected></option>
+                        @endif
                         @foreach($groupsBySelectedYear as $groupBySelectedYear)
-                            @if (!isset($selectedGroup))
-                                <option class="d-none" selected></option>
-                            @endif
                             <option value="{{ $groupBySelectedYear->id }}" {{ (isset($selectedGroup) and $groupBySelectedYear->id == $selectedGroup->id) ? "selected" : "" }}>{{ $groupBySelectedYear->name }}</option>
                         @endforeach
                     @endif
